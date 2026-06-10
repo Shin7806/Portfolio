@@ -27,23 +27,49 @@ const links = [
 ];
 
 const certs = [
-  { name: "Designing Microinteractions Using Figma", url: "https://www.linkedin.com/learning/certificates/5bcbefd00ea0cd3c3ddebb5955372ab01f9f7cc08cf90304b92db6f1d6badb9c" },
-  { name: "Figma for UX Design", url: "https://www.linkedin.com/learning/certificates/a70d35b0a22b57f8266003c7ac02163769adcc9d6fc4131b28a029402095f177" },
-  { name: "AI Tools for UX Design", url: "https://www.linkedin.com/learning/certificates/77191783387d27c26b84108c94d42a0f5a1bea15aadb96d9b317f757aab64c75" },
-  { name: "UX Foundations: Prototyping", url: "https://www.linkedin.com/learning/certificates/bb9e0dc8c889de7d7e070b6d0311f4a40c5af494d43d255d6f1042d8421ecb52" },
-  { name: "Figma Design to CSS Implementation", url: "https://www.linkedin.com/learning/certificates/b5d71ac107ba0347656b499e77be4e3d11fc94ee4af051c0700ab0d2dbd7dc59" },
-  { name: "Essential Skills in Adobe Photoshop 2025", url: "https://www.linkedin.com/learning/certificates/6d74bbb21b1d06c976db4a676d68970ce4b9454145ffd408b331dd69a92d1da8" },
+  {
+    name: "Designing Microinteractions Using Figma",
+    url: "https://www.linkedin.com/learning/certificates/5bcbefd00ea0cd3c3ddebb5955372ab01f9f7cc08cf90304b92db6f1d6badb9c",
+  },
+  {
+    name: "Figma for UX Design",
+    url: "https://www.linkedin.com/learning/certificates/a70d35b0a22b57f8266003c7ac02163769adcc9d6fc4131b28a029402095f177",
+  },
+  {
+    name: "AI Tools for UX Design",
+    url: "https://www.linkedin.com/learning/certificates/77191783387d27c26b84108c94d42a0f5a1bea15aadb96d9b317f757aab64c75",
+  },
+  {
+    name: "UX Foundations: Prototyping",
+    url: "https://www.linkedin.com/learning/certificates/bb9e0dc8c889de7d7e070b6d0311f4a40c5af494d43d255d6f1042d8421ecb52",
+  },
+  {
+    name: "Figma Design to CSS Implementation",
+    url: "https://www.linkedin.com/learning/certificates/b5d71ac107ba0347656b499e77be4e3d11fc94ee4af051c0700ab0d2dbd7dc59",
+  },
+  {
+    name: "Essential Skills in Adobe Photoshop 2025",
+    url: "https://www.linkedin.com/learning/certificates/6d74bbb21b1d06c976db4a676d68970ce4b9454145ffd408b331dd69a92d1da8",
+  },
 ];
 
 const designSkills = [
-  "UI/UX Design", "Interface Design", "Wireframing & Prototyping",
-  "Visual Design", "Brand Identity", "Typography",
-  "Layout Systems", "Responsive Design",
+  "UI/UX Design",
+  "Interface Design",
+  "Wireframing & Prototyping",
+  "Visual Design",
+  "Brand Identity",
+  "Typography",
+  "Layout Systems",
+  "Responsive Design",
 ];
 
 const thinkingSkills = [
-  "User-centered Design", "Visual Hierarchy",
-  "Design Consistency", "Problem Solving", "Accessibility Awareness",
+  "User-centered Design",
+  "Visual Hierarchy",
+  "Design Consistency",
+  "Problem Solving",
+  "Accessibility Awareness",
 ];
 
 const techSkills = ["HTML", "CSS", "JavaScript Fundamentals", "Git / GitHub"];
@@ -68,14 +94,23 @@ const focus = [
 function SectionTitle({ children }: { children: React.ReactNode }) {
   const m = useContext(RCtx);
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: m ? 20 : 16 }}>
-      <span style={{
-        fontSize: m ? 10 : 7.5,
-        fontWeight: 600,
-        letterSpacing: "0.16em",
-        textTransform: "uppercase" as const,
-        color: C.light,
-      }}>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        marginBottom: m ? 20 : 16,
+      }}
+    >
+      <span
+        style={{
+          fontSize: m ? 10 : 7.5,
+          fontWeight: 600,
+          letterSpacing: "0.16em",
+          textTransform: "uppercase" as const,
+          color: C.light,
+        }}
+      >
         {children}
       </span>
       <div style={{ flex: 1, height: 1, background: C.divider }} />
@@ -86,16 +121,18 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 function SidebarTitle({ children }: { children: React.ReactNode }) {
   const m = useContext(RCtx);
   return (
-    <div style={{
-      fontSize: m ? 10 : 7,
-      fontWeight: 600,
-      letterSpacing: "0.18em",
-      textTransform: "uppercase" as const,
-      color: C.light,
-      marginBottom: m ? 14 : 12,
-      paddingBottom: m ? 10 : 8,
-      borderBottom: `1px solid ${C.divider}`,
-    }}>
+    <div
+      style={{
+        fontSize: m ? 10 : 7,
+        fontWeight: 600,
+        letterSpacing: "0.18em",
+        textTransform: "uppercase" as const,
+        color: C.light,
+        marginBottom: m ? 14 : 12,
+        paddingBottom: m ? 10 : 8,
+        borderBottom: `1px solid ${C.divider}`,
+      }}
+    >
       {children}
     </div>
   );
@@ -105,8 +142,20 @@ function Bullet({ text }: { text: string }) {
   const m = useContext(RCtx);
   return (
     <div style={{ display: "flex", gap: 10, marginBottom: m ? 10 : 7 }}>
-      <span style={{ color: C.rule, fontSize: m ? 13 : 9, marginTop: 1.5, flexShrink: 0, lineHeight: 1.6 }}>—</span>
-      <span style={{ fontSize: m ? 13 : 9.5, color: C.mid, lineHeight: 1.7 }}>{text}</span>
+      <span
+        style={{
+          color: C.rule,
+          fontSize: m ? 13 : 9,
+          marginTop: 1.5,
+          flexShrink: 0,
+          lineHeight: 1.6,
+        }}
+      >
+        —
+      </span>
+      <span style={{ fontSize: m ? 13 : 9.5, color: C.mid, lineHeight: 1.7 }}>
+        {text}
+      </span>
     </div>
   );
 }
@@ -114,9 +163,26 @@ function Bullet({ text }: { text: string }) {
 function SkillRow({ label }: { label: string }) {
   const m = useContext(RCtx);
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: m ? 10 : 7 }}>
-      <div style={{ width: m ? 5 : 4, height: m ? 5 : 4, borderRadius: 1, background: C.rule, flexShrink: 0 }} />
-      <span style={{ fontSize: m ? 12 : 9, color: C.mid, lineHeight: 1.4 }}>{label}</span>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        marginBottom: m ? 10 : 7,
+      }}
+    >
+      <div
+        style={{
+          width: m ? 5 : 4,
+          height: m ? 5 : 4,
+          borderRadius: 1,
+          background: C.rule,
+          flexShrink: 0,
+        }}
+      />
+      <span style={{ fontSize: m ? 12 : 9, color: C.mid, lineHeight: 1.4 }}>
+        {label}
+      </span>
     </div>
   );
 }
@@ -125,7 +191,7 @@ function SkillRow({ label }: { label: string }) {
 
 export default function App() {
   const [windowWidth, setWindowWidth] = useState(
-    typeof window !== "undefined" ? window.innerWidth : 1200
+    typeof window !== "undefined" ? window.innerWidth : 1200,
   );
 
   useEffect(() => {
@@ -138,35 +204,41 @@ export default function App() {
 
   return (
     <RCtx.Provider value={m}>
-      <div style={{
-        minHeight: "100vh",
-        background: m ? C.white : "#DCDCDC",
-        fontFamily: FONT,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        paddingTop: m ? 0 : 28,
-        paddingBottom: m ? 0 : 56,
-      }}>
-
-        {/* ── Toolbar ── */}
-        <div className="no-print" style={{
+      <div
+        style={{
+          minHeight: "100vh",
+          background: m ? C.white : "#DCDCDC",
+          fontFamily: FONT,
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
-          justifyContent: "space-between",
-          width: m ? "100%" : 794,
-          marginBottom: m ? 0 : 16,
-          padding: m ? "12px 20px" : 0,
-          borderBottom: m ? `1px solid ${C.divider}` : "none",
-          background: m ? C.white : "transparent",
-          boxSizing: "border-box",
-        }}>
-          <span style={{
-            fontSize: m ? 11 : 10,
-            color: "#999",
-            letterSpacing: "0.05em",
-            textTransform: "uppercase" as const,
-          }}>
+          paddingTop: m ? 0 : 28,
+          paddingBottom: m ? 0 : 56,
+        }}
+      >
+        {/* ── Toolbar ── */}
+        <div
+          className="no-print"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: m ? "100%" : 794,
+            marginBottom: m ? 0 : 16,
+            padding: m ? "12px 20px" : 0,
+            borderBottom: m ? `1px solid ${C.divider}` : "none",
+            background: m ? C.white : "transparent",
+            boxSizing: "border-box",
+          }}
+        >
+          <span
+            style={{
+              fontSize: m ? 11 : 10,
+              color: "#999",
+              letterSpacing: "0.05em",
+              textTransform: "uppercase" as const,
+            }}
+          >
             Resume · Dhruv Poddar
           </span>
           <button
@@ -196,75 +268,90 @@ export default function App() {
             width: m ? "100%" : 794,
             minHeight: m ? "auto" : 1123,
             background: C.white,
-            boxShadow: m ? "none" : "0 2px 32px rgba(0,0,0,0.14), 0 0 0 1px rgba(0,0,0,0.04)",
+            boxShadow: m
+              ? "none"
+              : "0 2px 32px rgba(0,0,0,0.14), 0 0 0 1px rgba(0,0,0,0.04)",
             display: "flex",
             flexDirection: "column",
             boxSizing: "border-box",
             overflow: "hidden",
           }}
         >
-
           {/* ════ HEADER ════ */}
-          <div style={{ padding: m ? "28px 20px 0" : "44px 52px 0", background: C.white }}>
-
+          <div
+            style={{
+              padding: m ? "28px 20px 0" : "44px 52px 0",
+              background: C.white,
+            }}
+          >
             {/* Name row */}
-            <div style={{
-              display: "flex",
-              flexDirection: m ? "column" : "row",
-              alignItems: m ? "flex-start" : "flex-end",
-              justifyContent: "space-between",
-              gap: m ? 10 : 0,
-              marginBottom: 14,
-            }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: m ? "column" : "row",
+                alignItems: m ? "flex-start" : "flex-end",
+                justifyContent: "space-between",
+                gap: m ? 10 : 0,
+                marginBottom: 14,
+              }}
+            >
               <div>
-                <h1 style={{
-                  margin: 0,
-                  fontSize: m ? 34 : 42,
-                  fontWeight: 500,
-                  letterSpacing: "-0.025em",
-                  color: C.text,
-                  lineHeight: 1.0,
-                }}>
+                <h1
+                  style={{
+                    margin: 0,
+                    fontSize: m ? 34 : 42,
+                    fontWeight: 500,
+                    letterSpacing: "-0.025em",
+                    color: C.text,
+                    lineHeight: 1.0,
+                  }}
+                >
                   Dhruv Poddar
                 </h1>
-                <p style={{
-                  margin: "8px 0 0",
-                  fontSize: m ? 14 : 13,
-                  fontWeight: 400,
-                  color: C.muted,
-                  letterSpacing: "0.02em",
-                }}>
+                <p
+                  style={{
+                    margin: "8px 0 0",
+                    fontSize: m ? 14 : 13,
+                    fontWeight: 400,
+                    color: C.muted,
+                    letterSpacing: "0.02em",
+                  }}
+                >
                   UI/UX Designer&nbsp;&nbsp;·&nbsp;&nbsp;Graphic Designer
                 </p>
               </div>
 
               {/* Availability badge */}
-              <div style={{
-                fontSize: m ? 9 : 8,
-                fontWeight: 500,
-                letterSpacing: "0.1em",
-                textTransform: "uppercase" as const,
-                color: C.muted,
-                border: `1px solid ${C.divider}`,
-                borderRadius: 2,
-                padding: "5px 10px",
-                alignSelf: "flex-start",
-              }}>
+              <div
+                style={{
+                  fontSize: m ? 9 : 8,
+                  fontWeight: 500,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase" as const,
+                  color: C.muted,
+                  border: `1px solid ${C.divider}`,
+                  borderRadius: 2,
+                  padding: "5px 10px",
+                  alignSelf: "flex-start",
+                }}
+              >
                 Open to Work
               </div>
             </div>
 
             {/* Contact bar */}
-            <div style={{
-              display: "flex",
-              flexWrap: m ? "wrap" as const : "nowrap" as const,
-              alignItems: "center",
-              rowGap: m ? 6 : 0,
-              columnGap: m ? 14 : 0,
-              paddingTop: 14,
-              paddingBottom: 20,
-              borderTop: `1px solid ${C.divider}`,
-            }}>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: m ? ("wrap" as const) : ("nowrap" as const),
+                alignItems: "center",
+                rowGap: m ? 6 : 0,
+                columnGap: m ? 14 : 0,
+                paddingTop: 14,
+                paddingBottom: 20,
+                borderTop: `1px solid ${C.divider}`,
+              }}
+            >
               <a
                 href="mailto:dhruvp629@gmail.com"
                 style={{
@@ -291,8 +378,12 @@ export default function App() {
                     fontWeight: 500,
                     letterSpacing: "0.04em",
                     paddingLeft: m ? 0 : 16,
-                    paddingRight: m ? 0 : (i < links.length - 1 ? 16 : 0),
-                    borderRight: m ? "none" : (i < links.length - 1 ? `1px solid ${C.divider}` : "none"),
+                    paddingRight: m ? 0 : i < links.length - 1 ? 16 : 0,
+                    borderRight: m
+                      ? "none"
+                      : i < links.length - 1
+                        ? `1px solid ${C.divider}`
+                        : "none",
                   }}
                 >
                   {l.label} ↗
@@ -302,36 +393,42 @@ export default function App() {
           </div>
 
           {/* ════ BODY: Two-column on desktop, single column on mobile ════ */}
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: m ? "1fr" : "1fr 224px",
-            flex: 1,
-            borderTop: `1px solid ${C.divider}`,
-          }}>
-
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: m ? "1fr" : "1fr 224px",
+              flex: 1,
+              borderTop: `1px solid ${C.divider}`,
+            }}
+          >
             {/* ── LEFT COLUMN ── */}
-            <div style={{
-              padding: m ? "28px 20px 36px" : "32px 40px 40px 52px",
-              borderRight: m ? "none" : `1px solid ${C.divider}`,
-              display: "flex",
-              flexDirection: "column",
-              gap: m ? 32 : 30,
-            }}>
-
+            <div
+              style={{
+                padding: m ? "28px 20px 36px" : "32px 40px 40px 52px",
+                borderRight: m ? "none" : `1px solid ${C.divider}`,
+                display: "flex",
+                flexDirection: "column",
+                gap: m ? 32 : 30,
+              }}
+            >
               {/* SUMMARY */}
               <section>
                 <SectionTitle>Summary</SectionTitle>
-                <p style={{
-                  fontSize: m ? 13.5 : 10.5,
-                  color: C.mid,
-                  lineHeight: 1.75,
-                  margin: 0,
-                  maxWidth: m ? "none" : 390,
-                }}>
-                  UI/UX and Graphic Designer practicing since 2019, building clean digital interfaces,
-                  visual identities, and user-focused experiences. Proficient in Figma and Adobe Creative Suite,
-                  with a practical understanding of front-end fundamentals and the craft of translating
-                  design intent into structured, functional products.
+                <p
+                  style={{
+                    fontSize: m ? 13.5 : 10.5,
+                    color: C.mid,
+                    lineHeight: 1.75,
+                    margin: 0,
+                    maxWidth: m ? "none" : 390,
+                  }}
+                >
+                  UI/UX and Graphic Designer practicing since 2019, building
+                  clean digital interfaces, visual identities, and user-focused
+                  experiences. Proficient in Figma and Adobe Creative Suite,
+                  with a practical understanding of front-end fundamentals and
+                  the craft of translating design intent into structured,
+                  functional products.
                 </p>
               </section>
 
@@ -339,42 +436,55 @@ export default function App() {
               <section>
                 <SectionTitle>Experience</SectionTitle>
                 <div>
-                  <div style={{
-                    display: "flex",
-                    alignItems: "baseline",
-                    justifyContent: "space-between",
-                    flexWrap: m ? "wrap" as const : "nowrap" as const,
-                    gap: m ? 4 : 0,
-                    marginBottom: 4,
-                  }}>
-                    <span style={{
-                      fontSize: m ? 16 : 12,
-                      fontWeight: 600,
-                      color: C.text,
-                      letterSpacing: "-0.01em",
-                    }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "baseline",
+                      justifyContent: "space-between",
+                      flexWrap: m ? ("wrap" as const) : ("nowrap" as const),
+                      gap: m ? 4 : 0,
+                      marginBottom: 4,
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: m ? 16 : 12,
+                        fontWeight: 600,
+                        color: C.text,
+                        letterSpacing: "-0.01em",
+                      }}
+                    >
                       Freelance UI &amp; Graphic Designer
                     </span>
-                    <span style={{
-                      fontSize: m ? 12 : 9,
-                      color: C.muted,
-                      letterSpacing: "0.04em",
-                      fontVariantNumeric: "tabular-nums",
-                    }}>
+                    <span
+                      style={{
+                        fontSize: m ? 12 : 9,
+                        color: C.muted,
+                        letterSpacing: "0.04em",
+                        fontVariantNumeric: "tabular-nums",
+                      }}
+                    >
                       2019 — Present
                     </span>
                   </div>
-                  <p style={{
-                    fontSize: m ? 10 : 9,
-                    color: C.light,
-                    letterSpacing: "0.06em",
-                    textTransform: "uppercase" as const,
-                    margin: "0 0 12px",
-                    fontWeight: 500,
-                  }}>
+                  <p
+                    style={{
+                      fontSize: m ? 10 : 9,
+                      color: C.light,
+                      letterSpacing: "0.06em",
+                      textTransform: "uppercase" as const,
+                      margin: "0 0 12px",
+                      fontWeight: 500,
+                    }}
+                  >
                     Independent Practice
                   </p>
-                  <div style={{ borderLeft: `2px solid ${C.text}`, paddingLeft: 14 }}>
+                  <div
+                    style={{
+                      borderLeft: `2px solid ${C.text}`,
+                      paddingLeft: 14,
+                    }}
+                  >
                     <Bullet text="Designed digital visuals including branding assets, posters, social media creatives, and interface concepts for a range of client briefs." />
                     <Bullet text="Created user interface layouts with deliberate attention to usability, spacing, visual hierarchy, and design-system consistency." />
                     <Bullet text="Translated client requirements into structured visual solutions through iterative design, feedback loops, and purposeful revision." />
@@ -388,98 +498,155 @@ export default function App() {
                 <SectionTitle>Selected Projects</SectionTitle>
 
                 {/* Project 1 */}
-                <div style={{ marginBottom: 20, paddingBottom: 20, borderBottom: `1px solid ${C.divider}` }}>
-                  <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 5 }}>
+                <div
+                  style={{
+                    marginBottom: 20,
+                    paddingBottom: 20,
+                    borderBottom: `1px solid ${C.divider}`,
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      justifyContent: "space-between",
+                      marginBottom: 5,
+                    }}
+                  >
                     <div>
-                      <span style={{
-                        display: "block",
-                        fontSize: m ? 9 : 7,
-                        fontWeight: 600,
-                        letterSpacing: "0.16em",
-                        textTransform: "uppercase" as const,
-                        color: C.light,
-                        marginBottom: 3,
-                      }}>
-                        Case Study · UI/UX Designer
+                      <span
+                        style={{
+                          display: "block",
+                          fontSize: m ? 9 : 7,
+                          fontWeight: 600,
+                          letterSpacing: "0.16em",
+                          textTransform: "uppercase" as const,
+                          color: C.light,
+                          marginBottom: 3,
+                        }}
+                      >
+                        UI/UX Case Study
                       </span>
-                      <span style={{
-                        fontSize: m ? 16 : 12,
-                        fontWeight: 600,
-                        color: C.text,
-                        letterSpacing: "-0.01em",
-                      }}>
+
+                      <span
+                        style={{
+                          fontSize: m ? 16 : 12,
+                          fontWeight: 600,
+                          color: C.text,
+                          letterSpacing: "-0.01em",
+                        }}
+                      >
                         SkillBridge — Skill Exchange Platform
                       </span>
                     </div>
                   </div>
-                  <p style={{
-                    fontSize: m ? 12.5 : 9.5,
-                    color: C.muted,
-                    margin: "6px 0 10px",
-                    lineHeight: 1.6,
-                    fontStyle: "italic",
-                  }}>
-                    A peer-to-peer digital platform enabling users to discover, connect, and exchange skills.
+
+                  <p
+                    style={{
+                      fontSize: m ? 12 : 9.5,
+                      color: C.muted,
+                      margin: "8px 0 12px",
+                      lineHeight: 1.65,
+                      letterSpacing: "0.01em",
+                      maxWidth: 560,
+                    }}
+                  >
+                    A peer-to-peer product concept focused on skill discovery,
+                    meaningful connections, and structured knowledge exchange.
                   </p>
-                  <Bullet text="Designed end-to-end user interface concepts and structured complete user flows across key screens." />
-                  <Bullet text="Created profile, discovery, and interaction experiences with a focus on clear navigation patterns." />
-                  <Bullet text="Maintained simple, accessible layouts with consistent visual hierarchy across all touchpoints." />
+
+                  <Bullet text="Designed complete user journeys covering onboarding, profiles, discovery flows, and interactions." />
+
+                  <Bullet text="Created scalable interface layouts using reusable patterns for consistent user experiences." />
+
+                  <Bullet text="Focused on usability, visual hierarchy, and simplified interactions across key touchpoints." />
                 </div>
 
                 {/* Project 2 */}
                 <div>
-                  <span style={{
-                    display: "block",
-                    fontSize: m ? 9 : 7,
-                    fontWeight: 600,
-                    letterSpacing: "0.16em",
-                    textTransform: "uppercase" as const,
-                    color: C.light,
-                    marginBottom: 3,
-                  }}>
-                    Case Study · UX Redesign
+                  <span
+                    style={{
+                      display: "block",
+                      fontSize: m ? 9 : 7,
+                      fontWeight: 600,
+                      letterSpacing: "0.16em",
+                      textTransform: "uppercase" as const,
+                      color: C.light,
+                      marginBottom: 3,
+                    }}
+                  >
+                    UI/UX Redesign
                   </span>
-                  <span style={{
-                    fontSize: m ? 16 : 12,
-                    fontWeight: 600,
-                    color: C.text,
-                    letterSpacing: "-0.01em",
-                    display: "block",
-                    marginBottom: 6,
-                  }}>
+
+                  <span
+                    style={{
+                      fontSize: m ? 16 : 12,
+                      fontWeight: 600,
+                      color: C.text,
+                      letterSpacing: "-0.01em",
+                      display: "block",
+                      marginBottom: 6,
+                    }}
+                  >
                     Library Management System
                   </span>
-                  <p style={{
-                    fontSize: m ? 12.5 : 9.5,
-                    color: C.muted,
-                    margin: "0 0 10px",
-                    lineHeight: 1.6,
-                    fontStyle: "italic",
-                  }}>
-                    A modern interface concept rethinking library management workflows for staff and patrons.
+
+                  <p
+                    style={{
+                      fontSize: m ? 12 : 9.5,
+                      color: C.muted,
+                      margin: "8px 0 12px",
+                      lineHeight: 1.65,
+                      letterSpacing: "0.01em",
+                      maxWidth: 560,
+                    }}
+                  >
+                    A redesign concept improving library workflows, resource
+                    accessibility, and everyday user interactions.
                   </p>
-                  <Bullet text="Reorganized information architecture to surface high-frequency actions and reduce cognitive load." />
-                  <Bullet text="Designed cleaner user journeys, reducing steps required for common tasks across the system." />
-                  <Bullet text="Applied accessibility principles and simplified interaction patterns throughout the interface." />
+
+                  <Bullet text="Redesigned key flows including resource discovery, management actions, and navigation structures." />
+
+                  <Bullet text="Improved information architecture through clearer grouping and task-focused interface patterns." />
+
+                  <Bullet text="Built a cleaner visual system emphasizing readability, accessibility, and efficient interactions." />
                 </div>
               </section>
 
               {/* CERTIFICATIONS */}
               <section>
                 <SectionTitle>Certifications</SectionTitle>
-                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 12 }}>
-                  <span style={{
-                    fontSize: m ? 10 : 8,
-                    fontWeight: 600,
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase" as const,
-                    color: C.light,
-                  }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                    marginBottom: 12,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: m ? 10 : 8,
+                      fontWeight: 600,
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase" as const,
+                      color: C.light,
+                    }}
+                  >
                     LinkedIn Learning
                   </span>
-                  <div style={{ flex: 1, height: 1, background: C.divider, maxWidth: 60 }} />
+                  <div
+                    style={{
+                      flex: 1,
+                      height: 1,
+                      background: C.divider,
+                      maxWidth: 60,
+                    }}
+                  />
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+                <div
+                  style={{ display: "flex", flexDirection: "column", gap: 0 }}
+                >
                   {certs.map((cert, i) => (
                     <div
                       key={cert.name}
@@ -488,11 +655,20 @@ export default function App() {
                         alignItems: "center",
                         justifyContent: "space-between",
                         padding: m ? "10px 0" : "7px 0",
-                        borderBottom: i < certs.length - 1 ? `1px solid ${C.divider}` : "none",
+                        borderBottom:
+                          i < certs.length - 1
+                            ? `1px solid ${C.divider}`
+                            : "none",
                         gap: 12,
                       }}
                     >
-                      <span style={{ fontSize: m ? 12.5 : 9.5, color: C.mid, lineHeight: 1.4 }}>
+                      <span
+                        style={{
+                          fontSize: m ? 12.5 : 9.5,
+                          color: C.mid,
+                          lineHeight: 1.4,
+                        }}
+                      >
                         {cert.name}
                       </span>
                       <a
@@ -518,31 +694,38 @@ export default function App() {
             </div>
 
             {/* ── RIGHT COLUMN (Sidebar) ── */}
-            <div style={{
-              background: C.sidebar,
-              padding: m ? "28px 20px 40px" : "32px 24px 40px",
-              display: "flex",
-              flexDirection: "column",
-              gap: m ? 28 : 26,
-              borderTop: m ? `1px solid ${C.divider}` : "none",
-            }}>
-
+            <div
+              style={{
+                background: C.sidebar,
+                padding: m ? "28px 20px 40px" : "32px 24px 40px",
+                display: "flex",
+                flexDirection: "column",
+                gap: m ? 28 : 26,
+                borderTop: m ? `1px solid ${C.divider}` : "none",
+              }}
+            >
               {/* DESIGN SKILLS */}
               <section>
                 <SidebarTitle>Design</SidebarTitle>
-                {designSkills.map((s) => <SkillRow key={s} label={s} />)}
+                {designSkills.map((s) => (
+                  <SkillRow key={s} label={s} />
+                ))}
               </section>
 
               {/* DESIGN THINKING */}
               <section>
                 <SidebarTitle>Thinking</SidebarTitle>
-                {thinkingSkills.map((s) => <SkillRow key={s} label={s} />)}
+                {thinkingSkills.map((s) => (
+                  <SkillRow key={s} label={s} />
+                ))}
               </section>
 
               {/* TECHNICAL */}
               <section>
                 <SidebarTitle>Technical</SidebarTitle>
-                {techSkills.map((s) => <SkillRow key={s} label={s} />)}
+                {techSkills.map((s) => (
+                  <SkillRow key={s} label={s} />
+                ))}
               </section>
 
               {/* TOOLS */}
@@ -558,35 +741,27 @@ export default function App() {
                       marginBottom: m ? 10 : 8,
                     }}
                   >
-                    <span style={{ fontSize: m ? 12 : 9, color: C.mid, fontWeight: 500 }}>
+                    <span
+                      style={{
+                        fontSize: m ? 12 : 9,
+                        color: C.mid,
+                        fontWeight: 500,
+                      }}
+                    >
                       {t.name}
                     </span>
                     {t.note && (
-                      <span style={{
-                        fontSize: m ? 9 : 7,
-                        color: C.light,
-                        letterSpacing: "0.06em",
-                        textTransform: "uppercase" as const,
-                      }}>
+                      <span
+                        style={{
+                          fontSize: m ? 9 : 7,
+                          color: C.light,
+                          letterSpacing: "0.06em",
+                          textTransform: "uppercase" as const,
+                        }}
+                      >
                         {t.note}
                       </span>
                     )}
-                  </div>
-                ))}
-              </section>
-
-              {/* DESIGN FOCUS */}
-              <section>
-                <SidebarTitle>Focus</SidebarTitle>
-                {focus.map((f) => (
-                  <div key={f} style={{
-                    fontSize: m ? 12 : 9,
-                    color: C.muted,
-                    fontStyle: "italic",
-                    lineHeight: 1.5,
-                    marginBottom: m ? 9 : 7,
-                  }}>
-                    {f}
                   </div>
                 ))}
               </section>
@@ -599,8 +774,25 @@ export default function App() {
                   { lang: "English", level: "Professional" },
                 ].map(({ lang, level }) => (
                   <div key={lang} style={{ marginBottom: m ? 14 : 10 }}>
-                    <div style={{ fontSize: m ? 13 : 9.5, fontWeight: 600, color: C.text }}>{lang}</div>
-                    <div style={{ fontSize: m ? 10 : 8, color: C.light, marginTop: 2, letterSpacing: "0.03em" }}>{level}</div>
+                    <div
+                      style={{
+                        fontSize: m ? 13 : 9.5,
+                        fontWeight: 600,
+                        color: C.text,
+                      }}
+                    >
+                      {lang}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: m ? 10 : 8,
+                        color: C.light,
+                        marginTop: 2,
+                        letterSpacing: "0.03em",
+                      }}
+                    >
+                      {level}
+                    </div>
                   </div>
                 ))}
               </section>
@@ -608,33 +800,73 @@ export default function App() {
               {/* EDUCATION */}
               <section style={{ marginTop: m ? 0 : "auto" }}>
                 <SidebarTitle>Education</SidebarTitle>
-                <p style={{
-                  fontSize: m ? 12 : 8.5,
-                  color: C.muted,
-                  lineHeight: 1.65,
-                  margin: 0,
-                }}>
-                  Self-directed study in UI/UX design and front-end fundamentals since 2019, with structured
-                  LinkedIn Learning certifications.
-                </p>
+
+                <div
+                  style={{
+                    fontSize: 9.5,
+                    color: C.mid,
+                    lineHeight: 1.7,
+                  }}
+                >
+                  <div style={{ marginBottom: 12 }}>
+                    <strong style={{ color: C.text }}>
+                      Bachelor of Computer Applications (BCA)
+                    </strong>
+                    <br />
+                    ASC Degree College
+                    <br />
+                    2023 — 2026
+                  </div>
+
+                  <div style={{ marginBottom: 12 }}>
+                    <strong style={{ color: C.text }}>
+                      Pre-University Course (PUC)
+                    </strong>
+                    <br />
+                    Carmel PU College
+                    <br />
+                    2021 — 2023
+                  </div>
+
+                  <div>
+                    <strong style={{ color: C.text }}>UI/UX Design</strong>
+                    <br />
+                    Self-taught through practical projects and structured
+                    LinkedIn Learning certifications.
+                  </div>
+                </div>
               </section>
             </div>
           </div>
 
           {/* ════ FOOTER ════ */}
-          <div style={{
-            padding: m ? "12px 20px" : "12px 52px",
-            borderTop: `1px solid ${C.divider}`,
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            background: C.white,
-          }}>
-            <span style={{ fontSize: m ? 10 : 7.5, color: C.light, letterSpacing: "0.04em" }}>
+          <div
+            style={{
+              padding: m ? "12px 20px" : "12px 52px",
+              borderTop: `1px solid ${C.divider}`,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              background: C.white,
+            }}
+          >
+            <span
+              style={{
+                fontSize: m ? 10 : 7.5,
+                color: C.light,
+                letterSpacing: "0.04em",
+              }}
+            >
               dhruvp629@gmail.com
             </span>
             <div style={{ width: 24, height: 1, background: C.divider }} />
-            <span style={{ fontSize: m ? 10 : 7.5, color: C.light, letterSpacing: "0.04em" }}>
+            <span
+              style={{
+                fontSize: m ? 10 : 7.5,
+                color: C.light,
+                letterSpacing: "0.04em",
+              }}
+            >
               UI/UX Designer · Graphic Designer
             </span>
           </div>
