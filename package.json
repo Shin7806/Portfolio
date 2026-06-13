@@ -70,10 +70,7 @@
   "devDependencies": {
     "@tailwindcss/vite": "4.1.12",
     "@vitejs/plugin-react": "4.7.0",
-<<<<<<< HEAD
     "gh-pages": "^6.3.0",
-=======
->>>>>>> 1fadff6129ac26119f27c3cd794c97e3eba4080e
     "tailwindcss": "4.1.12",
     "vite": "6.3.5"
   },
@@ -94,8 +91,4 @@
       "vite": "6.3.5"
     }
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 1fadff6129ac26119f27c3cd794c97e3eba4080e
