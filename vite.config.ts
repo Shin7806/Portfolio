@@ -17,7 +17,7 @@ function figmaAssetResolver() {
 
 export default defineConfig({
   // IMPORTANT for GitHub Pages
-  base: "/Resume/",
+  base: "/",
 
   plugins: [figmaAssetResolver(), react(), tailwindcss()],
 
