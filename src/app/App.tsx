@@ -353,7 +353,7 @@ export default function App() {
               }}
             >
               <a
-                href="mailto:dhruvp629@gmail.com"
+                href="mailto:dhruvp0629@gmail.com"
                 style={{
                   fontSize: m ? 12 : 9,
                   color: C.muted,
