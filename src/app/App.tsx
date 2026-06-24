@@ -363,7 +363,7 @@ export default function App() {
                   borderRight: m ? "none" : `1px solid ${C.divider}`,
                 }}
               >
-                dhruvp629@gmail.com
+                dhruvp0629@gmail.com
               </a>
               {links.map((l, i) => (
                 <a
