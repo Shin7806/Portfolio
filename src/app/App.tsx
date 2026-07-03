@@ -95,7 +95,7 @@ const skillGroups = [
 
 const projects = [
   {
-    type: "FEATURED WORK · PRODUCT DESIGN",
+    type: "✦ FEATURED WORK · PRODUCT DESIGN",
     name: "NeuroTwin",
     subtitle: "AI Personal Intelligence Platform",
     description:
@@ -403,11 +403,25 @@ export default function App() {
                 alignItems: "center",
                 rowGap: m ? 6 : 0,
                 columnGap: m ? 14 : 0,
-                paddingTop: 14,
-                paddingBottom: 18,
+                paddingTop: 18,
+                paddingBottom: 20,
                 borderTop: `1px solid ${C.divider}`,
               }}
             >
+              {/* Location */}
+              <span
+                style={{
+                  fontSize: m ? 11.5 : 8.5,
+                  color: C.light, // slightly lighter than email
+                  letterSpacing: "0.02em",
+                  paddingRight: m ? 0 : 16,
+                  borderRight: m ? "none" : `1px solid ${C.divider}`,
+                }}
+              >
+                Bengaluru, India
+              </span>
+
+              {/* Email */}
               <a
                 href="mailto:dhruvp0629@gmail.com"
                 style={{
@@ -415,12 +429,15 @@ export default function App() {
                   color: C.muted,
                   textDecoration: "none",
                   letterSpacing: "0.02em",
+                  paddingLeft: m ? 0 : 16,
                   paddingRight: m ? 0 : 16,
                   borderRight: m ? "none" : `1px solid ${C.divider}`,
                 }}
               >
                 dhruvp0629@gmail.com
               </a>
+
+              {/* Links */}
               {links.map((l, i) => (
                 <a
                   key={l.label}
