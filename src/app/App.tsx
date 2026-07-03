@@ -1,16 +1,18 @@
 import { useState, useEffect, createContext, useContext } from "react";
 
+// ─── Design Tokens ────────────────────────────────────────────────────────────
 const C = {
   white: "#FFFFFF",
-  bg: "#FAFAFA",
-  sidebar: "#F5F5F5",
-  text: "#181818",
-  mid: "#444444",
-  muted: "#666666",
-  light: "#999999",
-  divider: "#E5E5E5",
-  accent: "#303030",
-  rule: "#D0D0D0",
+  bg: "#F7F7F5",
+  sidebar: "#F2F2F0",
+  text: "#141414",
+  mid: "#3D3D3D",
+  muted: "#5C5C5C",
+  light: "#909090",
+  divider: "#E2E2E0",
+  accent: "#1A1A1A",
+  rule: "#C8C8C4",
+  tag: "#EAEAE8",
 };
 
 const FONT = "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif";
@@ -18,7 +20,7 @@ const FONT = "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif";
 // ─── Responsive Context ───────────────────────────────────────────────────────
 const RCtx = createContext(false);
 
-// ─── Data ────────────────────────────────────────────────────────────────────
+// ─── Data ─────────────────────────────────────────────────────────────────────
 
 const links = [
   { label: "Behance", href: "https://www.behance.net/shinchangfx/" },
@@ -53,40 +55,97 @@ const certs = [
   },
 ];
 
-const designSkills = [
-  "UI/UX Design",
-  "Interface Design",
-  "Wireframing & Prototyping",
-  "Visual Design",
-  "Brand Identity",
-  "Typography",
-  "Layout Systems",
-  "Responsive Design",
+const skillGroups = [
+  {
+    title: "Product Design",
+    skills: [
+      "Product Design",
+      "UX Design",
+      "UI Design",
+      "User Research",
+      "Information Architecture",
+      "User Flows",
+      "Wireframing",
+      "Prototyping",
+      "Design Systems",
+    ],
+  },
+  {
+    title: "Visual Design",
+    skills: ["Graphic Design", "Branding", "Typography", "Visual Design"],
+  },
+  {
+    title: "Technical",
+    skills: ["HTML", "CSS", "JavaScript", "Git / GitHub"],
+  },
+  {
+    title: "Tools",
+    skills: ["Figma", "Photoshop", "Illustrator", "VS Code"],
+  },
+  {
+    title: "AI Workflow",
+    skills: [
+      "AI-assisted Research",
+      "AI-assisted Ideation",
+      "AI-assisted UX Writing",
+      "AI-assisted Design Critique",
+    ],
+  },
 ];
 
-const thinkingSkills = [
-  "User-centered Design",
-  "Visual Hierarchy",
-  "Design Consistency",
-  "Problem Solving",
-  "Accessibility Awareness",
-];
-
-const techSkills = ["HTML", "CSS", "JavaScript Fundamentals", "Git / GitHub"];
-
-const tools = [
-  { name: "Figma", note: "Primary" },
-  { name: "Adobe Photoshop", note: "" },
-  { name: "Adobe Illustrator", note: "" },
-  { name: "VS Code", note: "" },
-  { name: "GitHub", note: "" },
-];
-
-const focus = [
-  "Clean Interfaces",
-  "Visual Systems",
-  "Human-centered Experiences",
-  "Responsive Layouts",
+const projects = [
+  {
+    type: "FEATURED WORK · PRODUCT DESIGN",
+    name: "NeuroTwin",
+    subtitle: "AI Personal Intelligence Platform",
+    description:
+      "AI-powered productivity companion focused on behavioural awareness, consistency, and contextual insights.",
+    bullet:
+      "Designed the product strategy, UX, UI, and scalable design system from concept to high-fidelity prototype.",
+    ctas: [
+      {
+        label: "View Behance Case Study",
+        href: "https://www.behance.net/gallery/251900711/NeuroTwin-Product-Design-Case-Study",
+      },
+    ],
+    hero: true,
+  },
+  {
+    type: "PRODUCT DESIGN · DEVELOPMENT",
+    name: "SkillBridge",
+    subtitle: "Peer-to-Peer Skill Exchange Platform",
+    description:
+      "A platform where users exchange skills directly — removing friction from finding, offering, and scheduling sessions.",
+    bullet:
+      "Designed and developed a full-stack learning platform, bridging product thinking with real-world implementation.",
+    ctas: [
+      {
+        label: "View Full-Stack Website",
+        href: "https://skill-bridge-shin7806s-projects.vercel.app/",
+      },
+    ],
+    hero: false,
+  },
+  {
+    type: "Graphic Design · Behance",
+    name: "Visual Identity Collection",
+    subtitle: "Brand Identity · LogoFolio 2025",
+    description:
+      "A curated set of identity systems demonstrating mark-making, type pairing, and visual communication.",
+    bullet:
+      "Curated a collection of identity systems demonstrating branding, typography, and visual communication.",
+    ctas: [
+      {
+        label: "View Behance Project",
+        href: "https://www.behance.net/gallery/240883105/LogoFolio-2025-Collection-I",
+      },
+      {
+        label: "View on Instagram",
+        href: "https://www.instagram.com/_shinchan_op/",
+      },
+    ],
+    hero: false,
+  },
 ];
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -104,11 +163,12 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
     >
       <span
         style={{
-          fontSize: m ? 10 : 7.5,
+          fontSize: m ? 9 : 7,
           fontWeight: 600,
-          letterSpacing: "0.16em",
+          letterSpacing: "0.18em",
           textTransform: "uppercase" as const,
           color: C.light,
+          whiteSpace: "nowrap" as const,
         }}
       >
         {children}
@@ -123,13 +183,13 @@ function SidebarTitle({ children }: { children: React.ReactNode }) {
   return (
     <div
       style={{
-        fontSize: m ? 10 : 7,
+        fontSize: m ? 9 : 7,
         fontWeight: 600,
         letterSpacing: "0.18em",
         textTransform: "uppercase" as const,
         color: C.light,
-        marginBottom: m ? 14 : 12,
-        paddingBottom: m ? 10 : 8,
+        marginBottom: m ? 12 : 10,
+        paddingBottom: m ? 8 : 7,
         borderBottom: `1px solid ${C.divider}`,
       }}
     >
@@ -141,49 +201,46 @@ function SidebarTitle({ children }: { children: React.ReactNode }) {
 function Bullet({ text }: { text: string }) {
   const m = useContext(RCtx);
   return (
-    <div style={{ display: "flex", gap: 10, marginBottom: m ? 10 : 7 }}>
+    <div style={{ display: "flex", gap: 10, marginBottom: m ? 9 : 6 }}>
       <span
         style={{
           color: C.rule,
-          fontSize: m ? 13 : 9,
-          marginTop: 1.5,
+          fontSize: m ? 12 : 9,
+          marginTop: 1,
           flexShrink: 0,
-          lineHeight: 1.6,
+          lineHeight: 1.7,
         }}
       >
         —
       </span>
-      <span style={{ fontSize: m ? 13 : 9.5, color: C.mid, lineHeight: 1.7 }}>
+      <span
+        style={{ fontSize: m ? 12.5 : 9.5, color: C.mid, lineHeight: 1.75 }}
+      >
         {text}
       </span>
     </div>
   );
 }
 
-function SkillRow({ label }: { label: string }) {
+function SkillPill({ label }: { label: string }) {
   const m = useContext(RCtx);
   return (
-    <div
+    <span
       style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 8,
-        marginBottom: m ? 10 : 7,
+        display: "inline-block",
+        fontSize: m ? 10.5 : 8,
+        color: C.mid,
+        background: C.tag,
+        borderRadius: 2,
+        padding: m ? "3px 8px" : "2px 6px",
+        marginBottom: m ? 5 : 4,
+        marginRight: m ? 4 : 3,
+        lineHeight: 1.5,
+        letterSpacing: "0.01em",
       }}
     >
-      <div
-        style={{
-          width: m ? 5 : 4,
-          height: m ? 5 : 4,
-          borderRadius: 1,
-          background: C.rule,
-          flexShrink: 0,
-        }}
-      />
-      <span style={{ fontSize: m ? 12 : 9, color: C.mid, lineHeight: 1.4 }}>
-        {label}
-      </span>
-    </div>
+      {label}
+    </span>
   );
 }
 
@@ -207,7 +264,7 @@ export default function App() {
       <div
         style={{
           minHeight: "100vh",
-          background: m ? C.white : "#DCDCDC",
+          background: m ? C.white : "#D8D8D6",
           fontFamily: FONT,
           display: "flex",
           flexDirection: "column",
@@ -224,18 +281,18 @@ export default function App() {
             alignItems: "center",
             justifyContent: "space-between",
             width: m ? "100%" : 794,
-            marginBottom: m ? 0 : 16,
+            marginBottom: m ? 0 : 14,
             padding: m ? "12px 20px" : 0,
             borderBottom: m ? `1px solid ${C.divider}` : "none",
             background: m ? C.white : "transparent",
-            boxSizing: "border-box",
+            boxSizing: "border-box" as const,
           }}
         >
           <span
             style={{
-              fontSize: m ? 11 : 10,
+              fontSize: m ? 10 : 9,
               color: "#999",
-              letterSpacing: "0.05em",
+              letterSpacing: "0.06em",
               textTransform: "uppercase" as const,
             }}
           >
@@ -245,15 +302,15 @@ export default function App() {
             onClick={() => window.print()}
             style={{
               fontFamily: FONT,
-              fontSize: m ? 11 : 10,
+              fontSize: m ? 10 : 9,
               fontWeight: 500,
-              letterSpacing: "0.06em",
+              letterSpacing: "0.08em",
               textTransform: "uppercase" as const,
               color: C.white,
               background: C.text,
               border: "none",
               borderRadius: 3,
-              padding: m ? "8px 14px" : "8px 18px",
+              padding: m ? "7px 14px" : "7px 16px",
               cursor: "pointer",
             }}
           >
@@ -270,38 +327,38 @@ export default function App() {
             background: C.white,
             boxShadow: m
               ? "none"
-              : "0 2px 32px rgba(0,0,0,0.14), 0 0 0 1px rgba(0,0,0,0.04)",
+              : "0 2px 40px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.04)",
             display: "flex",
             flexDirection: "column",
-            boxSizing: "border-box",
+            boxSizing: "border-box" as const,
             overflow: "hidden",
           }}
         >
           {/* ════ HEADER ════ */}
           <div
             style={{
-              padding: m ? "28px 20px 0" : "44px 52px 0",
+              padding: m ? "32px 20px 0" : "40px 52px 0",
               background: C.white,
             }}
           >
-            {/* Name row */}
+            {/* Name + Badge */}
             <div
               style={{
                 display: "flex",
                 flexDirection: m ? "column" : "row",
                 alignItems: m ? "flex-start" : "flex-end",
                 justifyContent: "space-between",
-                gap: m ? 10 : 0,
-                marginBottom: 14,
+                gap: m ? 12 : 0,
+                marginBottom: 16,
               }}
             >
               <div>
                 <h1
                   style={{
                     margin: 0,
-                    fontSize: m ? 34 : 42,
+                    fontSize: m ? 36 : 40,
                     fontWeight: 500,
-                    letterSpacing: "-0.025em",
+                    letterSpacing: "-0.03em",
                     color: C.text,
                     lineHeight: 1.0,
                   }}
@@ -310,23 +367,22 @@ export default function App() {
                 </h1>
                 <p
                   style={{
-                    margin: "8px 0 0",
-                    fontSize: m ? 14 : 13,
+                    margin: "9px 0 0",
+                    fontSize: m ? 13 : 11.5,
                     fontWeight: 400,
                     color: C.muted,
                     letterSpacing: "0.02em",
                   }}
                 >
-                  UI/UX Designer&nbsp;&nbsp;·&nbsp;&nbsp;Graphic Designer
+                  Product Designer&nbsp;&nbsp;·&nbsp;&nbsp;UI/UX
+                  Designer&nbsp;&nbsp;·&nbsp;&nbsp;Graphic Designer
                 </p>
               </div>
-
-              {/* Availability badge */}
               <div
                 style={{
-                  fontSize: m ? 9 : 8,
+                  fontSize: m ? 9 : 7.5,
                   fontWeight: 500,
-                  letterSpacing: "0.1em",
+                  letterSpacing: "0.12em",
                   textTransform: "uppercase" as const,
                   color: C.muted,
                   border: `1px solid ${C.divider}`,
@@ -348,14 +404,14 @@ export default function App() {
                 rowGap: m ? 6 : 0,
                 columnGap: m ? 14 : 0,
                 paddingTop: 14,
-                paddingBottom: 20,
+                paddingBottom: 18,
                 borderTop: `1px solid ${C.divider}`,
               }}
             >
               <a
                 href="mailto:dhruvp0629@gmail.com"
                 style={{
-                  fontSize: m ? 12 : 9,
+                  fontSize: m ? 11.5 : 8.5,
                   color: C.muted,
                   textDecoration: "none",
                   letterSpacing: "0.02em",
@@ -372,7 +428,7 @@ export default function App() {
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
-                    fontSize: m ? 12 : 9,
+                    fontSize: m ? 11.5 : 8.5,
                     color: C.text,
                     textDecoration: "none",
                     fontWeight: 500,
@@ -392,11 +448,11 @@ export default function App() {
             </div>
           </div>
 
-          {/* ════ BODY: Two-column on desktop, single column on mobile ════ */}
+          {/* ════ BODY ════ */}
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: m ? "1fr" : "1fr 224px",
+              gridTemplateColumns: m ? "1fr" : "1fr 212px",
               flex: 1,
               borderTop: `1px solid ${C.divider}`,
             }}
@@ -404,11 +460,11 @@ export default function App() {
             {/* ── LEFT COLUMN ── */}
             <div
               style={{
-                padding: m ? "28px 20px 36px" : "32px 40px 40px 52px",
+                padding: m ? "28px 20px 36px" : "30px 38px 40px 52px",
                 borderRight: m ? "none" : `1px solid ${C.divider}`,
                 display: "flex",
                 flexDirection: "column",
-                gap: m ? 32 : 30,
+                gap: m ? 30 : 26,
               }}
             >
               {/* SUMMARY */}
@@ -416,19 +472,18 @@ export default function App() {
                 <SectionTitle>Summary</SectionTitle>
                 <p
                   style={{
-                    fontSize: m ? 13.5 : 10.5,
+                    fontSize: m ? 13 : 10,
                     color: C.mid,
-                    lineHeight: 1.75,
+                    lineHeight: 1.85,
                     margin: 0,
-                    maxWidth: m ? "none" : 390,
                   }}
                 >
-                  UI/UX and Graphic Designer practicing since 2019, building
-                  clean digital interfaces, visual identities, and user-focused
-                  experiences. Proficient in Figma and Adobe Creative Suite,
-                  with a practical understanding of front-end fundamentals and
-                  the craft of translating design intent into structured,
-                  functional products.
+                  Product Designer with a strong foundation in UI/UX and Graphic
+                  Design, focused on transforming complex ideas into intuitive
+                  digital products. I combine product thinking, visual design,
+                  scalable systems, and front-end awareness to create
+                  experiences that are useful, thoughtful, and
+                  implementation-ready.
                 </p>
               </section>
 
@@ -448,20 +503,21 @@ export default function App() {
                   >
                     <span
                       style={{
-                        fontSize: m ? 16 : 12,
+                        fontSize: m ? 15 : 11.5,
                         fontWeight: 600,
                         color: C.text,
                         letterSpacing: "-0.01em",
                       }}
                     >
-                      Freelance UI &amp; Graphic Designer
+                      Freelance Product & UI Designer
                     </span>
                     <span
                       style={{
-                        fontSize: m ? 12 : 9,
+                        fontSize: m ? 11 : 8.5,
                         color: C.muted,
                         letterSpacing: "0.04em",
                         fontVariantNumeric: "tabular-nums",
+                        flexShrink: 0,
                       }}
                     >
                       2019 — Present
@@ -469,9 +525,9 @@ export default function App() {
                   </div>
                   <p
                     style={{
-                      fontSize: m ? 10 : 9,
+                      fontSize: m ? 9.5 : 8,
                       color: C.light,
-                      letterSpacing: "0.06em",
+                      letterSpacing: "0.08em",
                       textTransform: "uppercase" as const,
                       margin: "0 0 12px",
                       fontWeight: 500,
@@ -485,10 +541,10 @@ export default function App() {
                       paddingLeft: 14,
                     }}
                   >
-                    <Bullet text="Designed digital visuals including branding assets, posters, social media creatives, and interface concepts for a range of client briefs." />
-                    <Bullet text="Created user interface layouts with deliberate attention to usability, spacing, visual hierarchy, and design-system consistency." />
-                    <Bullet text="Translated client requirements into structured visual solutions through iterative design, feedback loops, and purposeful revision." />
-                    <Bullet text="Developed practical understanding of bridging design with front-end implementation using HTML, CSS, and foundational JavaScript." />
+                    <Bullet text="Identified user problems and business goals across client briefs, then translated them into structured visual and interaction solutions." />
+                    <Bullet text="Designed end-to-end experiences — from initial concept and user flows through to high-fidelity interfaces — maintaining consistency across components." />
+                    <Bullet text="Iterated through feedback loops with clients, balancing aesthetic decisions against practical constraints and implementation realities." />
+                    <Bullet text="Built and shipped projects with direct awareness of HTML and CSS, reducing the gap between design intent and front-end output." />
                   </div>
                 </div>
               </section>
@@ -496,120 +552,154 @@ export default function App() {
               {/* PROJECTS */}
               <section>
                 <SectionTitle>Selected Projects</SectionTitle>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  {projects.map((p, i) => (
+                    <div
+                      key={p.name}
+                      style={{
+                        paddingTop: i === 0 ? 0 : m ? 14 : 12,
+                        paddingBottom: m ? 14 : 12,
+                        borderBottom:
+                          i < projects.length - 1
+                            ? `1px solid ${C.divider}`
+                            : "none",
+                      }}
+                    >
+                      {/* Category eyebrow */}
+                      <div
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          padding: m ? "4px 8px" : "3px 7px",
+                          background: C.tag,
+                          borderRadius: 0,
+                          fontSize: m ? 7.5 : 6.5,
+                          fontWeight: 600,
+                          letterSpacing: "0.14em",
+                          textTransform: "uppercase",
+                          color: C.mid,
+                          marginBottom: 10,
+                        }}
+                      >
+                        {p.type}
+                      </div>
 
-                {/* Project 1 */}
-                <div
-                  style={{
-                    marginBottom: 20,
-                    paddingBottom: 20,
-                    borderBottom: `1px solid ${C.divider}`,
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "flex-start",
-                      justifyContent: "space-between",
-                      marginBottom: 5,
-                    }}
-                  >
-                    <div>
+                      {/* Name */}
                       <span
                         style={{
                           display: "block",
-                          fontSize: m ? 9 : 7,
-                          fontWeight: 600,
-                          letterSpacing: "0.16em",
-                          textTransform: "uppercase" as const,
-                          color: C.light,
-                          marginBottom: 3,
+                          fontSize: m ? 14 : p.hero ? 13 : 11,
+                          fontWeight: p.hero ? 700 : 600,
+                          color: C.text,
+                          letterSpacing: "-0.02em",
+                          lineHeight: 1.1,
+                          marginBottom: 2,
                         }}
                       >
-                        UI/UX Case Study
+                        {p.name}
                       </span>
 
+                      {/* Subtitle */}
                       <span
                         style={{
-                          fontSize: m ? 16 : 12,
-                          fontWeight: 600,
-                          color: C.text,
-                          letterSpacing: "-0.01em",
+                          display: "block",
+                          fontSize: m ? 10 : 8.5,
+                          color: C.light,
+                          letterSpacing: "0.01em",
+                          fontWeight: 400,
+                          marginBottom: 7,
                         }}
                       >
-                        SkillBridge — Skill Exchange Platform
+                        {p.subtitle}
                       </span>
+
+                      {/* Description */}
+                      <p
+                        style={{
+                          fontSize: m ? 11 : 9,
+                          color: C.muted,
+                          margin: "0 0 7px",
+                          lineHeight: 1.7,
+                          letterSpacing: "0.005em",
+                        }}
+                      >
+                        {p.description}
+                      </p>
+
+                      {/* Single bullet */}
+                      <div style={{ display: "flex", gap: 8, marginBottom: 9 }}>
+                        <span
+                          style={{
+                            color: C.rule,
+                            fontSize: m ? 10 : 8.5,
+                            flexShrink: 0,
+                            marginTop: 1,
+                            lineHeight: 1.7,
+                          }}
+                        >
+                          —
+                        </span>
+                        <span
+                          style={{
+                            fontSize: m ? 11 : 9,
+                            color: C.mid,
+                            lineHeight: 1.7,
+                          }}
+                        >
+                          {p.bullet}
+                        </span>
+                      </div>
+
+                      {/* CTAs */}
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: m ? 14 : 12,
+                          flexWrap: "wrap" as const,
+                        }}
+                      >
+                        {p.ctas.map((cta) => (
+                          <a
+                            key={cta.label}
+                            href={cta.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: 4,
+                              fontSize: m ? 10 : 8,
+                              fontWeight: 500,
+                              color: C.muted,
+                              textDecoration: "none",
+                              letterSpacing: "0.02em",
+                              transition: "color 0.15s",
+                              borderBottom: `1px solid ${C.divider}`,
+                              paddingBottom: 1,
+                            }}
+                            onMouseEnter={(e) =>
+                              (e.currentTarget.style.color = C.text)
+                            }
+                            onMouseLeave={(e) =>
+                              (e.currentTarget.style.color = C.muted)
+                            }
+                          >
+                            {cta.label}
+                            <span
+                              className="cta-arrow"
+                              style={{
+                                display: "inline-block",
+                                transition: "transform 0.15s",
+                                fontSize: m ? 10 : 8,
+                              }}
+                            >
+                              →
+                            </span>
+                          </a>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-
-                  <p
-                    style={{
-                      fontSize: m ? 12 : 9.5,
-                      color: C.muted,
-                      margin: "8px 0 12px",
-                      lineHeight: 1.65,
-                      letterSpacing: "0.01em",
-                      maxWidth: 560,
-                    }}
-                  >
-                    A peer-to-peer product concept focused on skill discovery,
-                    meaningful connections, and structured knowledge exchange.
-                  </p>
-
-                  <Bullet text="Designed complete user journeys covering onboarding, profiles, discovery flows, and interactions." />
-
-                  <Bullet text="Created scalable interface layouts using reusable patterns for consistent user experiences." />
-
-                  <Bullet text="Focused on usability, visual hierarchy, and simplified interactions across key touchpoints." />
-                </div>
-
-                {/* Project 2 */}
-                <div>
-                  <span
-                    style={{
-                      display: "block",
-                      fontSize: m ? 9 : 7,
-                      fontWeight: 600,
-                      letterSpacing: "0.16em",
-                      textTransform: "uppercase" as const,
-                      color: C.light,
-                      marginBottom: 3,
-                    }}
-                  >
-                    UI/UX Redesign
-                  </span>
-
-                  <span
-                    style={{
-                      fontSize: m ? 16 : 12,
-                      fontWeight: 600,
-                      color: C.text,
-                      letterSpacing: "-0.01em",
-                      display: "block",
-                      marginBottom: 6,
-                    }}
-                  >
-                    Library Management System
-                  </span>
-
-                  <p
-                    style={{
-                      fontSize: m ? 12 : 9.5,
-                      color: C.muted,
-                      margin: "8px 0 12px",
-                      lineHeight: 1.65,
-                      letterSpacing: "0.01em",
-                      maxWidth: 560,
-                    }}
-                  >
-                    A redesign concept improving library workflows, resource
-                    accessibility, and everyday user interactions.
-                  </p>
-
-                  <Bullet text="Redesigned key flows including resource discovery, management actions, and navigation structures." />
-
-                  <Bullet text="Improved information architecture through clearer grouping and task-focused interface patterns." />
-
-                  <Bullet text="Built a cleaner visual system emphasizing readability, accessibility, and efficient interactions." />
+                  ))}
                 </div>
               </section>
 
@@ -626,7 +716,7 @@ export default function App() {
                 >
                   <span
                     style={{
-                      fontSize: m ? 10 : 8,
+                      fontSize: m ? 9 : 7.5,
                       fontWeight: 600,
                       letterSpacing: "0.1em",
                       textTransform: "uppercase" as const,
@@ -654,7 +744,7 @@ export default function App() {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "space-between",
-                        padding: m ? "10px 0" : "7px 0",
+                        padding: m ? "9px 0" : "6px 0",
                         borderBottom:
                           i < certs.length - 1
                             ? `1px solid ${C.divider}`
@@ -664,7 +754,7 @@ export default function App() {
                     >
                       <span
                         style={{
-                          fontSize: m ? 12.5 : 9.5,
+                          fontSize: m ? 12 : 9,
                           color: C.mid,
                           lineHeight: 1.4,
                         }}
@@ -676,7 +766,7 @@ export default function App() {
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{
-                          fontSize: m ? 10 : 7.5,
+                          fontSize: m ? 9.5 : 7.5,
                           color: C.light,
                           textDecoration: "none",
                           letterSpacing: "0.08em",
@@ -697,74 +787,24 @@ export default function App() {
             <div
               style={{
                 background: C.sidebar,
-                padding: m ? "28px 20px 40px" : "32px 24px 40px",
+                padding: m ? "28px 20px 40px" : "30px 22px 40px",
                 display: "flex",
                 flexDirection: "column",
-                gap: m ? 28 : 26,
+                gap: m ? 26 : 22,
                 borderTop: m ? `1px solid ${C.divider}` : "none",
               }}
             >
-              {/* DESIGN SKILLS */}
-              <section>
-                <SidebarTitle>Design</SidebarTitle>
-                {designSkills.map((s) => (
-                  <SkillRow key={s} label={s} />
-                ))}
-              </section>
-
-              {/* DESIGN THINKING */}
-              <section>
-                <SidebarTitle>Thinking</SidebarTitle>
-                {thinkingSkills.map((s) => (
-                  <SkillRow key={s} label={s} />
-                ))}
-              </section>
-
-              {/* TECHNICAL */}
-              <section>
-                <SidebarTitle>Technical</SidebarTitle>
-                {techSkills.map((s) => (
-                  <SkillRow key={s} label={s} />
-                ))}
-              </section>
-
-              {/* TOOLS */}
-              <section>
-                <SidebarTitle>Tools</SidebarTitle>
-                {tools.map((t) => (
-                  <div
-                    key={t.name}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      marginBottom: m ? 10 : 8,
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: m ? 12 : 9,
-                        color: C.mid,
-                        fontWeight: 500,
-                      }}
-                    >
-                      {t.name}
-                    </span>
-                    {t.note && (
-                      <span
-                        style={{
-                          fontSize: m ? 9 : 7,
-                          color: C.light,
-                          letterSpacing: "0.06em",
-                          textTransform: "uppercase" as const,
-                        }}
-                      >
-                        {t.note}
-                      </span>
-                    )}
+              {/* SKILLS */}
+              {skillGroups.map((group) => (
+                <section key={group.title}>
+                  <SidebarTitle>{group.title}</SidebarTitle>
+                  <div style={{ display: "flex", flexWrap: "wrap" as const }}>
+                    {group.skills.map((s) => (
+                      <SkillPill key={s} label={s} />
+                    ))}
                   </div>
-                ))}
-              </section>
+                </section>
+              ))}
 
               {/* LANGUAGES */}
               <section>
@@ -772,11 +812,12 @@ export default function App() {
                 {[
                   { lang: "Hindi", level: "Native" },
                   { lang: "English", level: "Professional" },
+                  { lang: "Kannada", level: "Working Proficiency" },
                 ].map(({ lang, level }) => (
-                  <div key={lang} style={{ marginBottom: m ? 14 : 10 }}>
+                  <div key={lang} style={{ marginBottom: m ? 12 : 9 }}>
                     <div
                       style={{
-                        fontSize: m ? 13 : 9.5,
+                        fontSize: m ? 12.5 : 9.5,
                         fontWeight: 600,
                         color: C.text,
                       }}
@@ -787,8 +828,8 @@ export default function App() {
                       style={{
                         fontSize: m ? 10 : 8,
                         color: C.light,
-                        marginTop: 2,
-                        letterSpacing: "0.03em",
+                        marginTop: 1,
+                        letterSpacing: "0.02em",
                       }}
                     >
                       {level}
@@ -800,17 +841,16 @@ export default function App() {
               {/* EDUCATION */}
               <section style={{ marginTop: m ? 0 : "auto" }}>
                 <SidebarTitle>Education</SidebarTitle>
-
                 <div
                   style={{
-                    fontSize: 9.5,
+                    fontSize: m ? 11 : 8.5,
                     color: C.mid,
-                    lineHeight: 1.7,
+                    lineHeight: 1.75,
                   }}
                 >
                   <div style={{ marginBottom: 12 }}>
-                    <strong style={{ color: C.text }}>
-                      Bachelor of Computer Applications (BCA)
+                    <strong style={{ color: C.text, fontSize: m ? 12 : 9 }}>
+                      Bachelor of Computer Applications
                     </strong>
                     <br />
                     ASC Degree College
@@ -819,7 +859,7 @@ export default function App() {
                   </div>
 
                   <div style={{ marginBottom: 12 }}>
-                    <strong style={{ color: C.text }}>
+                    <strong style={{ color: C.text, fontSize: m ? 12 : 9 }}>
                       Pre-University Course (PUC)
                     </strong>
                     <br />
@@ -829,10 +869,13 @@ export default function App() {
                   </div>
 
                   <div>
-                    <strong style={{ color: C.text }}>UI/UX Design</strong>
+                    <strong style={{ color: C.text, fontSize: m ? 12 : 9 }}>
+                      Product, UI/UX & Graphic Design
+                    </strong>
                     <br />
-                    Self-taught through practical projects and structured
-                    LinkedIn Learning certifications.
+                    Built through hands-on product development, real-world
+                    design projects, continuous self-learning, and LinkedIn
+                    Learning certifications since 2019.
                   </div>
                 </div>
               </section>
@@ -842,7 +885,7 @@ export default function App() {
           {/* ════ FOOTER ════ */}
           <div
             style={{
-              padding: m ? "12px 20px" : "12px 52px",
+              padding: m ? "12px 20px" : "10px 52px",
               borderTop: `1px solid ${C.divider}`,
               display: "flex",
               justifyContent: "space-between",
@@ -852,22 +895,22 @@ export default function App() {
           >
             <span
               style={{
-                fontSize: m ? 10 : 7.5,
+                fontSize: m ? 9.5 : 7.5,
                 color: C.light,
                 letterSpacing: "0.04em",
               }}
             >
-              dhruvp629@gmail.com
+              dhruvp0629@gmail.com
             </span>
-            <div style={{ width: 24, height: 1, background: C.divider }} />
+            <div style={{ width: 20, height: 1, background: C.divider }} />
             <span
               style={{
-                fontSize: m ? 10 : 7.5,
+                fontSize: m ? 9.5 : 7.5,
                 color: C.light,
                 letterSpacing: "0.04em",
               }}
             >
-              UI/UX Designer · Graphic Designer
+              Product Designer · UI/UX Designer · Graphic Designer
             </span>
           </div>
         </div>
@@ -876,6 +919,8 @@ export default function App() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         * { box-sizing: border-box; }
+        html { -webkit-font-smoothing: antialiased; }
+        a:hover .cta-arrow { transform: translateX(3px); }
         @media print {
           .no-print { display: none !important; }
           body { background: white !important; margin: 0 !important; padding: 0 !important; }
