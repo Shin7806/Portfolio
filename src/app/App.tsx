@@ -24,6 +24,7 @@ const RCtx = createContext(false);
 
 const links = [
   { label: "Behance", href: "https://www.behance.net/shinchangfx/" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/dhruvpoddar/" },
   { label: "GitHub", href: "https://github.com/Shin7806/" },
   { label: "Instagram", href: "https://www.instagram.com/_shinchan_op/" },
 ];
