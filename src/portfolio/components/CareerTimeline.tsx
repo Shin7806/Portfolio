@@ -124,7 +124,7 @@ export default function CareerTimeline() {
 
   return (
     <section id="timeline" aria-label="Career Timeline" style={{ padding: '128px 0' }}>
-      <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 40px' }}>
+      <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 var(--pad-x)' }}>
         <div
           ref={ref as React.RefObject<HTMLDivElement>}
           style={{
@@ -153,9 +153,34 @@ export default function CareerTimeline() {
           </p>
         </div>
 
-        <div>
+        <div className="hide-on-mobile-only">
           {events.map((e, i) => (
             <TimelineItem key={`${e.year}-${e.title}`} e={e} index={i} />
+          ))}
+        </div>
+
+        <div className="show-on-mobile-only" style={{ display: 'flex', flexDirection: 'column' }}>
+          {events.map((e, index) => (
+            <div key={`${e.year}-${e.title}`} style={{ display: 'grid', gridTemplateColumns: '24px 1fr', gap: '16px', alignItems: 'start' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
+                <div style={{
+                  width: '10px', height: '10px', borderRadius: '50%', marginTop: '4px', flexShrink: 0,
+                  background: dotColor[e.type] || 'var(--crimson)',
+                  boxShadow: (e.type === 'current' || e.type === 'project') ? '0 0 10px var(--crimson-glow)' : 'none',
+                  animation: e.type === 'current' ? 'glow-pulse-sm 2.4s ease-in-out infinite' : 'none',
+                  zIndex: 1,
+                }} />
+                {index !== events.length - 1 && (
+                  <div style={{
+                    width: '1px', flex: 1, minHeight: '40px', marginTop: '4px', marginBottom: '4px',
+                    background: 'linear-gradient(to bottom, rgba(192,31,58,0.18), rgba(192,31,58,0.04))',
+                  }} />
+                )}
+              </div>
+              <div style={{ paddingBottom: '32px' }}>
+                <EventCard e={e} />
+              </div>
+            </div>
           ))}
         </div>
       </div>

@@ -86,7 +86,7 @@ export default function DesignProcess() {
       aria-label="Design Process"
       style={{ padding: '120px 0' }}
     >
-      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 32px' }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 var(--pad-x)' }}>
         {/* Header */}
         <div
           ref={ref as React.RefObject<HTMLDivElement>}
@@ -112,16 +112,16 @@ export default function DesignProcess() {
           </h2>
         </div>
 
-        {/* Interactive process */}
-        <div style={{
+        {/* Interactive process (Desktop & Tablet) */}
+        <div className="proc-grid hide-on-mobile-only" style={{
           display: 'grid',
           gridTemplateColumns: '280px 1fr',
           gap: '48px',
           alignItems: 'start',
         }}>
           {/* Step nav */}
-          <nav aria-label="Process steps" style={{ position: 'sticky', top: '96px' }}>
-            <ol style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <nav className="proc-nav" aria-label="Process steps" style={{ position: 'sticky', top: '96px' }}>
+            <ol className="horizontal-selector-tablet" style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '4px' }}>
               {steps.map((s, i) => (
                 <li key={s.num}>
                   <button
@@ -164,6 +164,7 @@ export default function DesignProcess() {
                       fontWeight: activeStep === i ? 500 : 400,
                       color: activeStep === i ? 'var(--text-display)' : 'var(--text-muted)',
                       transition: 'color 0.25s',
+                      whiteSpace: 'nowrap',
                     }}>
                       {s.phase}
                     </span>
@@ -217,7 +218,7 @@ export default function DesignProcess() {
               {steps[activeStep].description}
             </p>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
+            <div className="two-col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
               <div>
                 <div style={{
                   fontFamily: 'var(--font-mono)',
@@ -288,6 +289,157 @@ export default function DesignProcess() {
               ))}
             </div>
           </div>
+        </div>
+
+        {/* Mobile Accordion (< 768px) */}
+        <div className="show-on-mobile-only" style={{ display: 'flex', flexDirection: 'column' }}>
+          {steps.map((s, i) => {
+            const isOpen = activeStep === i
+            return (
+              <div
+                key={s.num}
+                style={{
+                  borderBottom: '1px solid',
+                  borderColor: isOpen ? 'var(--crimson-border)' : 'var(--glass-border)',
+                  background: isOpen ? 'var(--bg-elevated)' : 'transparent',
+                  transition: 'all 0.3s var(--ease-out)',
+                }}
+              >
+                <button
+                  aria-expanded={isOpen}
+                  onClick={() => setActiveStep(i)}
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '20px 16px',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: 'var(--text-display)',
+                    textAlign: 'left',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
+                    <span style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '11px',
+                      color: isOpen ? 'var(--crimson)' : 'var(--text-subtle)',
+                      letterSpacing: '0.15em',
+                      transition: 'color 0.3s',
+                      marginTop: '4px',
+                    }}>
+                      {s.num}
+                    </span>
+                    <div>
+                      <div style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '11px',
+                        letterSpacing: '0.15em',
+                        textTransform: 'uppercase',
+                        color: isOpen ? 'var(--crimson)' : 'var(--text-subtle)',
+                        fontWeight: 500,
+                        transition: 'color 0.3s',
+                        marginBottom: isOpen ? '0' : '4px',
+                      }}>
+                        {s.phase}
+                      </div>
+                      {!isOpen && (
+                        <div style={{
+                          fontFamily: 'var(--font-body)',
+                          fontSize: '13px',
+                          color: 'var(--text-muted)',
+                          lineHeight: 1.4,
+                        }}>
+                          {s.title}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <span style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '16px',
+                    color: isOpen ? 'var(--crimson)' : 'var(--text-subtle)',
+                    transition: 'all 0.3s',
+                    transform: isOpen ? 'rotate(180deg)' : 'none',
+                  }}>
+                    {isOpen ? '−' : '+'}
+                  </span>
+                </button>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateRows: isOpen ? '1fr' : '0fr',
+                    transition: 'grid-template-rows 0.3s var(--ease-out)',
+                  }}
+                >
+                  <div style={{ overflow: 'hidden' }}>
+                    <div style={{ padding: '0 16px 24px' }}>
+                      <p style={{
+                        fontFamily: 'var(--font-body)',
+                        fontSize: '14px',
+                        lineHeight: 1.7,
+                        color: 'var(--text-muted)',
+                        marginBottom: '24px',
+                      }}>
+                        {s.description}
+                      </p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                        <div>
+                          <div style={{
+                            fontFamily: 'var(--font-mono)',
+                            fontSize: '10px',
+                            letterSpacing: '0.2em',
+                            textTransform: 'uppercase',
+                            color: 'var(--text-subtle)',
+                            marginBottom: '10px',
+                          }}>
+                            Tools Used
+                          </div>
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                            {s.tools.map(t => (
+                              <span key={t} style={{
+                                fontFamily: 'var(--font-mono)',
+                                fontSize: '11px',
+                                color: 'var(--text-muted)',
+                                border: '1px solid rgba(196,30,58,0.15)',
+                                borderRadius: '4px',
+                                padding: '4px 10px',
+                                background: 'var(--crimson-soft)',
+                              }}>
+                                {t}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <div style={{
+                            fontFamily: 'var(--font-mono)',
+                            fontSize: '10px',
+                            letterSpacing: '0.2em',
+                            textTransform: 'uppercase',
+                            color: 'var(--text-subtle)',
+                            marginBottom: '10px',
+                          }}>
+                            Output
+                          </div>
+                          <p style={{
+                            fontFamily: 'var(--font-body)',
+                            fontSize: '14px',
+                            color: 'var(--text-muted)',
+                            lineHeight: 1.6,
+                          }}>
+                            {s.output}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
         </div>
       </div>
     </section>

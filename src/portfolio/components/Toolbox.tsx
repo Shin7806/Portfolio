@@ -121,7 +121,7 @@ export default function Toolbox() {
 
   return (
     <section id="toolbox" aria-label="Toolbox" style={{ padding: '128px 0' }}>
-      <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 40px' }}>
+      <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 var(--pad-x)' }}>
         {/* Header */}
         <div
           ref={ref as React.RefObject<HTMLDivElement>}
@@ -155,11 +155,11 @@ export default function Toolbox() {
           </p>
         </div>
 
-        {/* Tab + content layout */}
-        <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr', gap: '48px', alignItems: 'start' }} className="two-col">
+        {/* Tab + content layout (Desktop & Tablet) */}
+        <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr', gap: '48px', alignItems: 'start' }} className="two-col hide-on-mobile-only">
           {/* Category tabs */}
           <nav aria-label="Tool categories">
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <ul className="horizontal-selector-tablet" style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '4px' }}>
               {categories.map(c => (
                 <li key={c.id}>
                   <button
@@ -192,6 +192,7 @@ export default function Toolbox() {
                       fontWeight: activeTab === c.id ? 500 : 400,
                       color: activeTab === c.id ? 'var(--text-display)' : 'var(--text-muted)',
                       transition: 'color 0.22s',
+                      whiteSpace: 'nowrap',
                     }}>
                       {c.label}
                     </span>
@@ -247,6 +248,129 @@ export default function Toolbox() {
               = Learning
             </div>
           </div>
+        </div>
+
+        {/* Mobile Accordion (< 768px) */}
+        <div className="show-on-mobile-only" style={{ display: 'flex', flexDirection: 'column' }}>
+          {categories.map((c) => {
+            const isOpen = activeTab === c.id
+            return (
+              <div
+                key={c.id}
+                style={{
+                  borderBottom: '1px solid',
+                  borderColor: isOpen ? 'var(--crimson-border)' : 'var(--glass-border)',
+                  background: isOpen ? 'var(--bg-elevated)' : 'transparent',
+                  transition: 'all 0.3s var(--ease-out)',
+                }}
+              >
+                <button
+                  aria-expanded={isOpen}
+                  onClick={() => setActiveTab(c.id)}
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '20px 16px',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: 'var(--text-display)',
+                    textAlign: 'left',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
+                    <span style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: '18px',
+                      color: isOpen ? 'var(--crimson)' : 'var(--text-subtle)',
+                      lineHeight: 1,
+                      marginTop: '2px',
+                      transition: 'color 0.3s',
+                    }} aria-hidden="true">
+                      {c.icon}
+                    </span>
+                    <div>
+                      <div style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '11px',
+                        letterSpacing: '0.15em',
+                        textTransform: 'uppercase',
+                        color: isOpen ? 'var(--crimson)' : 'var(--text-subtle)',
+                        fontWeight: 500,
+                        transition: 'color 0.3s',
+                        marginBottom: isOpen ? '0' : '4px',
+                      }}>
+                        {c.label}
+                      </div>
+                      {!isOpen && (
+                        <div style={{
+                          fontFamily: 'var(--font-body)',
+                          fontSize: '13px',
+                          color: 'var(--text-muted)',
+                          lineHeight: 1.4,
+                        }}>
+                          {c.tools.length} tools · {c.tools.slice(0, 3).map(t => t.name).join(', ')}...
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    {isOpen && (
+                      <span style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '10px',
+                        color: 'var(--crimson)',
+                        letterSpacing: '0.15em',
+                      }}>
+                        {String(c.tools.length).padStart(2, '0')}
+                      </span>
+                    )}
+                    <span style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '16px',
+                      color: isOpen ? 'var(--crimson)' : 'var(--text-subtle)',
+                      transition: 'all 0.3s',
+                      transform: isOpen ? 'rotate(180deg)' : 'none',
+                    }}>
+                      {isOpen ? '−' : '+'}
+                    </span>
+                  </div>
+                </button>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateRows: isOpen ? '1fr' : '0fr',
+                    transition: 'grid-template-rows 0.3s var(--ease-out)',
+                  }}
+                >
+                  <div style={{ overflow: 'hidden' }}>
+                    <div style={{ padding: '0 16px 24px' }}>
+                      {c.tools.map((t, i) => (
+                        <ToolRow key={t.name} tool={t} delay={i * 40} />
+                      ))}
+                      {isOpen && (
+                        <div style={{
+                          display: 'flex', alignItems: 'center', gap: '12px',
+                          marginTop: '20px', paddingTop: '16px',
+                          fontFamily: 'var(--font-mono)', fontSize: '10px',
+                          letterSpacing: '0.12em', color: 'var(--text-subtle)',
+                        }}>
+                          <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+                            {[1,2,3,4,5].map(n => (
+                              <div key={n} style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'var(--crimson)' }} />
+                            ))}
+                          </div>
+                          = Expert
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
         </div>
       </div>
     </section>

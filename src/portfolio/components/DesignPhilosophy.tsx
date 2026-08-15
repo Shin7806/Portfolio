@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useInView } from '../hooks/useInView'
 
 const pillars = [
@@ -97,6 +98,7 @@ function PillarCard({ p, index }: { p: typeof pillars[0]; index: number }) {
 
 export default function DesignPhilosophy() {
   const { ref, inView } = useInView()
+  const [activePillar, setActivePillar] = useState(0)
 
   return (
     <section
@@ -104,7 +106,7 @@ export default function DesignPhilosophy() {
       aria-label="Design Philosophy"
       style={{ padding: '128px 0', background: 'var(--bg-section-alt)' }}
     >
-      <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 40px' }}>
+      <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 var(--pad-x)' }}>
         {/* Header */}
         <div
           ref={ref as React.RefObject<HTMLDivElement>}
@@ -138,12 +140,97 @@ export default function DesignPhilosophy() {
           </p>
         </div>
 
-        {/* Pillars */}
+        {/* Desktop Pillars */}
         <div
-          className="three-col"
+          className="hide-on-mobile"
           style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}
         >
           {pillars.map((p, i) => <PillarCard key={p.num} p={p} index={i} />)}
+        </div>
+
+        {/* Mobile Accordion */}
+        <div className="hide-on-desktop" style={{ display: 'flex', flexDirection: 'column' }}>
+          {pillars.map((p, i) => {
+            const isOpen = activePillar === i
+            return (
+              <div
+                key={p.num}
+                style={{
+                  borderBottom: '1px solid',
+                  borderColor: isOpen ? 'var(--crimson-border)' : 'var(--glass-border)',
+                  background: isOpen ? 'var(--bg-elevated)' : 'transparent',
+                  transition: 'all 0.3s var(--ease-out)',
+                }}
+              >
+                <button
+                  aria-expanded={isOpen}
+                  onClick={() => setActivePillar(i)}
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '20px 16px',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: 'var(--text-display)',
+                    textAlign: 'left',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                    <span style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '11px',
+                      color: isOpen ? 'var(--crimson)' : 'var(--text-subtle)',
+                      letterSpacing: '0.15em',
+                      transition: 'color 0.3s',
+                    }}>
+                      {p.num}
+                    </span>
+                    <span style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: '16px',
+                      fontWeight: 600,
+                      letterSpacing: '0.02em',
+                      color: isOpen ? 'var(--text-body)' : 'var(--text-muted)',
+                      transition: 'color 0.3s',
+                    }}>
+                      {p.title}
+                    </span>
+                  </div>
+                  <span style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '16px',
+                    color: isOpen ? 'var(--crimson)' : 'var(--text-subtle)',
+                    transition: 'all 0.3s',
+                    transform: isOpen ? 'rotate(180deg)' : 'none',
+                  }}>
+                    {isOpen ? '−' : '+'}
+                  </span>
+                </button>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateRows: isOpen ? '1fr' : '0fr',
+                    transition: 'grid-template-rows 0.3s var(--ease-out)',
+                  }}
+                >
+                  <div style={{ overflow: 'hidden' }}>
+                    <p style={{
+                      fontFamily: 'var(--font-body)',
+                      fontSize: '14px',
+                      lineHeight: 1.7,
+                      color: 'var(--text-muted)',
+                      padding: '0 16px 24px',
+                    }}>
+                      {p.body}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
         </div>
 
         {/* Quote */}

@@ -157,7 +157,7 @@ export default function Hero() {
           flex: 1,
           maxWidth: "1320px",
           margin: "0 auto",
-          padding: "0 40px",
+          padding: "0 var(--pad-x)",
           width: "100%",
           display: "grid",
           gridTemplateColumns: "1fr 220px",

@@ -8,13 +8,13 @@ const projects = [
     title: 'NeuroTwin',
     category: 'Product Design',
     role: 'Product Designer',
-    year: '2025',
+    year: '2026',
     status: 'Featured',
     featured: true,
     description: 'An AI-powered digital twin platform that mirrors user cognition and behaviour. Designed the complete product from scratch — research, IA, flows, high-fidelity UI, and design system.',
     longDesc: 'NeuroTwin is a next-generation AI platform that creates a digital cognitive twin for each user — learning behaviour patterns, decision-making styles, and knowledge structures over time. As the sole Product Designer, I owned every phase: discovery workshops, competitive analysis, user journey mapping, information architecture, wireframes, prototyping, high-fidelity visual design, and a component-level design system in Figma.',
     tags: ['Figma', 'FigJam', 'Claude', 'Cursor', 'Design System', 'Prototyping', 'Research'],
-    image: 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1400&h=900&fit=crop&auto=format',
+    image: 'https://res.cloudinary.com/sadd5xib/image/upload/v1786793244/018fc5251900711.6a425bdf9accb.jpg',
     accent: '#c01f3a',
     links: [
       { label: 'Behance Case Study →', href: 'https://www.behance.net/gallery/251900711/NeuroTwin-Product-Design-Case-Study' },
@@ -27,12 +27,12 @@ const projects = [
     title: 'SkillBridge',
     category: 'Product Design · Full Stack',
     role: 'Designer & Developer',
-    year: '2025',
+    year: '2026',
     status: 'Live',
     description: 'Peer-to-peer learning platform enabling skill exchange between professionals. I owned both the design and the React/TypeScript frontend implementation.',
     longDesc: 'SkillBridge is a live web application that lets professionals teach and learn from each other directly. I designed the complete product experience — user flows, component architecture, visual design — then implemented the entire frontend using React and TypeScript, deployed on Vercel. This project proves I can close the loop between design intent and production code.',
     tags: ['React', 'TypeScript', 'Figma', 'GitHub', 'Vercel', 'Tailwind'],
-    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1400&h=900&fit=crop&auto=format',
+    image: 'https://res.cloudinary.com/sadd5xib/image/upload/v1786792850/Screenshot_2026-08-15_165007.png',
     accent: '#8a1228',
     links: [
       { label: 'View Live Demo →', href: 'https://skill-bridge-shin7806s-projects.vercel.app/' },
@@ -43,7 +43,7 @@ const projects = [
   {
     id: 'logofolio',
     index: '03',
-    title: 'Visual Identity Collection',
+    title: 'Logofolio',
     category: 'Brand Identity · Graphic Design',
     role: 'Brand Designer',
     year: '2025',
@@ -51,7 +51,7 @@ const projects = [
     description: 'A curated collection of brand identities, logo systems, and typographic explorations. Each mark distills a brand\'s essence into its simplest, most powerful form.',
     longDesc: 'The LogoFolio 2025 Collection is a showcase of brand identity work spanning multiple clients and personal projects. Every mark was designed with a rigorous process: brand audit, visual research, conceptual exploration, and refinement. The collection demonstrates systematic thinking, typographic sensitivity, and an understanding of how marks perform across contexts — from digital to print to merchandise.',
     tags: ['Illustrator', 'Photoshop', 'Figma', 'Typography', 'Brand Systems'],
-    image: 'https://images.unsplash.com/photo-1636633762833-5d1658f1e29b?w=1400&h=900&fit=crop&auto=format',
+    image: 'https://res.cloudinary.com/sadd5xib/image/upload/v1786793108/d66d21240883105.6948ebaf4b952.webp',
     accent: '#6b0e1e',
     links: [
       { label: 'Behance Case Study →', href: 'https://www.behance.net/gallery/240883105/LogoFolio-2025-Collection-I' },
@@ -69,7 +69,7 @@ const projects = [
     description: 'Seven years of visual design — branding, typography, poster design, marketing creatives, and personal explorations. Every piece sharpened the eye.',
     longDesc: 'This is the body of work that built my visual vocabulary. Since 2019, I have consistently published design work across branding, editorial layout, poster design, motion graphics, social media templates, and personal experiments. The archive contains 70+ published pieces across client work and personal projects — a living record of growth, taste, and craft.',
     tags: ['Photoshop', 'Illustrator', 'Figma', 'Branding', 'Typography', 'Posters'],
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&h=900&fit=crop&auto=format',
+    image: 'https://res.cloudinary.com/sadd5xib/image/upload/v1786793495/1783166675679.jpg',
     accent: '#7a1a2a',
     links: [
       { label: 'View Archive on Instagram →', href: 'https://www.instagram.com/_shinchan_op/' },
@@ -278,7 +278,7 @@ function ProjectCard({ p, index }: { p: typeof projects[0]; index: number }) {
             {p.index}
           </div>
           {/* Status */}
-          <div style={{
+          <div className="hide-on-mobile-only" style={{
             position: 'absolute', top: '18px', right: '18px',
             fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 500,
             letterSpacing: '0.18em', textTransform: 'uppercase',
@@ -290,7 +290,7 @@ function ProjectCard({ p, index }: { p: typeof projects[0]; index: number }) {
             {p.status}
           </div>
           {/* Expand hint */}
-          <div style={{
+          <div className="hide-on-mobile-only" style={{
             position: 'absolute', bottom: '18px', right: '18px',
             fontFamily: 'var(--font-mono)', fontSize: '10px',
             color: 'rgba(240,232,236,0.5)',
@@ -319,7 +319,7 @@ function ProjectCard({ p, index }: { p: typeof projects[0]; index: number }) {
             {p.description}
           </p>
           {/* Tags */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '24px' }}>
+          <div className="hide-on-mobile-only" style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '24px' }}>
             {p.tags.slice(0, isFeatured ? 7 : 4).map(t => (
               <span key={t} style={{
                 fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 500,
@@ -333,10 +333,10 @@ function ProjectCard({ p, index }: { p: typeof projects[0]; index: number }) {
           </div>
           {/* Footer row */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-subtle)', letterSpacing: '0.08em' }}>
+            <span className="hide-on-mobile-only" style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-subtle)', letterSpacing: '0.08em' }}>
               {p.role} · {p.year}
             </span>
-            <div style={{ display: 'flex', gap: '8px' }}>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               <button
                 onClick={() => setOpen(true)}
                 style={{
@@ -385,7 +385,7 @@ export default function SelectedWork() {
 
   return (
     <section id="work" aria-label="Selected Work" style={{ padding: '128px 0' }}>
-      <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 40px' }}>
+      <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 var(--pad-x)' }}>
         {/* Header */}
         <header
           ref={ref as React.RefObject<HTMLElement>}

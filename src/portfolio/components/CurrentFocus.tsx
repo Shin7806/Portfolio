@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useInView } from '../hooks/useInView'
 
 const focusItems = [
@@ -106,6 +107,7 @@ function FocusCard({ f, index }: { f: typeof focusItems[0]; index: number }) {
 
 export default function CurrentFocus() {
   const { ref, inView } = useInView()
+  const [activeGroup, setActiveGroup] = useState(0)
 
   return (
     <section
@@ -113,9 +115,10 @@ export default function CurrentFocus() {
       aria-label="Current Focus"
       style={{ padding: '120px 0', background: 'var(--bg-deep)' }}
     >
-      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 32px' }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 var(--pad-x)' }}>
         {/* Header */}
         <div
+          className="two-col"
           ref={ref as React.RefObject<HTMLDivElement>}
           style={{
             display: 'grid',
@@ -170,8 +173,8 @@ export default function CurrentFocus() {
           </p>
         </div>
 
-        {/* Cards */}
-        <div style={{
+        {/* Desktop Cards */}
+        <div className="two-col hide-on-mobile" style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(2, 1fr)',
           gap: '20px',
@@ -181,10 +184,131 @@ export default function CurrentFocus() {
           ))}
         </div>
 
+        {/* Mobile Accordion */}
+        <div className="hide-on-desktop" style={{ display: 'flex', flexDirection: 'column' }}>
+          {focusItems.map((f, i) => {
+            const isOpen = activeGroup === i
+            return (
+              <div
+                key={f.label}
+                style={{
+                  borderBottom: '1px solid',
+                  borderColor: isOpen ? 'var(--crimson-border)' : 'var(--glass-border)',
+                  background: isOpen ? 'var(--bg-elevated)' : 'transparent',
+                  transition: 'all 0.3s var(--ease-out)',
+                }}
+              >
+                <button
+                  aria-expanded={isOpen}
+                  onClick={() => setActiveGroup(i)}
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '20px 16px',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: 'var(--text-display)',
+                    textAlign: 'left',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
+                    <span style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: '18px',
+                      color: isOpen ? 'var(--crimson)' : 'rgba(196,30,58,0.4)',
+                      lineHeight: 1,
+                      marginTop: '2px',
+                      transition: 'color 0.3s',
+                    }} aria-hidden="true">
+                      {f.icon}
+                    </span>
+                    <div>
+                      <div style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '11px',
+                        letterSpacing: '0.15em',
+                        textTransform: 'uppercase',
+                        color: isOpen ? 'var(--crimson)' : 'var(--text-subtle)',
+                        fontWeight: 500,
+                        transition: 'color 0.3s',
+                        marginBottom: isOpen ? '0' : '4px',
+                      }}>
+                        {f.label}
+                      </div>
+                      {!isOpen && (
+                        <div style={{
+                          fontFamily: 'var(--font-body)',
+                          fontSize: '13px',
+                          color: 'var(--text-muted)',
+                          lineHeight: 1.4,
+                        }}>
+                          {f.items.find(item => item.active)?.text || `${f.items.length} items`}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <span style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '16px',
+                    color: isOpen ? 'var(--crimson)' : 'var(--text-subtle)',
+                    transition: 'all 0.3s',
+                    transform: isOpen ? 'rotate(180deg)' : 'none',
+                  }}>
+                    {isOpen ? '−' : '+'}
+                  </span>
+                </button>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateRows: isOpen ? '1fr' : '0fr',
+                    transition: 'grid-template-rows 0.3s var(--ease-out)',
+                  }}
+                >
+                  <div style={{ overflow: 'hidden' }}>
+                    <ul style={{ 
+                      listStyle: 'none', 
+                      display: 'flex', 
+                      flexDirection: 'column', 
+                      gap: '16px',
+                      padding: '0 16px 24px',
+                    }}>
+                      {f.items.map((item, j) => (
+                        <li key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                          <span style={{
+                            width: '6px',
+                            height: '6px',
+                            borderRadius: '50%',
+                            background: item.active ? 'var(--crimson)' : 'var(--text-subtle)',
+                            marginTop: '6px',
+                            flexShrink: 0,
+                            boxShadow: item.active ? '0 0 8px var(--crimson-glow)' : 'none',
+                            animation: item.active ? 'glow-pulse 2.5s ease-in-out infinite' : 'none',
+                          }} aria-hidden="true" />
+                          <span style={{
+                            fontFamily: 'var(--font-body)',
+                            fontSize: '14px',
+                            color: item.active ? 'var(--text-body)' : 'var(--text-muted)',
+                            lineHeight: 1.5,
+                          }}>
+                            {item.text}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
         {/* Availability status */}
         <div style={{
           marginTop: '48px',
-          padding: '32px 40px',
+          padding: '32px var(--pad-x)',
           border: '1px solid rgba(34,197,94,0.15)',
           borderRadius: '6px',
           background: 'rgba(34,197,94,0.04)',

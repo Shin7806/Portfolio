@@ -35,6 +35,27 @@ export default function Nav() {
     return () => obs.disconnect();
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && menuOpen) {
+        setMenuOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [menuOpen]);
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
   const handleNav = (href: string) => {
     setMenuOpen(false);
     document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
@@ -61,7 +82,7 @@ export default function Nav() {
         style={{
           maxWidth: "1320px",
           margin: "0 auto",
-          padding: "0 40px",
+          padding: "0 var(--pad-x)",
           height: "64px",
           display: "flex",
           alignItems: "center",
@@ -108,7 +129,7 @@ export default function Nav() {
             gap: "36px",
             listStyle: "none",
           }}
-          className="hidden md:flex"
+          className="nav-desktop"
         >
           {links.map((l) => (
             <li key={l.href}>
@@ -161,7 +182,7 @@ export default function Nav() {
         {/* Resume */}
         <Link
           to="/resume"
-          className="hidden md:inline-flex"
+          className="nav-desktop-inline"
           style={{
             fontFamily: "var(--font-mono)",
             fontSize: "10px",
@@ -194,7 +215,7 @@ export default function Nav() {
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
           onClick={() => setMenuOpen((v) => !v)}
-          className="md:hidden"
+          className="nav-mobile-btn"
           style={{
             background: "none",
             border: "none",
@@ -238,13 +259,20 @@ export default function Nav() {
       {menuOpen && (
         <div
           id="mobile-menu"
-          className="md:hidden"
+          className="nav-mobile-menu"
           style={{
+            position: "fixed",
+            top: "64px",
+            left: 0,
+            right: 0,
+            bottom: 0,
             background: "rgba(7,5,10,0.97)",
             backdropFilter: "blur(28px)",
             borderTop: "1px solid var(--crimson-border)",
-            padding: "24px 40px 32px",
+            padding: "32px var(--pad-x, 40px) 120px",
             animation: "fade-in 0.22s var(--ease-out)",
+            overflowY: "auto",
+            zIndex: 99,
           }}
         >
           <ul
@@ -282,6 +310,7 @@ export default function Nav() {
           </ul>
           <Link
             to="/resume"
+            onClick={() => setMenuOpen(false)}
             style={{
               fontFamily: "var(--font-mono)",
               fontSize: "10px",

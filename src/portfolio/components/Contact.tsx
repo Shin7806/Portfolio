@@ -23,7 +23,7 @@ export default function Contact() {
 
   return (
     <section id="contact" aria-label="Contact" style={{ padding: '128px 0' }}>
-      <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 40px' }}>
+      <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 var(--pad-x)' }}>
         {/* Header */}
         <div
           ref={ref as React.RefObject<HTMLDivElement>}
@@ -65,6 +65,7 @@ export default function Contact() {
                 textDecoration: 'none', letterSpacing: '-0.01em',
                 borderBottom: '1px solid var(--crimson-border)',
                 paddingBottom: '3px', transition: 'all 0.22s',
+                wordBreak: 'break-all', textAlign: 'center',
               }}
               onMouseEnter={e => { e.currentTarget.style.color = 'var(--crimson)'; e.currentTarget.style.borderColor = 'var(--crimson)' }}
               onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-display)'; e.currentTarget.style.borderColor = 'var(--crimson-border)' }}

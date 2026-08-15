@@ -9,7 +9,7 @@ export default function Footer() {
       <div
         className="footer-inner"
         style={{
-          maxWidth: '1320px', margin: '0 auto', padding: '0 40px',
+          maxWidth: '1320px', margin: '0 auto', padding: '0 var(--pad-x)',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           flexWrap: 'wrap', gap: '16px',
         }}
