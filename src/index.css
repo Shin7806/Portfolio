@@ -1,0 +1,338 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@import 'tailwindcss';
+
+/* ── Portfolio Tailwind theme tokens ── */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) + 8px);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* ── Portfolio CSS variables (GLOBAL — applies to /, NOT to .resume-app) ── */
+:root {
+  /* Core palette */
+  --background:        #07050a;
+  --foreground:        #f0e8ec;
+  --card:              #0f0b10;
+  --card-foreground:   #f0e8ec;
+  --primary:           #c01f3a;
+  --primary-foreground:#fdf0f3;
+  --secondary:         #180f14;
+  --secondary-foreground:#c4aab0;
+  --muted:             #180f14;
+  --muted-foreground:  #6a5460;
+  --accent:            #c01f3a;
+  --accent-foreground: #fdf0f3;
+  --border:            rgba(192,31,58,0.14);
+  --ring:              rgba(192,31,58,0.5);
+  --radius:            6px;
+
+  /* Extended brand tokens */
+  --crimson:           #c01f3a;
+  --crimson-bright:    #e82040;
+  --crimson-deep:      #8a1228;
+  --crimson-soft:      rgba(192,31,58,0.09);
+  --crimson-glow:      rgba(192,31,58,0.28);
+  --crimson-border:    rgba(192,31,58,0.22);
+
+  /* Glass / blur */
+  --glass-bg:          rgba(12,8,14,0.72);
+  --glass-border:      rgba(240,232,236,0.055);
+
+  /* Text hierarchy */
+  --text-display:      #faf5f8;
+  --text-body:         #cbbec5;
+  --text-muted:        #6a5460;
+  --text-subtle:       #3a2a32;
+
+  /* Backgrounds */
+  --bg-elevated:       #120d14;
+  --bg-deep:           #050308;
+  --bg-section-alt:    #0b0810;
+
+  /* Shadows */
+  --shadow-card:       0 4px 24px rgba(0,0,0,0.5);
+  --shadow-hover:      0 24px 56px rgba(0,0,0,0.65), 0 0 48px rgba(192,31,58,0.07);
+  --shadow-crimson:    0 0 80px rgba(192,31,58,0.18);
+
+  /* Easing */
+  --ease-out:          cubic-bezier(0.25,0.46,0.45,0.94);
+  --ease-in-out:       cubic-bezier(0.37,0,0.63,1);
+  --ease-spring:       cubic-bezier(0.34,1.56,0.64,1);
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--background);
+  color: var(--foreground);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--crimson-deep); border-radius: 99px; }
+
+/* ── Selection ── */
+::selection { background: rgba(192,31,58,0.3); color: #fdf0f3; }
+
+/* ── Focus ── */
+:focus-visible { outline: 2px solid var(--crimson); outline-offset: 3px; border-radius: 3px; }
+
+/* ── Font helpers ── */
+.font-display { font-family: var(--font-display); }
+.font-mono    { font-family: var(--font-mono); }
+
+/* ── Noise overlay (film-grain atmosphere) ── */
+.noise-layer {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+}
+
+/* ── Animated page background ── */
+.page-bg {
+  background:
+    radial-gradient(ellipse 72% 60% at 10% 0%,   rgba(192,31,58,0.11) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 50% at 90% 85%,  rgba(120,14,38,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 70% at 55% 50%,  rgba(7,5,10,0.9)    0%, transparent 100%),
+    var(--background);
+}
+
+/* ── Glass card ── */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+}
+
+/* ── Scroll reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.72s var(--ease-out), transform 0.72s var(--ease-out);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+.reveal-x {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out);
+}
+.reveal-x.in { opacity: 1; transform: translateX(0); }
+
+/* Stagger helpers */
+.d1 { transition-delay: 0.08s !important; }
+.d2 { transition-delay: 0.16s !important; }
+.d3 { transition-delay: 0.24s !important; }
+.d4 { transition-delay: 0.32s !important; }
+.d5 { transition-delay: 0.40s !important; }
+.d6 { transition-delay: 0.48s !important; }
+
+/* ── Keyframes ── */
+@keyframes glow-pulse {
+  0%,100% { opacity: 0.45; transform: scale(1); }
+  50%      { opacity: 0.75; transform: scale(1.06); }
+}
+@keyframes glow-pulse-sm {
+  0%,100% { box-shadow: 0 0 8px rgba(192,31,58,0.4); }
+  50%      { box-shadow: 0 0 18px rgba(192,31,58,0.8); }
+}
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ── Marquee strip ── */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+.marquee-wrap { overflow: hidden; }
+.marquee-wrap:hover .marquee-track { animation-play-state: paused; }
+
+/* ── Section utilities ── */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--crimson);
+  display: block;
+}
+.section-rule {
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--crimson), transparent);
+  display: block;
+  margin-bottom: 20px;
+}
+
+/* ── Modal overlay ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(7,5,10,0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fade-in 0.25s var(--ease-out);
+}
+.modal-box {
+  background: #0f0b10;
+  border: 1px solid var(--crimson-border);
+  border-radius: 10px;
+  max-width: 860px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: scale-in 0.28s var(--ease-spring);
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:   0.01ms !important;
+    transition-duration:  0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+  .marquee-track { animation: none !important; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+  .hero-grid   { grid-template-columns: 1fr !important; }
+  .stat-aside  { display: none !important; }
+  .two-col     { grid-template-columns: 1fr !important; }
+  .three-col   { grid-template-columns: repeat(2, 1fr) !important; }
+  .proc-grid   { grid-template-columns: 1fr !important; }
+  .proc-nav    { position: static !important; top: auto !important; }
+}
+
+@media (max-width: 768px) {
+  .three-col   { grid-template-columns: 1fr !important; }
+  .work-grid   { grid-template-columns: 1fr !important; }
+  .gallery-grid{ grid-template-columns: repeat(2, 1fr) !important; }
+  .gallery-wide{ grid-column: span 1 !important; }
+  .social-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .timeline-mirror { grid-template-columns: 20px 1fr !important; }
+  .tl-left  { display: none !important; }
+  .contact-stats { gap: 20px !important; }
+  .footer-inner  { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
+}
+
+@media (max-width: 480px) {
+  .gallery-grid { grid-template-columns: 1fr !important; }
+  .social-grid  { grid-template-columns: 1fr !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESUME APP ISOLATION
+   All resume styles are scoped to .resume-app so they never affect the
+   portfolio. The portfolio's :root dark tokens remain the global default.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.resume-app {
+  /* Override portfolio dark tokens with resume's light tokens */
+  --background: #FAFAFA;
+  --foreground: #181818;
+  --card: #FFFFFF;
+  --card-foreground: #181818;
+  --primary: #181818;
+  --primary-foreground: #FAFAFA;
+  --secondary: #F4F4F4;
+  --secondary-foreground: #181818;
+  --muted: #F4F4F4;
+  --muted-foreground: #666666;
+  --accent: #303030;
+  --accent-foreground: #FAFAFA;
+  --border: #E5E5E5;
+  --ring: oklch(0.708 0 0);
+  --radius: 0.625rem;
+
+  /* Resume-specific typography — Inter only */
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  /* Override portfolio body background/color for resume route */
+  background: #FAFAFA;
+  color: #181818;
+  min-height: 100vh;
+
+  /* Prevent portfolio scrollbar styling leaking into resume */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Resume print styles — must not interfere with portfolio print */
+@media print {
+  .resume-app .no-print { display: none !important; }
+  body { background: white !important; margin: 0 !important; padding: 0 !important; }
+  .resume-app #resume {
+    width: 210mm !important;
+    min-height: 297mm !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+  }
+  @page { size: A4; margin: 0; }
+}
