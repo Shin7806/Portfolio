@@ -241,6 +241,45 @@ body {
   flex-shrink: 0;
 }
 
+/* ── Creative Archive Showcase ── */
+@keyframes ribbonMoveLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes ribbonMoveRight {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.ribbon-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.ribbon-lane {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+/* Pausing the ribbon locally */
+.ribbon-lane:hover .ribbon-track,
+.ribbon-lane:focus-within .ribbon-track {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ribbon-track {
+    animation: none !important;
+    transform: none !important;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 /* ── Modal overlay ── */
 .modal-overlay {
   position: fixed;
