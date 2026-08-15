@@ -296,15 +296,18 @@ function ShowcaseCard({ w, isDuplicate = false, cardWidth }: { w: Work; isDuplic
   )
 }
 
-function RibbonLane({ worksSubset, direction, duration, scale, opacity, cardWidth }: { worksSubset: Work[]; direction: 'left' | 'right'; duration: string; scale: number; opacity: number; cardWidth: string }) {
+function RibbonLane({ worksSubset, direction, duration, scale, opacity, cardWidth, height, leftOffset }: { worksSubset: Work[]; direction: 'left' | 'right'; duration: string; scale: number; opacity: number; cardWidth: string; height: string; leftOffset: string }) {
   return (
-    <div className="ribbon-lane" style={{ opacity, transform: `scale(${scale})` }}>
+    <div className="ribbon-lane" style={{ opacity, transform: `scale(${scale})`, height }}>
       <div
         className="ribbon-track"
         style={{
           animation: `ribbonMove${direction === 'left' ? 'Left' : 'Right'} ${duration} linear infinite`,
           gap: '32px',
           paddingRight: '32px',
+          position: 'relative',
+          left: leftOffset,
+          height: '100%',
         }}
       >
         {worksSubset.map(w => <ShowcaseCard key={`orig-${w.id}`} w={w} cardWidth={cardWidth} />)}
@@ -334,17 +337,19 @@ function ShowcaseRibbons({ showcaseWorks }: { showcaseWorks: Work[] }) {
         transform: inView ? 'translateY(0)' : 'translateY(24px)',
         transition: 'all 0.7s var(--ease-out)',
         marginTop: '24px',
+        overflow: 'hidden',
+        padding: '60px 0',
       }}
     >
       <div className="hide-on-mobile-only" style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-        <RibbonLane worksSubset={lane1} direction="left" duration="40s" scale={1} opacity={1} cardWidth="380px" />
-        <RibbonLane worksSubset={lane2} direction="right" duration="45s" scale={0.96} opacity={0.88} cardWidth="380px" />
-        <RibbonLane worksSubset={lane3} direction="left" duration="50s" scale={0.93} opacity={0.72} cardWidth="380px" />
+        <RibbonLane worksSubset={lane1} direction="left" duration="40s" scale={1} opacity={1} cardWidth="360px" height="260px" leftOffset="0px" />
+        <RibbonLane worksSubset={lane2} direction="right" duration="45s" scale={0.96} opacity={0.88} cardWidth="360px" height="260px" leftOffset="-110px" />
+        <RibbonLane worksSubset={lane3} direction="left" duration="50s" scale={0.93} opacity={0.72} cardWidth="360px" height="260px" leftOffset="-50px" />
       </div>
 
       <div className="show-on-mobile-only" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-        <RibbonLane worksSubset={mobLane1} direction="left" duration="45s" scale={1} opacity={1} cardWidth="80vw" />
-        <RibbonLane worksSubset={mobLane2} direction="right" duration="50s" scale={0.96} opacity={0.88} cardWidth="80vw" />
+        <RibbonLane worksSubset={mobLane1} direction="left" duration="45s" scale={1} opacity={1} cardWidth="78vw" height="280px" leftOffset="0px" />
+        <RibbonLane worksSubset={mobLane2} direction="right" duration="50s" scale={0.96} opacity={0.88} cardWidth="78vw" height="280px" leftOffset="-60px" />
       </div>
     </div>
   )

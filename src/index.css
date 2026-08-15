@@ -261,8 +261,9 @@ body {
 .ribbon-lane {
   position: relative;
   width: 100%;
-  overflow: hidden;
-  margin-bottom: 24px;
+  overflow: visible;
+  border-top: 1px solid rgba(255,255,255,0.035);
+  border-bottom: 1px solid rgba(255,255,255,0.035);
 }
 
 /* Pausing the ribbon locally */

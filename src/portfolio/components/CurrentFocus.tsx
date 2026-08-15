@@ -33,7 +33,7 @@ const focusItems = [
     label: 'Reading Now',
     icon: '◈',
     items: [
-      { text: 'The Shape of Design — Frank Chimero', active: true },
+      { text: 'The Design of Everyday Things — Don Norman', active: true },
       { text: 'Refactoring UI — Adam Wathan & Steve Schoger', active: false },
       { text: 'A Philosophy of Software Design — John Ousterhout', active: false },
     ],
