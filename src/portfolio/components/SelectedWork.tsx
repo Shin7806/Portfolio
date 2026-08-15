@@ -246,72 +246,97 @@ function ProjectModal({ p, onClose }: { p: Project; onClose: () => void }) {
   )
 }
 
+/** How many layers of the stack are ever drawn: the active card plus two quiet previews behind it. */
+const MAX_VISIBLE_LAYERS = 3
+
 /**
- * Left-hand visual stage: four projects rendered as a deterministic layered stack.
- * Depth (position/scale/opacity/z-index) is derived purely from `activeProject`,
- * so there is exactly one source of truth for the whole interaction.
+ * Left-hand visual stage: a purely decorative stack of preview cards.
+ * The active project (depth 0) is rendered crystal clear. The two cards
+ * behind it peek out as short, increasingly blurred slivers — each step
+ * back drops ~20% opacity and gains blur, so depth reads at a glance.
+ * A would-be 4th layer is simply never rendered rather than faked in.
+ * This stage is decorative only: it never drives selection, so hovering
+ * or focusing a preview here does nothing.
  */
 function ProjectStack({
   activeProject,
-  setActiveProject,
   isMobile,
   reduceMotion,
 }: {
   activeProject: number
-  setActiveProject: (i: number) => void
   isMobile: boolean
   reduceMotion: boolean
 }) {
-  const stageHeight = isMobile ? 320 : 480
   const cardHeight = isMobile ? 240 : 400
-  const stepY = isMobile ? 12 : 18
-  const stepScale = 0.03
-  const stepOpacity = 0.15
+  const peekStep = isMobile ? 16 : 30
+  const stageHeight = cardHeight + peekStep * (MAX_VISIBLE_LAYERS - 1) + 10
 
   return (
     <div
       className="selected-stack-stage"
       style={{ height: stageHeight }}
-      aria-label="Project stack — hover or focus a card to bring it forward"
+      aria-hidden="true"
     >
       {projects.map((p, i) => {
         const depth = relativeDepth(i, activeProject, projects.length)
-        const isActive = depth === 0
-        const translateY = reduceMotion ? 0 : depth * stepY
-        const scale = reduceMotion ? 1 : Math.max(0.85, 1 - depth * stepScale)
-        const opacity = Math.max(0.4, 1 - depth * stepOpacity)
-        const zIndex = projects.length - depth
+        if (depth >= MAX_VISIBLE_LAYERS) return null
 
-        return (
-          <button
-            key={p.id}
-            type="button"
-            className={`selected-stack-card${isActive ? ' is-active' : ''}`}
-            style={{
-              height: cardHeight,
-              transform: `translateY(${translateY}px) scale(${scale})`,
-              opacity,
-              zIndex,
-            }}
-            aria-pressed={isActive}
-            aria-label={`Bring ${p.title} to the front`}
-            aria-controls="selected-active-panel"
-            onMouseEnter={() => setActiveProject(i)}
-            onFocus={() => setActiveProject(i)}
-            onClick={() => setActiveProject(i)}
-          >
+        const isActive = depth === 0
+        const translateY = reduceMotion ? 0 : depth * peekStep
+        const scale = reduceMotion ? 1 : 1 - depth * 0.035
+        const opacity = isActive ? 1 : Math.max(0.3, 1 - depth * 0.2)
+        const blurPx = reduceMotion ? 0 : depth * 5
+        const zIndex = MAX_VISIBLE_LAYERS - depth
+
+        const cardStyle = {
+          height: cardHeight,
+          transform: `translateY(${translateY}px) scale(${scale})`,
+          opacity,
+          zIndex,
+        }
+        const cardContent = (
+          <>
             <img
               src={p.image}
               alt=""
               loading={i === 0 ? 'eager' : 'lazy'}
               style={{
-                filter: isActive ? 'saturate(0.85) brightness(0.78)' : 'saturate(0.45) brightness(0.4)',
+                filter: isActive
+                  ? 'none'
+                  : `blur(${blurPx}px) saturate(0.55) brightness(0.5)`,
               }}
             />
-            <span className="selected-stack-card-gradient" aria-hidden="true" />
-            <span className="selected-stack-index">{p.index}</span>
-            <span className="selected-stack-category">{p.category}</span>
-          </button>
+            {isActive && (
+              <>
+                <span className="selected-stack-card-gradient" aria-hidden="true" />
+                <span className="selected-stack-index">{p.index}</span>
+                <span className="selected-stack-category">{p.category}</span>
+              </>
+            )}
+          </>
+        )
+
+        // Only the front card is a real target — it's the one people can
+        // actually see clearly and will naturally try clicking. The
+        // blurred previews behind it stay decorative and inert. Tabbing
+        // is handled by the project list, not this visual stage, so the
+        // link is skipped from keyboard focus here to avoid a duplicate stop.
+        return isActive ? (
+          <a
+            key={p.id}
+            href={p.links[0].href}
+            target="_blank"
+            rel="noopener noreferrer"
+            tabIndex={-1}
+            className="selected-stack-card is-active"
+            style={cardStyle}
+          >
+            {cardContent}
+          </a>
+        ) : (
+          <div key={p.id} className="selected-stack-card" style={cardStyle}>
+            {cardContent}
+          </div>
         )
       })}
     </div>
@@ -370,62 +395,66 @@ export default function SelectedWork() {
         <div className="selected-work-layout">
           <ProjectStack
             activeProject={activeProject}
-            setActiveProject={setActiveProject}
             isMobile={isMobile}
             reduceMotion={reduceMotion}
           />
 
-          <div className="selected-info-panel">
-            {/* Secondary interaction surface: hovering/focusing a title also activates that project */}
-            <div className="selected-project-tabs" role="tablist" aria-label="Select a project">
-              {projects.map((p, i) => (
-                <button
-                  key={p.id}
-                  type="button"
-                  role="tab"
-                  id={`selected-tab-${p.id}`}
-                  aria-selected={activeProject === i}
-                  aria-controls="selected-active-panel"
-                  className={`selected-project-tab${activeProject === i ? ' is-active' : ''}`}
-                  onMouseEnter={() => setActiveProject(i)}
-                  onFocus={() => setActiveProject(i)}
-                  onClick={() => setActiveProject(i)}
-                >
-                  <span className="tab-index">{p.index}</span>
-                  <span className="tab-title">{p.title}</span>
-                </button>
-              ))}
-            </div>
+          {/* Accordion list: the selected project's context expands inline,
+              directly beneath its own title, instead of in a separate panel. */}
+          <div className="selected-project-tabs" role="tablist" aria-label="Select a project">
+            {projects.map((p, i) => {
+              const isActive = activeProject === i
+              return (
+                <div className="selected-project-row" key={p.id}>
+                  <button
+                    type="button"
+                    role="tab"
+                    id={`selected-tab-${p.id}`}
+                    aria-selected={isActive}
+                    aria-controls={`selected-panel-${p.id}`}
+                    className={`selected-project-tab${isActive ? ' is-active' : ''}`}
+                    onMouseEnter={() => setActiveProject(i)}
+                    onFocus={() => setActiveProject(i)}
+                    onClick={() => setActiveProject(i)}
+                  >
+                    <span className="tab-index">{p.index}</span>
+                    <span className="tab-title">{p.title}</span>
+                  </button>
 
-            {/* Active project's information — only this block changes when selection changes */}
-            <div
-              key={active.id}
-              className="selected-project-detail"
-              id="selected-active-panel"
-              role="tabpanel"
-              aria-labelledby={`selected-tab-${active.id}`}
-            >
-              <div className="detail-category">{active.category}</div>
-              <h3 className="detail-title">{active.title}</h3>
-              <p className="detail-desc">{active.description}</p>
-              <div className="detail-actions">
-                <button
-                  type="button"
-                  onClick={() => setModalOpen(true)}
-                  className="detail-btn detail-btn--ghost"
-                  aria-label={`View ${active.title} details`}
-                >
-                  Details
-                </button>
-                <a
-                  href={active.links[0].href}
-                  target="_blank" rel="noopener noreferrer"
-                  className="detail-btn detail-btn--filled"
-                >
-                  View ↗
-                </a>
-              </div>
-            </div>
+                  <div
+                    id={`selected-panel-${p.id}`}
+                    role="tabpanel"
+                    aria-labelledby={`selected-tab-${p.id}`}
+                    aria-hidden={!isActive}
+                    className={`selected-project-detail${isActive ? ' is-open' : ''}`}
+                  >
+                    <div className="selected-project-detail-inner">
+                      <div className="detail-category">{p.category}</div>
+                      <p className="detail-desc">{p.description}</p>
+                      <div className="detail-actions">
+                        <button
+                          type="button"
+                          tabIndex={isActive ? 0 : -1}
+                          onClick={() => { setActiveProject(i); setModalOpen(true) }}
+                          className="detail-btn detail-btn--ghost"
+                          aria-label={`View ${p.title} details`}
+                        >
+                          Details
+                        </button>
+                        <a
+                          href={p.links[0].href}
+                          target="_blank" rel="noopener noreferrer"
+                          tabIndex={isActive ? 0 : -1}
+                          className="detail-btn detail-btn--filled"
+                        >
+                          View ↗
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>
