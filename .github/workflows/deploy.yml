@@ -10,6 +10,7 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
@@ -17,13 +18,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: npm install
 
       - name: Build
-        run: npm run build
+        run: node node_modules/vite/bin/vite.js build
 
       - name: Copy index.html to 404.html (SPA fallback for GitHub Pages)
         run: cp dist/index.html dist/404.html
