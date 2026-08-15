@@ -7,26 +7,26 @@ const focusItems = [
     icon: '⬡',
     items: [
       { text: 'Personal portfolio website (this one)', active: true },
+      { text: 'Figma component library for personal projects', active: true },
       { text: 'NeuroTwin v2 — expanded interaction model', active: false },
-      { text: 'Figma component library for personal projects', active: false },
     ],
   },
   {
-    label: 'Currently Learning',
-    icon: '◎',
-    items: [
-      { text: 'Advanced Framer Motion — spring physics & layout animations', active: true },
-      { text: 'Design systems at scale — Linear, Vercel patterns', active: false },
-      { text: 'TypeScript generics & advanced patterns', active: false },
-    ],
-  },
+  label: 'Currently Learning',
+  icon: '◎',
+  items: [
+    { text: 'Studying product design through Mizko’s YouTube content', active: true },
+    { text: 'Taking a Product Design course on Coursera', active: true },
+    { text: 'Learning to overthink less — apparently even designers need a UX audit', active: false },
+  ],
+},
   {
     label: 'Current Goals',
     icon: '→',
     items: [
       { text: 'Land a full-time Product Designer role at a product company', active: true },
-      { text: 'Ship 3 more open-source design explorations', active: false },
-      { text: 'Publish a design process article on Medium', active: false },
+      { text: 'Building online presence on LinkedIn', active: true },
+      { text: 'Publish 2 more case studies (including this one)', active: false },
     ],
   },
   {
@@ -35,7 +35,7 @@ const focusItems = [
     items: [
       { text: 'The Design of Everyday Things — Don Norman', active: true },
       { text: 'Refactoring UI — Adam Wathan & Steve Schoger', active: false },
-      { text: 'A Philosophy of Software Design — John Ousterhout', active: false },
+      { text: 'Decode and Conquer — Lewis C. Lin', active: false },
     ],
   },
 ]
