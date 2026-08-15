@@ -78,7 +78,29 @@ const projects = [
   },
 ]
 
-function ProjectModal({ p, onClose }: { p: typeof projects[0]; onClose: () => void }) {
+type Project = typeof projects[0]
+
+/** Tracks a media query (used for the mobile breakpoint and prefers-reduced-motion). */
+function useMediaQuery(query: string): boolean {
+  const [matches, setMatches] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia(query).matches : false
+  )
+  useEffect(() => {
+    const mql = window.matchMedia(query)
+    const onChange = () => setMatches(mql.matches)
+    onChange()
+    mql.addEventListener('change', onChange)
+    return () => mql.removeEventListener('change', onChange)
+  }, [query])
+  return matches
+}
+
+/** depth 0 = frontmost/active, increasing depth = further back in the stack. Deterministic, no randomness. */
+function relativeDepth(index: number, active: number, total: number) {
+  return (index - active + total) % total
+}
+
+function ProjectModal({ p, onClose }: { p: Project; onClose: () => void }) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -224,164 +246,86 @@ function ProjectModal({ p, onClose }: { p: typeof projects[0]; onClose: () => vo
   )
 }
 
-function ProjectCard({ p, index }: { p: typeof projects[0]; index: number }) {
-  const [hovered, setHovered] = useState(false)
-  const [open,    setOpen]    = useState(false)
-  const { ref, inView } = useInView(0.08)
-
-  const isFeatured = p.featured
+/**
+ * Left-hand visual stage: four projects rendered as a deterministic layered stack.
+ * Depth (position/scale/opacity/z-index) is derived purely from `activeProject`,
+ * so there is exactly one source of truth for the whole interaction.
+ */
+function ProjectStack({
+  activeProject,
+  setActiveProject,
+  isMobile,
+  reduceMotion,
+}: {
+  activeProject: number
+  setActiveProject: (i: number) => void
+  isMobile: boolean
+  reduceMotion: boolean
+}) {
+  const stageHeight = isMobile ? 320 : 480
+  const cardHeight = isMobile ? 240 : 400
+  const stepY = isMobile ? 12 : 18
+  const stepScale = 0.03
+  const stepOpacity = 0.15
 
   return (
-    <>
-      {open && <ProjectModal p={p} onClose={() => setOpen(false)} />}
-      <article
-        ref={ref as React.RefObject<HTMLElement>}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        style={{
-          gridColumn: isFeatured ? 'span 2' : 'span 1',
-          background: 'var(--card)',
-          border: `1px solid ${hovered ? 'rgba(192,31,58,0.28)' : 'var(--glass-border)'}`,
-          borderRadius: '8px', overflow: 'hidden',
-          opacity: inView ? 1 : 0,
-          transform: inView ? 'translateY(0)' : 'translateY(32px)',
-          transition: `opacity 0.7s var(--ease-out) ${index * 0.1}s, transform 0.7s var(--ease-out) ${index * 0.1}s, border-color 0.3s, box-shadow 0.3s`,
-          boxShadow: hovered ? 'var(--shadow-hover)' : 'var(--shadow-card)',
-        }}
-        className="work-grid"
-      >
-        {/* Image */}
-        <div style={{ position: 'relative', overflow: 'hidden', height: isFeatured ? '460px' : '260px', background: '#0d0a0e' }}>
-          <img
-            src={p.image}
-            alt={`${p.title} project preview`}
-            loading="lazy"
-            style={{
-              width: '100%', height: '100%', objectFit: 'cover',
-              filter: `saturate(${hovered ? 0.8 : 0.55}) brightness(${hovered ? 0.55 : 0.52})`,
-              transform: hovered ? 'scale(1.04)' : 'scale(1)',
-              transition: 'transform 0.65s var(--ease-out), filter 0.5s',
-            }}
-          />
-          {/* Gradient overlay */}
-          <div style={{
-            position: 'absolute', inset: 0,
-            background: 'linear-gradient(to bottom, rgba(7,5,10,0) 25%, rgba(7,5,10,0.88) 100%)',
-            transition: 'background 0.4s',
-          }} />
-          {/* Crimson base tint on hover */}
-          {hovered && (
-            <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(to top, ${p.accent}16, transparent)`, pointerEvents: 'none' }} />
-          )}
-          {/* Index */}
-          <div style={{ position: 'absolute', top: '18px', left: '18px', fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.18em', color: 'rgba(240,232,236,0.3)' }}>
-            {p.index}
-          </div>
-          {/* Status */}
-          <div className="hide-on-mobile-only" style={{
-            position: 'absolute', top: '18px', right: '18px',
-            fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 500,
-            letterSpacing: '0.18em', textTransform: 'uppercase',
-            color: p.featured ? 'var(--crimson)' : 'rgba(240,232,236,0.4)',
-            border: `1px solid ${p.featured ? 'var(--crimson-border)' : 'rgba(240,232,236,0.1)'}`,
-            background: p.featured ? 'var(--crimson-soft)' : 'transparent',
-            borderRadius: '99px', padding: '4px 10px',
-          }}>
-            {p.status}
-          </div>
-          {/* Expand hint */}
-          <div className="hide-on-mobile-only" style={{
-            position: 'absolute', bottom: '18px', right: '18px',
-            fontFamily: 'var(--font-mono)', fontSize: '10px',
-            color: 'rgba(240,232,236,0.5)',
-            opacity: hovered ? 1 : 0,
-            transform: hovered ? 'translateY(0)' : 'translateY(6px)',
-            transition: 'all 0.3s',
-          }}>
-            Click to expand ↗
-          </div>
-        </div>
+    <div
+      className="selected-stack-stage"
+      style={{ height: stageHeight }}
+      aria-label="Project stack — hover or focus a card to bring it forward"
+    >
+      {projects.map((p, i) => {
+        const depth = relativeDepth(i, activeProject, projects.length)
+        const isActive = depth === 0
+        const translateY = reduceMotion ? 0 : depth * stepY
+        const scale = reduceMotion ? 1 : Math.max(0.85, 1 - depth * stepScale)
+        const opacity = Math.max(0.4, 1 - depth * stepOpacity)
+        const zIndex = projects.length - depth
 
-        {/* Content */}
-        <div style={{ padding: isFeatured ? '36px' : '24px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--crimson)', marginBottom: '10px' }}>
-            {p.category}
-          </div>
-          <h3 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: isFeatured ? 'clamp(26px, 3vw, 38px)' : '22px',
-            fontWeight: 700, color: 'var(--text-display)',
-            letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '14px',
-          }}>
-            {p.title}
-          </h3>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', lineHeight: 1.75, color: 'var(--text-muted)', maxWidth: isFeatured ? '560px' : '100%', marginBottom: '20px' }}>
-            {p.description}
-          </p>
-          {/* Tags */}
-          <div className="hide-on-mobile-only" style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '24px' }}>
-            {p.tags.slice(0, isFeatured ? 7 : 4).map(t => (
-              <span key={t} style={{
-                fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 500,
-                letterSpacing: '0.12em', textTransform: 'uppercase',
-                color: 'var(--text-subtle)',
-                border: '1px solid rgba(255,255,255,0.05)',
-                borderRadius: '3px', padding: '3px 9px',
-                background: 'rgba(255,255,255,0.02)',
-              }}>{t}</span>
-            ))}
-          </div>
-          {/* Footer row */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
-            <span className="hide-on-mobile-only" style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-subtle)', letterSpacing: '0.08em' }}>
-              {p.role} · {p.year}
-            </span>
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-              <button
-                onClick={() => setOpen(true)}
-                style={{
-                  fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 500,
-                  letterSpacing: '0.08em',
-                  color: 'var(--text-muted)',
-                  background: 'transparent',
-                  border: '1px solid var(--glass-border)',
-                  borderRadius: '4px', padding: '9px 18px',
-                  cursor: 'pointer', transition: 'all 0.22s',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--crimson-border)'; e.currentTarget.style.color = 'var(--text-body)' }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--glass-border)'; e.currentTarget.style.color = 'var(--text-muted)' }}
-                aria-label={`View ${p.title} details`}
-              >
-                Details
-              </button>
-              <a
-                href={p.links[0].href}
-                target="_blank" rel="noopener noreferrer"
-                style={{
-                  fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 500,
-                  letterSpacing: '0.08em',
-                  color: '#fdf0f3',
-                  background: 'var(--crimson)',
-                  border: '1px solid var(--crimson)',
-                  borderRadius: '4px', padding: '9px 18px',
-                  textDecoration: 'none',
-                  transition: 'background 0.22s',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'var(--crimson-bright)' }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'var(--crimson)' }}
-              >
-                View →
-              </a>
-            </div>
-          </div>
-        </div>
-      </article>
-    </>
+        return (
+          <button
+            key={p.id}
+            type="button"
+            className={`selected-stack-card${isActive ? ' is-active' : ''}`}
+            style={{
+              height: cardHeight,
+              transform: `translateY(${translateY}px) scale(${scale})`,
+              opacity,
+              zIndex,
+            }}
+            aria-pressed={isActive}
+            aria-label={`Bring ${p.title} to the front`}
+            aria-controls="selected-active-panel"
+            onMouseEnter={() => setActiveProject(i)}
+            onFocus={() => setActiveProject(i)}
+            onClick={() => setActiveProject(i)}
+          >
+            <img
+              src={p.image}
+              alt=""
+              loading={i === 0 ? 'eager' : 'lazy'}
+              style={{
+                filter: isActive ? 'saturate(0.85) brightness(0.78)' : 'saturate(0.45) brightness(0.4)',
+              }}
+            />
+            <span className="selected-stack-card-gradient" aria-hidden="true" />
+            <span className="selected-stack-index">{p.index}</span>
+            <span className="selected-stack-category">{p.category}</span>
+          </button>
+        )
+      })}
+    </div>
   )
 }
 
 export default function SelectedWork() {
   const { ref, inView } = useInView()
+  const [activeProject, setActiveProject] = useState(0)
+  const [modalOpen, setModalOpen] = useState(false)
+  const isMobile = useMediaQuery('(max-width: 768px)')
+  const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
+
+  const active = projects[activeProject]
 
   return (
     <section id="work" aria-label="Selected Work" style={{ padding: '128px 0' }}>
@@ -420,11 +364,69 @@ export default function SelectedWork() {
           </p>
         </header>
 
-        {/* Grid — featured spans 2 cols, others pair up */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px' }} className="work-grid">
-          {projects.map((p, i) => (
-            <ProjectCard key={p.id} p={p} index={i} />
-          ))}
+        {modalOpen && <ProjectModal p={active} onClose={() => setModalOpen(false)} />}
+
+        {/* Stack + information panel */}
+        <div className="selected-work-layout">
+          <ProjectStack
+            activeProject={activeProject}
+            setActiveProject={setActiveProject}
+            isMobile={isMobile}
+            reduceMotion={reduceMotion}
+          />
+
+          <div className="selected-info-panel">
+            {/* Secondary interaction surface: hovering/focusing a title also activates that project */}
+            <div className="selected-project-tabs" role="tablist" aria-label="Select a project">
+              {projects.map((p, i) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  role="tab"
+                  id={`selected-tab-${p.id}`}
+                  aria-selected={activeProject === i}
+                  aria-controls="selected-active-panel"
+                  className={`selected-project-tab${activeProject === i ? ' is-active' : ''}`}
+                  onMouseEnter={() => setActiveProject(i)}
+                  onFocus={() => setActiveProject(i)}
+                  onClick={() => setActiveProject(i)}
+                >
+                  <span className="tab-index">{p.index}</span>
+                  <span className="tab-title">{p.title}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Active project's information — only this block changes when selection changes */}
+            <div
+              key={active.id}
+              className="selected-project-detail"
+              id="selected-active-panel"
+              role="tabpanel"
+              aria-labelledby={`selected-tab-${active.id}`}
+            >
+              <div className="detail-category">{active.category}</div>
+              <h3 className="detail-title">{active.title}</h3>
+              <p className="detail-desc">{active.description}</p>
+              <div className="detail-actions">
+                <button
+                  type="button"
+                  onClick={() => setModalOpen(true)}
+                  className="detail-btn detail-btn--ghost"
+                  aria-label={`View ${active.title} details`}
+                >
+                  Details
+                </button>
+                <a
+                  href={active.links[0].href}
+                  target="_blank" rel="noopener noreferrer"
+                  className="detail-btn detail-btn--filled"
+                >
+                  View ↗
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
