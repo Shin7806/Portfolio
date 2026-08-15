@@ -136,8 +136,6 @@ function GridWorkCard({ w, index }: { w: Work; index: number }) {
       style={{
         position: 'relative', overflow: 'hidden', borderRadius: '4px',
         background: '#0d0a0e', cursor: 'pointer',
-        height: w.tall ? '360px' : '220px',
-        gridRow: w.tall ? 'span 2' : 'span 1',
         opacity: inView ? 1 : 0,
         transform: inView ? 'translateY(0)' : 'translateY(20px)',
         transition: `opacity 0.5s var(--ease-out) ${index * 0.04}s, transform 0.5s var(--ease-out) ${index * 0.04}s, box-shadow 0.3s`,
@@ -145,6 +143,8 @@ function GridWorkCard({ w, index }: { w: Work; index: number }) {
         textDecoration: 'none',
         color: 'inherit',
         display: 'block',
+        breakInside: 'avoid',
+        marginBottom: '10px',
       }}
     >
       <img
@@ -152,9 +152,9 @@ function GridWorkCard({ w, index }: { w: Work; index: number }) {
         alt={w.title}
         loading="lazy"
         style={{
-          width: '100%', height: '100%', objectFit: 'cover',
-          filter: active ? 'saturate(0.8) brightness(0.48)' : 'saturate(0.45) brightness(0.52)',
-          transform: active ? 'scale(1.07)' : 'scale(1)',
+          width: '100%', height: 'auto', display: 'block',
+          filter: active ? 'saturate(1) brightness(1)' : 'saturate(0.9) brightness(0.85)',
+          transform: active ? 'scale(1.02)' : 'scale(1)',
           transition: 'all 0.55s var(--ease-out)',
         }}
       />
@@ -163,8 +163,8 @@ function GridWorkCard({ w, index }: { w: Work; index: number }) {
       <div style={{
         position: 'absolute', inset: 0,
         background: active
-          ? 'linear-gradient(to top, rgba(7,5,10,0.9) 0%, rgba(7,5,10,0) 60%)'
-          : 'linear-gradient(to top, rgba(7,5,10,0.7) 0%, rgba(7,5,10,0) 60%)',
+          ? 'linear-gradient(to top, rgba(7,5,10,0.88) 0%, rgba(7,5,10,0.55) 28%, rgba(7,5,10,0.08) 65%, transparent 100%)'
+          : 'transparent',
         transition: 'background 0.4s',
         pointerEvents: 'none',
       }} />
@@ -220,7 +220,6 @@ function ShowcaseCard({ w, isDuplicate = false, cardWidth }: { w: Work; isDuplic
         position: 'relative', overflow: 'hidden', borderRadius: '4px',
         background: '#0d0a0e', cursor: 'pointer',
         width: cardWidth,
-        height: w.tall ? '320px' : '260px',
         textDecoration: 'none', color: 'inherit', display: 'block',
         flexShrink: 0,
         transform: active ? 'scale(1.025)' : 'scale(1)',
@@ -235,8 +234,8 @@ function ShowcaseCard({ w, isDuplicate = false, cardWidth }: { w: Work; isDuplic
         alt={w.title}
         loading={isDuplicate ? "lazy" : "eager"}
         style={{
-          width: '100%', height: '100%', objectFit: 'cover',
-          filter: active ? 'saturate(0.9) brightness(0.95)' : 'saturate(0.7) brightness(0.65)',
+          width: '100%', height: 'auto', display: 'block',
+          filter: active ? 'saturate(1) brightness(1)' : 'saturate(0.9) brightness(0.85)',
           transition: 'all 0.3s var(--ease-out)',
         }}
       />
@@ -244,8 +243,8 @@ function ShowcaseCard({ w, isDuplicate = false, cardWidth }: { w: Work; isDuplic
       <div style={{
         position: 'absolute', inset: 0,
         background: active
-          ? 'linear-gradient(to top, rgba(7,5,10,0.9) 0%, rgba(7,5,10,0) 60%)'
-          : 'linear-gradient(to top, rgba(7,5,10,0.4) 0%, rgba(7,5,10,0) 60%)',
+          ? 'linear-gradient(to top, rgba(7,5,10,0.88) 0%, rgba(7,5,10,0.55) 28%, rgba(7,5,10,0.08) 65%, transparent 100%)'
+          : 'transparent',
         transition: 'background 0.3s',
         pointerEvents: 'none',
       }} />
@@ -271,19 +270,20 @@ function ShowcaseCard({ w, isDuplicate = false, cardWidth }: { w: Work; isDuplic
 
       {/* Details (Revealed on active) */}
       <div style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0, padding: '20px',
+        position: 'absolute', bottom: 0, left: 0, right: 0, padding: '24px 20px',
         transform: active ? 'translateY(0)' : 'translateY(10px)',
         opacity: active ? 1 : 0,
         transition: 'all 0.3s var(--ease-out)',
         pointerEvents: 'none',
       }}>
         <div style={{
-          fontFamily: 'var(--font-body)', fontSize: '15px', fontWeight: 600,
+          fontFamily: 'var(--font-body)', fontSize: '16px', fontWeight: 700,
           color: 'var(--text-display)', marginBottom: '4px',
         }}>{w.title}</div>
         <div style={{
-          fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--text-muted)',
-          marginBottom: '12px', lineHeight: 1.4,
+          fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--text-body)',
+          marginBottom: '12px', lineHeight: 1.5,
+          display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
         }}>{w.desc}</div>
         <div style={{
           fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--crimson)',
@@ -336,15 +336,15 @@ function ShowcaseRibbons({ showcaseWorks }: { showcaseWorks: Work[] }) {
         marginTop: '24px',
       }}
     >
-      <div className="hide-on-mobile-only" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <RibbonLane worksSubset={lane1} direction="left" duration="34s" scale={1} opacity={1} cardWidth="320px" />
-        <RibbonLane worksSubset={lane2} direction="right" duration="27s" scale={0.96} opacity={0.88} cardWidth="320px" />
-        <RibbonLane worksSubset={lane3} direction="left" duration="31s" scale={0.93} opacity={0.72} cardWidth="320px" />
+      <div className="hide-on-mobile-only" style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+        <RibbonLane worksSubset={lane1} direction="left" duration="40s" scale={1} opacity={1} cardWidth="380px" />
+        <RibbonLane worksSubset={lane2} direction="right" duration="45s" scale={0.96} opacity={0.88} cardWidth="380px" />
+        <RibbonLane worksSubset={lane3} direction="left" duration="50s" scale={0.93} opacity={0.72} cardWidth="380px" />
       </div>
 
-      <div className="show-on-mobile-only" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <RibbonLane worksSubset={mobLane1} direction="left" duration="45s" scale={1} opacity={1} cardWidth="78vw" />
-        <RibbonLane worksSubset={mobLane2} direction="right" duration="50s" scale={0.96} opacity={0.88} cardWidth="78vw" />
+      <div className="show-on-mobile-only" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <RibbonLane worksSubset={mobLane1} direction="left" duration="45s" scale={1} opacity={1} cardWidth="80vw" />
+        <RibbonLane worksSubset={mobLane2} direction="right" duration="50s" scale={0.96} opacity={0.88} cardWidth="80vw" />
       </div>
     </div>
   )
@@ -444,10 +444,7 @@ export default function CreativeArchive() {
             <div
               className="gallery-grid"
               style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(4, 1fr)',
-                gridAutoRows: '110px',
-                gap: '10px',
+                columnGap: '16px',
                 animation: 'fade-in 0.45s var(--ease-out)',
               }}
             >

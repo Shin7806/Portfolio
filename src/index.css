@@ -253,6 +253,7 @@ body {
 
 .ribbon-track {
   display: flex;
+  align-items: center;
   width: max-content;
   will-change: transform;
 }
@@ -305,6 +306,11 @@ body {
   animation: scale-in 0.28s var(--ease-spring);
 }
 
+/* ── Creative Archive Gallery ── */
+.gallery-grid {
+  column-count: 4;
+}
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -329,7 +335,7 @@ body {
   .three-col   { grid-template-columns: repeat(2, 1fr) !important; }
   .proc-grid   { grid-template-columns: 1fr !important; }
   .proc-nav    { position: static !important; top: auto !important; margin-bottom: 24px; }
-  .gallery-grid{ grid-template-columns: repeat(3, 1fr) !important; }
+  .gallery-grid{ column-count: 3 !important; }
   
   .horizontal-selector-tablet {
     flex-direction: row !important;
@@ -362,7 +368,7 @@ body {
   :root { --pad-x: 24px; }
   .three-col   { grid-template-columns: 1fr !important; }
   .work-grid   { grid-template-columns: 1fr !important; }
-  .gallery-grid{ grid-template-columns: repeat(2, 1fr) !important; }
+  .gallery-grid{ column-count: 2 !important; }
   .gallery-wide{ grid-column: span 1 !important; }
   .social-grid { grid-template-columns: repeat(2, 1fr) !important; }
   .timeline-mirror { grid-template-columns: 20px 1fr !important; }
