@@ -201,8 +201,21 @@ function GridWorkCard({ w, index }: { w: Work; index: number }) {
   )
 }
 
-function ShowcaseCard({ w, isDuplicate = false, cardWidth }: { w: Work; isDuplicate?: boolean; cardWidth: string }) {
-  const [active, setActive] = useState(false)
+function ShowcaseCard({ w, isDuplicate = false, cardWidth, instanceId, activeCardId, setActiveCardId }: { w: Work; isDuplicate?: boolean; cardWidth: string; instanceId?: string; activeCardId?: string | null; setActiveCardId?: (id: string | null) => void }) {
+  const [localActive, setLocalActive] = useState(false)
+  
+  const active = instanceId && activeCardId !== undefined 
+    ? activeCardId === instanceId 
+    : localActive;
+
+  const handleActivate = () => {
+    if (setActiveCardId && instanceId) setActiveCardId(instanceId);
+    else setLocalActive(true);
+  }
+  const handleDeactivate = () => {
+    if (setActiveCardId && activeCardId === instanceId) setActiveCardId(null);
+    else setLocalActive(false);
+  }
 
   return (
     <a
@@ -212,10 +225,10 @@ function ShowcaseCard({ w, isDuplicate = false, cardWidth }: { w: Work; isDuplic
       aria-label={`View ${w.title} on Instagram`}
       tabIndex={isDuplicate ? -1 : 0}
       aria-hidden={isDuplicate ? "true" : undefined}
-      onMouseEnter={() => setActive(true)}
-      onMouseLeave={() => setActive(false)}
-      onFocus={() => setActive(true)}
-      onBlur={() => setActive(false)}
+      onMouseEnter={handleActivate}
+      onMouseLeave={handleDeactivate}
+      onFocus={handleActivate}
+      onBlur={handleDeactivate}
       style={{
         position: 'relative', overflow: 'hidden', borderRadius: '4px',
         background: '#0d0a0e', cursor: 'pointer',
@@ -243,7 +256,7 @@ function ShowcaseCard({ w, isDuplicate = false, cardWidth }: { w: Work; isDuplic
       <div style={{
         position: 'absolute', inset: 0,
         background: active
-          ? 'linear-gradient(to top, rgba(7,5,10,0.88) 0%, rgba(7,5,10,0.55) 28%, rgba(7,5,10,0.08) 65%, transparent 100%)'
+          ? 'linear-gradient(to top, rgba(7,5,10,0.95) 0%, rgba(7,5,10,0.7) 24%, rgba(7,5,10,0.15) 55%, transparent 75%)'
           : 'transparent',
         transition: 'background 0.3s',
         pointerEvents: 'none',
@@ -296,13 +309,27 @@ function ShowcaseCard({ w, isDuplicate = false, cardWidth }: { w: Work; isDuplic
   )
 }
 
-function RibbonLane({ worksSubset, direction, duration, scale, opacity, cardWidth, height, leftOffset }: { worksSubset: Work[]; direction: 'left' | 'right'; duration: string; scale: number; opacity: number; cardWidth: string; height: string; leftOffset: string }) {
+function RibbonLane({ worksSubset, direction, duration, scale, opacity, cardWidth, height, leftOffset, laneId, activeCardId, setActiveCardId }: { worksSubset: Work[]; direction: 'left' | 'right'; duration: string; scale: number; opacity: number; cardWidth: string; height: string; leftOffset: string; laneId?: string; activeCardId?: string | null; setActiveCardId?: (id: string | null) => void }) {
+  const isRibbonActive = laneId && activeCardId?.startsWith(laneId);
+  const isAnyRibbonActive = activeCardId !== null && activeCardId !== undefined;
+
   return (
-    <div className="ribbon-lane" style={{ opacity, transform: `scale(${scale})`, height }}>
+    <div 
+      className={`ribbon-lane ${isRibbonActive ? 'ribbon-lane--active' : ''}`} 
+      style={{ 
+        opacity: isRibbonActive ? 1 : isAnyRibbonActive ? Math.max(0.2, opacity * 0.9) : opacity, 
+        transform: `scale(${scale})`, 
+        height,
+        position: 'relative',
+        zIndex: isRibbonActive ? 50 : 1,
+        transition: 'opacity 0.4s var(--ease-out), z-index 0s',
+      }}
+    >
       <div
         className="ribbon-track"
         style={{
           animation: `ribbonMove${direction === 'left' ? 'Left' : 'Right'} ${duration} linear infinite`,
+          animationPlayState: isRibbonActive ? 'paused' : 'running',
           gap: '32px',
           paddingRight: '32px',
           position: 'relative',
@@ -310,8 +337,8 @@ function RibbonLane({ worksSubset, direction, duration, scale, opacity, cardWidt
           height: '100%',
         }}
       >
-        {worksSubset.map(w => <ShowcaseCard key={`orig-${w.id}`} w={w} cardWidth={cardWidth} />)}
-        {worksSubset.map(w => <ShowcaseCard key={`dup-${w.id}`} w={w} isDuplicate={true} cardWidth={cardWidth} />)}
+        {worksSubset.map(w => <ShowcaseCard key={`orig-${w.id}`} w={w} cardWidth={cardWidth} instanceId={laneId ? `${laneId}-orig-${w.id}` : undefined} activeCardId={activeCardId} setActiveCardId={setActiveCardId} />)}
+        {worksSubset.map(w => <ShowcaseCard key={`dup-${w.id}`} w={w} isDuplicate={true} cardWidth={cardWidth} instanceId={laneId ? `${laneId}-dup-${w.id}` : undefined} activeCardId={activeCardId} setActiveCardId={setActiveCardId} />)}
       </div>
     </div>
   )
@@ -328,10 +355,12 @@ function ShowcaseRibbons({ showcaseWorks }: { showcaseWorks: Work[] }) {
   const mobLane2 = [showcaseWorks[1], showcaseWorks[3], showcaseWorks[5], showcaseWorks[7], showcaseWorks[9], showcaseWorks[11]]
 
   const { ref, inView } = useInView(0.1)
+  const [activeCardId, setActiveCardId] = useState<string | null>(null);
 
   return (
     <div
       ref={ref as React.RefObject<HTMLDivElement>}
+      className="showcase-viewport"
       style={{
         opacity: inView ? 1 : 0,
         transform: inView ? 'translateY(0)' : 'translateY(24px)',
@@ -339,17 +368,20 @@ function ShowcaseRibbons({ showcaseWorks }: { showcaseWorks: Work[] }) {
         marginTop: '24px',
         overflow: 'hidden',
         padding: '60px 0',
+        isolation: 'isolate',
+        position: 'relative',
+        zIndex: 10,
       }}
     >
       <div className="hide-on-mobile-only" style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-        <RibbonLane worksSubset={lane1} direction="left" duration="40s" scale={1} opacity={1} cardWidth="360px" height="260px" leftOffset="0px" />
-        <RibbonLane worksSubset={lane2} direction="right" duration="45s" scale={0.96} opacity={0.88} cardWidth="360px" height="260px" leftOffset="-110px" />
-        <RibbonLane worksSubset={lane3} direction="left" duration="50s" scale={0.93} opacity={0.72} cardWidth="360px" height="260px" leftOffset="-50px" />
+        <RibbonLane worksSubset={lane1} direction="left" duration="40s" scale={1} opacity={1} cardWidth="360px" height="260px" leftOffset="0px" laneId="l1" activeCardId={activeCardId} setActiveCardId={setActiveCardId} />
+        <RibbonLane worksSubset={lane2} direction="right" duration="45s" scale={0.96} opacity={0.88} cardWidth="360px" height="260px" leftOffset="-110px" laneId="l2" activeCardId={activeCardId} setActiveCardId={setActiveCardId} />
+        <RibbonLane worksSubset={lane3} direction="left" duration="50s" scale={0.93} opacity={0.72} cardWidth="360px" height="260px" leftOffset="-50px" laneId="l3" activeCardId={activeCardId} setActiveCardId={setActiveCardId} />
       </div>
 
       <div className="show-on-mobile-only" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-        <RibbonLane worksSubset={mobLane1} direction="left" duration="45s" scale={1} opacity={1} cardWidth="78vw" height="280px" leftOffset="0px" />
-        <RibbonLane worksSubset={mobLane2} direction="right" duration="50s" scale={0.96} opacity={0.88} cardWidth="78vw" height="280px" leftOffset="-60px" />
+        <RibbonLane worksSubset={mobLane1} direction="left" duration="45s" scale={1} opacity={1} cardWidth="78vw" height="280px" leftOffset="0px" laneId="ml1" activeCardId={activeCardId} setActiveCardId={setActiveCardId} />
+        <RibbonLane worksSubset={mobLane2} direction="right" duration="50s" scale={0.96} opacity={0.88} cardWidth="78vw" height="280px" leftOffset="-60px" laneId="ml2" activeCardId={activeCardId} setActiveCardId={setActiveCardId} />
       </div>
     </div>
   )
