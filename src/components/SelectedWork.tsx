@@ -65,16 +65,16 @@ const projects = [
     category: 'Visual Design · Branding',
     role: 'Designer',
     year: '2019–Present',
-    status: '70+ Works',
+    status: '80+ Works',
     description: 'Seven years of visual design — branding, typography, poster design, marketing creatives, and personal explorations. Every piece sharpened the eye.',
-    longDesc: 'This is the body of work that built my visual vocabulary. Since 2019, I have consistently published design work across branding, editorial layout, poster design, motion graphics, social media templates, and personal experiments. The archive contains 70+ published pieces across client work and personal projects — a living record of growth, taste, and craft.',
+    longDesc: 'This is the body of work that built my visual vocabulary. Since 2019, I have consistently published design work across branding, editorial layout, poster design, motion graphics, social media templates, and personal experiments. The archive contains 80+ published pieces across client work and personal projects — a living record of growth, taste, and craft.',
     tags: ['Photoshop', 'Illustrator', 'Figma', 'Branding', 'Typography', 'Posters'],
     image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&h=900&fit=crop&auto=format',
     accent: '#7a1a2a',
     links: [
       { label: 'View Archive on Instagram →', href: 'https://www.instagram.com/_shinchan_op/' },
     ],
-    highlights: ['70+ published pieces', '7 years of practice', 'Client + personal work', 'Branding to typography'],
+    highlights: ['80+ published pieces', '7 years of practice', 'Client + personal work', 'Branding to typography'],
   },
 ]
 

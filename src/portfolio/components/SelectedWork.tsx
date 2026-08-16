@@ -13,7 +13,7 @@ const projects = [
     featured: true,
     description: 'An AI-powered digital twin platform that mirrors user cognition and behaviour. Designed the complete product from scratch — research, IA, flows, high-fidelity UI, and design system.',
     longDesc: 'NeuroTwin is a next-generation AI platform that creates a digital cognitive twin for each user — learning behaviour patterns, decision-making styles, and knowledge structures over time. As the sole Product Designer, I owned every phase: discovery workshops, competitive analysis, user journey mapping, information architecture, wireframes, prototyping, high-fidelity visual design, and a component-level design system in Figma.',
-    tags: ['Figma', 'FigJam', 'Claude', 'Cursor', 'Design System', 'Prototyping', 'Research'],
+    tags: ['Figma', 'FigJam', 'Claude', 'Design System', 'Prototyping', 'Research'],
     image: 'https://res.cloudinary.com/sadd5xib/image/upload/v1786793244/018fc5251900711.6a425bdf9accb.jpg',
     accent: '#c01f3a',
     links: [
@@ -65,16 +65,16 @@ const projects = [
     category: 'Visual Design · Branding',
     role: 'Designer',
     year: '2019–Present',
-    status: '70+ Works',
+    status: '80+ Works',
     description: 'Seven years of visual design — branding, typography, poster design, marketing creatives, and personal explorations. Every piece sharpened the eye.',
-    longDesc: 'This is the body of work that built my visual vocabulary. Since 2019, I have consistently published design work across branding, editorial layout, poster design, motion graphics, social media templates, and personal experiments. The archive contains 70+ published pieces across client work and personal projects — a living record of growth, taste, and craft.',
+    longDesc: 'This is the body of work that built my visual vocabulary. Since 2019, I have consistently published design work across branding, editorial layout, poster design, motion graphics, social media templates, and personal experiments. The archive contains 80+ published pieces across client work and personal projects — a living record of growth, taste, and craft.',
     tags: ['Photoshop', 'Illustrator', 'Figma', 'Branding', 'Typography', 'Posters'],
     image: 'https://res.cloudinary.com/sadd5xib/image/upload/v1786793495/1783166675679.jpg',
     accent: '#7a1a2a',
     links: [
       { label: 'View Archive on Instagram →', href: 'https://www.instagram.com/_shinchan_op/' },
     ],
-    highlights: ['70+ published pieces', '7 years of practice', 'Client + personal work', 'Branding to typography'],
+    highlights: ['80+ published pieces', '7 years of practice', 'Client + personal work', 'Branding to typography'],
   },
 ]
 

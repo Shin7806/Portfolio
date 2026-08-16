@@ -120,7 +120,7 @@ export default function CreativeArchive() {
               fontWeight: 700, color: 'var(--text-display)',
               letterSpacing: '-0.03em', lineHeight: 1.0,
             }}>
-              70+ Works.<br />
+              80+ Works.<br />
               <em style={{ fontStyle: 'italic', color: 'rgba(192,31,58,0.65)' }}>Seven Years.</em>
             </h2>
           </div>
