@@ -9,12 +9,7 @@
 
     <meta
       name="description"
-      content="Dhruv Poddar is a Product Designer based in Bengaluru, India, creating thoughtful digital products through Product Design, UI/UX Design, Graphic Design, design systems and AI-assisted workflows."
-    />
-
-    <meta
-      name="keywords"
-      content="Dhruv Poddar, Product Designer, UI Designer, UX Designer, Graphic Designer, Product Design Portfolio, Bengaluru, Bangalore, India, Design Systems, Figma, AI Workflow"
+      content="Portfolio of Dhruv Poddar, a Product Designer based in Bengaluru, India, working across UI/UX, visual design, design systems and AI-assisted workflows."
     />
 
     <meta name="author" content="Dhruv Poddar" />
@@ -35,6 +30,10 @@
     <meta name="application-name" content="Dhruv Poddar Portfolio" />
     <meta name="apple-mobile-web-app-title" content="Dhruv Poddar" />
 
+    <!-- Resource hints: index.css pulls Playfair Display / Inter / JetBrains Mono from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -44,48 +43,87 @@
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Dhruv Poddar Portfolio" />
+    <meta property="og:site_name" content="Dhruv Poddar" />
     <meta property="og:locale" content="en_IN" />
-    <meta property="og:title" content="Dhruv Poddar | Product Designer" />
+    <meta property="og:title" content="Dhruv Poddar | Product Designer · UI/UX Designer · Graphic Designer" />
     <meta
       property="og:description"
-      content="Product Designer based in Bengaluru creating thoughtful digital products through product thinking, UI/UX, visual design and AI-assisted workflows."
+      content="Portfolio of Dhruv Poddar, a Product Designer based in Bengaluru, India, working across UI/UX, visual design, design systems and AI-assisted workflows."
     />
     <meta property="og:url" content="https://dhruvpoddar.is-a.dev/" />
-    <meta property="og:image" content="https://dhruvpoddar.is-a.dev/preview.png" />
+    <meta property="og:image" content="https://dhruvpoddar.is-a.dev/og-image.png" />
+    <meta property="og:image:url" content="https://dhruvpoddar.is-a.dev/og-image.png" />
+    <meta property="og:image:secure_url" content="https://dhruvpoddar.is-a.dev/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Dhruv Poddar — Product Designer, UI/UX Designer and Graphic Designer" />
 
-    <!-- Twitter -->
+    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Dhruv Poddar | Product Designer" />
+    <meta name="twitter:title" content="Dhruv Poddar | Product Designer · UI/UX Designer · Graphic Designer" />
     <meta
       name="twitter:description"
-      content="Product Designer based in Bengaluru crafting digital experiences through product thinking, UI/UX and visual design."
+      content="Portfolio of Dhruv Poddar, a Product Designer based in Bengaluru, India, working across UI/UX, visual design, design systems and AI-assisted workflows."
     />
-    <meta name="twitter:image" content="https://dhruvpoddar.is-a.dev/preview.png" />
+    <meta name="twitter:image" content="https://dhruvpoddar.is-a.dev/og-image.png" />
+    <meta name="twitter:image:alt" content="Dhruv Poddar — Product Designer, UI/UX Designer and Graphic Designer" />
     <meta name="twitter:creator" content="@_shinchan_op" />
     <meta name="twitter:site" content="@_shinchan_op" />
 
-    <!-- Structured Data -->
+    <!-- Structured Data: one connected graph — WebSite -> ProfilePage -> Person -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Dhruv Poddar",
-        "url": "https://dhruvpoddar.is-a.dev/",
-        "jobTitle": "Product Designer",
-        "description": "Product Designer specializing in Product Design, UI/UX Design and Graphic Design.",
-        "email": "mailto:dhruvp0629@gmail.com",
-        "image": "https://dhruvpoddar.is-a.dev/preview.png",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Bengaluru",
-          "addressCountry": "India"
-        },
-        "sameAs": [
-          "https://www.behance.net/shinchangfx",
-          "https://github.com/Shin7806",
-          "https://www.instagram.com/_shinchan_op/",
-          "https://www.linkedin.com/in/dhruvpoddar/"
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://dhruvpoddar.is-a.dev/#website",
+            "url": "https://dhruvpoddar.is-a.dev/",
+            "name": "Dhruv Poddar",
+            "inLanguage": "en",
+            "author": { "@id": "https://dhruvpoddar.is-a.dev/#person" }
+          },
+          {
+            "@type": "ProfilePage",
+            "@id": "https://dhruvpoddar.is-a.dev/#webpage",
+            "url": "https://dhruvpoddar.is-a.dev/",
+            "name": "Dhruv Poddar | Product Designer · UI/UX Designer · Graphic Designer",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://dhruvpoddar.is-a.dev/#website" },
+            "about": { "@id": "https://dhruvpoddar.is-a.dev/#person" },
+            "mainEntity": { "@id": "https://dhruvpoddar.is-a.dev/#person" },
+            "primaryImageOfPage": { "@id": "https://dhruvpoddar.is-a.dev/#ogimage" }
+          },
+          {
+            "@type": "ImageObject",
+            "@id": "https://dhruvpoddar.is-a.dev/#ogimage",
+            "url": "https://dhruvpoddar.is-a.dev/og-image.png",
+            "contentUrl": "https://dhruvpoddar.is-a.dev/og-image.png",
+            "width": 1200,
+            "height": 630
+          },
+          {
+            "@type": "Person",
+            "@id": "https://dhruvpoddar.is-a.dev/#person",
+            "name": "Dhruv Poddar",
+            "url": "https://dhruvpoddar.is-a.dev/",
+            "jobTitle": "Product Designer",
+            "description": "Product Designer specializing in Product Design, UI/UX Design and Graphic Design.",
+            "email": "mailto:dhruvp0629@gmail.com",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Bengaluru",
+              "addressCountry": "India"
+            },
+            "knowsAbout": ["Product Design", "UI/UX Design", "Graphic Design", "Design Systems"],
+            "sameAs": [
+              "https://www.behance.net/shinchangfx",
+              "https://github.com/Shin7806",
+              "https://www.instagram.com/_shinchan_op/",
+              "https://www.linkedin.com/in/dhruvpoddar/"
+            ]
+          }
         ]
       }
     </script>
@@ -100,7 +138,7 @@
         height: 100%;
       }
     </style>
-    <script type="module" crossorigin src="/assets/index-BmS9AXvt.js"></script>
+    <script type="module" crossorigin src="/assets/index-CBvkh1F9.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-CXPy5Fhj.css">
   </head>
   <body>
