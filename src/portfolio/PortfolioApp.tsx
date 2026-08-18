@@ -1,4 +1,5 @@
 import { Link } from 'react-router'
+import ScrollProgress from './components/ScrollProgress'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
 import SelectedWork from './components/SelectedWork'
@@ -21,6 +22,9 @@ export default function PortfolioApp() {
     <div className="page-bg" style={{ minHeight: '100vh', position: 'relative' }}>
       {/* Film-grain noise overlay */}
       <div className="noise-layer" aria-hidden="true" />
+
+      {/* Scroll progress indicator */}
+      <ScrollProgress />
 
       {/* Skip to content */}
       <a
@@ -58,6 +62,7 @@ export default function PortfolioApp() {
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         aria-label="Back to top"
+        className="hover-lift-sm btn-tactile"
         style={{
           position: 'fixed', bottom: '32px', right: '32px',
           width: '42px', height: '42px', borderRadius: '4px',

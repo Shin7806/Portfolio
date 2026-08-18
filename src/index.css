@@ -202,6 +202,165 @@ body {
   to   { opacity: 1; transform: scale(1); }
 }
 
+/* ── Screen-reader only utility ── */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   INTERACTION UTILITIES
+   Small, reusable, GPU-cheap building blocks (transform/opacity only) so
+   hover/press states stay consistent across the site without extra JS.
+   Every rule here is neutralised by the prefers-reduced-motion block below.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Card-style lift: pairs with elements that already handle their own
+   border/background hover via inline handlers — this only ever touches
+   transform + box-shadow, so it never fights those. */
+.hover-card {
+  transition: transform 0.32s var(--ease-out), box-shadow 0.32s var(--ease-out);
+}
+.hover-card:hover,
+.hover-card:focus-within {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* Shadow-only variant: for elements that already own their `transform`
+   inline (e.g. the scroll-reveal cards below) — inline styles always beat
+   a class, so those can't use .hover-card's transform, only its shadow. */
+.hover-shadow {
+  transition: box-shadow 0.32s var(--ease-out);
+}
+.hover-shadow:hover,
+.hover-shadow:focus-within {
+  box-shadow: var(--shadow-hover);
+}
+
+/* Smaller lift for buttons/pills/links */
+.hover-lift-sm {
+  transition: transform 0.25s var(--ease-out);
+}
+.hover-lift-sm:hover,
+.hover-lift-sm:focus-visible {
+  transform: translateY(-2px);
+}
+
+/* Tactile press feedback for anything clickable */
+.btn-tactile {
+  transition: transform 0.15s var(--ease-out);
+}
+.btn-tactile:active {
+  transform: scale(0.96);
+}
+
+/* Icon-style scale pop (social icons, logo mark, menu button) */
+.icon-hover {
+  transition: transform 0.3s var(--ease-spring);
+  display: inline-flex;
+}
+.icon-hover:hover,
+.icon-hover:focus-visible {
+  transform: scale(1.1);
+}
+
+/* Animated underline sweep for plain text links */
+.link-underline {
+  position: relative;
+  text-decoration: none;
+}
+.link-underline::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 100%;
+  bottom: -2px;
+  height: 1px;
+  background: currentColor;
+  transition: right 0.28s var(--ease-out);
+}
+.link-underline:hover::after,
+.link-underline:focus-visible::after {
+  right: 0;
+}
+
+/* Scroll progress bar (mounted once, top of viewport) */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  z-index: 101;
+  pointer-events: none;
+}
+.scroll-progress-bar {
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--crimson-deep), var(--crimson-bright));
+  will-change: transform;
+}
+
+/* ── Preloader ── */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  background: var(--background, #07050a);
+  transition: opacity 0.55s var(--ease-out), visibility 0.55s var(--ease-out);
+}
+.preloader-exit {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.preloader-mark {
+  font-family: var(--font-display);
+  font-size: clamp(34px, 6vw, 52px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-display, #faf5f8);
+  line-height: 1;
+  animation: preloader-breathe 2.2s ease-in-out infinite;
+}
+.preloader-mark span:first-child { color: var(--crimson, #c01f3a); }
+@keyframes preloader-breathe {
+  0%, 100% { opacity: 0.82; transform: scale(1); }
+  50%       { opacity: 1;    transform: scale(1.035); }
+}
+.preloader-bar-track {
+  position: relative;
+  width: 130px;
+  height: 2px;
+  border-radius: 99px;
+  overflow: hidden;
+  background: var(--glass-border, rgba(240,232,236,0.055));
+}
+.preloader-bar-fill {
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%;
+  width: 40%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, transparent, var(--crimson, #c01f3a), transparent);
+  animation: preloader-sweep 1.15s ease-in-out infinite;
+  will-change: transform;
+}
+@keyframes preloader-sweep {
+  0%   { transform: translateX(-120%); }
+  100% { transform: translateX(280%); }
+}
+
 /* ── Marquee strip ── */
 .marquee-track {
   display: flex;
@@ -324,13 +483,17 @@ body {
 .selected-stack-card.is-active:focus-visible {
   border-color: var(--crimson-border);
 }
+.selected-stack-card.is-active:hover img,
+.selected-stack-card.is-active:focus-visible img {
+  transform: scale(1.035);
+}
 
 .selected-stack-card img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: filter 0.45s var(--ease-out);
+  transition: filter 0.45s var(--ease-out), transform 0.6s var(--ease-out);
 }
 
 .selected-stack-card-gradient {
@@ -497,6 +660,7 @@ body {
 .detail-btn--filled:focus-visible {
   background: var(--crimson-bright);
 }
+.detail-btn:active { transform: scale(0.96); }
 
 @media (prefers-reduced-motion: reduce) {
   .selected-stack-card { transition: opacity 0.2s linear, border-color 0.2s, box-shadow 0.2s; }

@@ -127,6 +127,7 @@ export default function DesignProcess() {
                   <button
                     onClick={() => setActiveStep(i)}
                     aria-current={activeStep === i ? 'step' : undefined}
+                    className="btn-tactile"
                     style={{
                       width: '100%',
                       textAlign: 'left',
@@ -181,6 +182,7 @@ export default function DesignProcess() {
             borderRadius: '8px',
             background: 'var(--card)',
             minHeight: '360px',
+            animation: 'fade-in 0.32s var(--ease-out)',
           }}
             key={activeStep}
           >
@@ -285,6 +287,12 @@ export default function DesignProcess() {
                     padding: 0,
                     transition: 'all 0.3s',
                   }}
+                  onMouseEnter={e => {
+                    if (i !== activeStep) e.currentTarget.style.background = 'rgba(255,255,255,0.28)'
+                  }}
+                  onMouseLeave={e => {
+                    if (i !== activeStep) e.currentTarget.style.background = 'rgba(255,255,255,0.1)'
+                  }}
                 />
               ))}
             </div>
@@ -308,6 +316,7 @@ export default function DesignProcess() {
                 <button
                   aria-expanded={isOpen}
                   onClick={() => setActiveStep(i)}
+                  className="btn-tactile"
                   style={{
                     width: '100%',
                     display: 'flex',

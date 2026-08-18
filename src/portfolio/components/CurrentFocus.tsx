@@ -46,6 +46,7 @@ function FocusCard({ f, index }: { f: typeof focusItems[0]; index: number }) {
   return (
     <div
       ref={ref as React.RefObject<HTMLDivElement>}
+      className="hover-shadow"
       style={{
         padding: '32px',
         border: '1px solid var(--glass-border)',

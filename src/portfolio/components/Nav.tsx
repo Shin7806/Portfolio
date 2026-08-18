@@ -97,6 +97,7 @@ export default function Nav() {
             handleNav("#hero");
           }}
           aria-label="Dhruv Poddar — back to top"
+          className="icon-hover"
           style={{
             display: "flex",
             alignItems: "center",
@@ -182,7 +183,7 @@ export default function Nav() {
         {/* Resume */}
         <Link
           to="/resume"
-          className="nav-desktop-inline"
+          className="nav-desktop-inline hover-lift-sm btn-tactile"
           style={{
             fontFamily: "var(--font-mono)",
             fontSize: "10px",
@@ -215,7 +216,7 @@ export default function Nav() {
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
           onClick={() => setMenuOpen((v) => !v)}
-          className="nav-mobile-btn"
+          className="nav-mobile-btn btn-tactile"
           style={{
             background: "none",
             border: "none",

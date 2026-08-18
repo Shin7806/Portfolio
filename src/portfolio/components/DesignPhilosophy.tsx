@@ -46,6 +46,7 @@ function PillarCard({ p, index }: { p: typeof pillars[0]; index: number }) {
   return (
     <article
       ref={ref as React.RefObject<HTMLElement>}
+      className="hover-shadow"
       style={{
         padding: '32px',
         border: '1px solid var(--glass-border)',
@@ -165,6 +166,7 @@ export default function DesignPhilosophy() {
                 <button
                   aria-expanded={isOpen}
                   onClick={() => setActivePillar(i)}
+                  className="btn-tactile"
                   style={{
                     width: '100%',
                     display: 'flex',

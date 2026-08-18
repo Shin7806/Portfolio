@@ -431,6 +431,7 @@ export default function CreativeArchive() {
             <a
               href="https://www.instagram.com/_shinchan_op/"
               target="_blank" rel="noopener noreferrer"
+              className="hover-lift-sm btn-tactile"
               style={{
                 fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 500,
                 letterSpacing: '0.12em', textTransform: 'uppercase',
@@ -458,6 +459,7 @@ export default function CreativeArchive() {
               <button
                 key={cat} role="tab" aria-selected={active === cat}
                 onClick={() => setActive(cat)}
+                className="btn-tactile"
                 style={{
                   fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 500,
                   letterSpacing: '0.14em', textTransform: 'uppercase',
@@ -514,6 +516,7 @@ export default function CreativeArchive() {
             <a
               href="https://www.instagram.com/_shinchan_op/"
               target="_blank" rel="noopener noreferrer"
+              className="hover-lift-sm btn-tactile"
               style={{
                 fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 500,
                 letterSpacing: '0.14em', textTransform: 'uppercase',

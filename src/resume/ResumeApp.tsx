@@ -150,7 +150,8 @@ export default function ResumeApp() {
           <div className="no-print" style={{ width: m ? "100%" : 794, paddingBottom: m ? 0 : 10, display: "flex", alignItems: "center" }}>
             <Link
               to="/"
-              style={{ fontFamily: FONT, fontSize: m ? 10 : 9, color: C.light, textDecoration: "none", letterSpacing: "0.06em", display: "inline-flex", alignItems: "center", gap: 5, padding: m ? "8px 20px" : "0", transition: "color 0.15s" }}
+              className="link-underline"
+              style={{ fontFamily: FONT, fontSize: m ? 10 : 9, color: C.light, letterSpacing: "0.06em", display: "inline-flex", alignItems: "center", gap: 5, padding: m ? "8px 20px" : "0", transition: "color 0.15s" }}
               onMouseEnter={(e) => (e.currentTarget.style.color = C.text)}
               onMouseLeave={(e) => (e.currentTarget.style.color = C.light)}
             >
@@ -161,7 +162,10 @@ export default function ResumeApp() {
           {/* ── Toolbar ── */}
           <div className="no-print" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: m ? "100%" : 794, marginBottom: m ? 0 : 14, padding: m ? "12px 20px" : 0, borderBottom: m ? `1px solid ${C.divider}` : "none", background: m ? C.white : "transparent", boxSizing: "border-box" as const }}>
             <span style={{ fontSize: m ? 10 : 9, color: "#999", letterSpacing: "0.06em", textTransform: "uppercase" as const }}>Resume · Dhruv Poddar</span>
-            <button onClick={() => window.print()} style={{ fontFamily: FONT, fontSize: m ? 10 : 9, fontWeight: 500, letterSpacing: "0.08em", textTransform: "uppercase" as const, color: C.white, background: C.text, border: "none", borderRadius: 3, padding: m ? "7px 14px" : "7px 16px", cursor: "pointer" }}>
+            <button onClick={() => window.print()} className="hover-lift-sm btn-tactile" style={{ fontFamily: FONT, fontSize: m ? 10 : 9, fontWeight: 500, letterSpacing: "0.08em", textTransform: "uppercase" as const, color: C.white, background: C.text, border: "none", borderRadius: 3, padding: m ? "7px 14px" : "7px 16px", cursor: "pointer", transition: "background 0.2s" }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "#000")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = C.text)}
+            >
               Export PDF ↗
             </button>
           </div>

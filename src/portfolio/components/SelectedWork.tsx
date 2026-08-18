@@ -137,6 +137,7 @@ function ProjectModal({ p, onClose }: { p: Project; onClose: () => void }) {
           <button
             onClick={onClose}
             aria-label="Close project details"
+            className="btn-tactile"
             style={{
               position: 'absolute', top: '20px', right: '20px',
               width: '36px', height: '36px',

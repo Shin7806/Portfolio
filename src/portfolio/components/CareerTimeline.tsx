@@ -24,7 +24,7 @@ function EventCard({ e }: { e: typeof events[0] }) {
   const typeLabel: Record<string, string> = { start: 'Origin', milestone: 'Milestone', edu: 'Education', project: 'Project', current: 'Now' }
 
   return (
-    <div style={{
+    <div className="hover-card" style={{
       padding: '18px 22px',
       background: e.type === 'current' ? 'rgba(192,31,58,0.055)' : 'var(--card)',
       border: `1px solid ${e.type === 'current' ? 'var(--crimson-border)' : 'var(--glass-border)'}`,
@@ -49,9 +49,10 @@ function EventCard({ e }: { e: typeof events[0] }) {
       {e.link && (
         <a
           href={e.link} target="_blank" rel="noopener noreferrer"
+          className="link-underline"
           style={{
             fontFamily: 'var(--font-mono)', fontSize: '10px',
-            color: 'var(--crimson)', textDecoration: 'none',
+            color: 'var(--crimson)',
             marginTop: '10px', display: 'inline-flex', alignItems: 'center', gap: '4px',
             letterSpacing: '0.06em',
           }}

@@ -296,6 +296,7 @@ export default function Hero() {
                   .querySelector("#work")
                   ?.scrollIntoView({ behavior: "smooth" });
               }}
+              className="hover-lift-sm btn-tactile"
               style={{
                 fontFamily: "var(--font-mono)",
                 fontSize: "11px",
@@ -310,8 +311,9 @@ export default function Hero() {
                 color: "#fdf0f3",
                 borderRadius: "4px",
                 padding: "13px 26px",
-                transition: "background 0.22s",
+                transition: "background 0.22s, box-shadow 0.25s",
                 border: "1px solid var(--crimson)",
+                boxShadow: "0 0 0 rgba(192,31,58,0)",
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = "var(--crimson-bright)";
@@ -340,6 +342,7 @@ export default function Hero() {
 
             <Link
               to="/resume"
+              className="hover-lift-sm btn-tactile"
               style={{
                 fontFamily: "var(--font-mono)",
                 fontSize: "11px",
@@ -386,6 +389,7 @@ export default function Hero() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={s.label}
+                className="icon-hover"
                 style={{
                   fontFamily: "var(--font-mono)",
                   fontSize: "10px",
@@ -400,7 +404,7 @@ export default function Hero() {
                   justifyContent: "center",
                   border: "1px solid var(--glass-border)",
                   borderRadius: "4px",
-                  transition: "all 0.22s",
+                  transition: "border-color 0.22s, color 0.22s, background 0.22s, transform 0.3s var(--ease-spring)",
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = "var(--crimson-border)";
@@ -428,6 +432,7 @@ export default function Hero() {
             <a
               href="mailto:dhruvp0629@gmail.com"
               aria-label="Email Dhruv"
+              className="hover-lift-sm"
               style={{
                 fontFamily: "var(--font-mono)",
                 fontSize: "11px",

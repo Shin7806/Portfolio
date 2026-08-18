@@ -166,6 +166,7 @@ export default function Toolbox() {
                     role="tab"
                     aria-selected={activeTab === c.id}
                     onClick={() => setActiveTab(c.id)}
+                    className="btn-tactile"
                     style={{
                       width: '100%', textAlign: 'left',
                       border: 'none', cursor: 'pointer',
@@ -267,6 +268,7 @@ export default function Toolbox() {
                 <button
                   aria-expanded={isOpen}
                   onClick={() => setActiveTab(c.id)}
+                  className="btn-tactile"
                   style={{
                     width: '100%',
                     display: 'flex',

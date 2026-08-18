@@ -58,6 +58,7 @@ export default function Contact() {
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
             <a
               href="mailto:dhruvp0629@gmail.com"
+              className="hover-lift-sm"
               style={{
                 fontFamily: 'var(--font-display)',
                 fontSize: 'clamp(18px, 2.8vw, 30px)',
@@ -75,6 +76,7 @@ export default function Contact() {
             <button
               onClick={copy}
               aria-live="polite"
+              className="btn-tactile"
               style={{
                 fontFamily: 'var(--font-mono)', fontSize: '10px',
                 letterSpacing: '0.18em', textTransform: 'uppercase',
