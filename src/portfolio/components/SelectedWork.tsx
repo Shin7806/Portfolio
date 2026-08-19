@@ -269,8 +269,9 @@ function ProjectStack({
   reduceMotion: boolean
 }) {
   const cardHeight = isMobile ? 240 : 400
-  const peekStep = isMobile ? 16 : 30
-  const stageHeight = cardHeight + peekStep * (MAX_VISIBLE_LAYERS - 1) + 10
+  const peekStep = isMobile ? 10 : 30
+  const visibleLayers = isMobile ? 2 : MAX_VISIBLE_LAYERS
+  const stageHeight = cardHeight + peekStep * (visibleLayers - 1) + 6
 
   return (
     <div
@@ -280,7 +281,7 @@ function ProjectStack({
     >
       {projects.map((p, i) => {
         const depth = relativeDepth(i, activeProject, projects.length)
-        if (depth >= MAX_VISIBLE_LAYERS) return null
+        if (depth >= visibleLayers) return null
 
         const isActive = depth === 0
         const translateY = reduceMotion ? 0 : depth * peekStep

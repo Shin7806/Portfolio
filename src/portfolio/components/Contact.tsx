@@ -103,9 +103,8 @@ export default function Contact() {
               key={s.href}
               href={s.href}
               target="_blank" rel="noopener noreferrer"
+              className="social-card"
               style={{
-                display: 'flex', flexDirection: 'column', alignItems: 'center',
-                gap: '10px', padding: '24px 12px',
                 border: '1px solid var(--glass-border)',
                 borderRadius: '6px', background: 'var(--card)',
                 textDecoration: 'none',
@@ -124,10 +123,8 @@ export default function Contact() {
                 e.currentTarget.style.boxShadow = 'none'
               }}
             >
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, color: 'var(--crimson)', letterSpacing: '0.05em' }}>
-                {s.abbr}
-              </div>
-              <div style={{ textAlign: 'center' }}>
+              <div className="social-card-abbr">{s.abbr}</div>
+              <div>
                 <div style={{ fontFamily: 'var(--font-body)', fontSize: '13px', fontWeight: 600, color: 'var(--text-display)', marginBottom: '3px' }}>
                   {s.label}
                 </div>
@@ -135,6 +132,7 @@ export default function Contact() {
                   {s.sub}
                 </div>
               </div>
+              <span className="social-card-arrow" aria-hidden="true">↗</span>
             </a>
           ))}
         </div>

@@ -360,6 +360,137 @@ body {
   0%   { transform: translateX(-120%); }
   100% { transform: translateX(280%); }
 }
+.preloader-mark {
+  position: relative;
+}
+.preloader-mark::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 180px; height: 180px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(192,31,58,0.28) 0%, transparent 68%);
+  filter: blur(28px);
+  z-index: -1;
+  animation: preloader-breathe 2.2s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CUSTOM CURSOR
+   Dot tracks instantly; ring trails via JS-driven lerp (rAF, direct DOM
+   writes — no React re-renders). Feature-detected: only mounts on devices
+   that report a fine pointer + real hover, so touch/mobile pay zero cost.
+   The `.custom-cursor-active` class is only added once React confirms the
+   feature is live, so a JS failure never leaves the visitor cursor-less.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.custom-cursor-active,
+.custom-cursor-active * {
+  cursor: none !important;
+}
+.custom-cursor-active input,
+.custom-cursor-active textarea,
+.custom-cursor-active [contenteditable="true"] {
+  cursor: text !important;
+}
+
+.custom-cursor-dot,
+.custom-cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  border-radius: 50%;
+  transition: opacity 0.3s var(--ease-out);
+  will-change: transform;
+}
+.custom-cursor-dot.is-visible,
+.custom-cursor-ring.is-visible {
+  opacity: 1;
+}
+.custom-cursor-dot {
+  width: 7px; height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  background: var(--crimson-bright);
+}
+.custom-cursor-ring {
+  width: 36px; height: 36px;
+  margin: -18px 0 0 -18px;
+  border: 1px solid var(--crimson-border);
+  transition: opacity 0.3s var(--ease-out), border-color 0.25s var(--ease-out), background 0.25s var(--ease-out);
+}
+.custom-cursor-ring.is-hovering {
+  border-color: var(--crimson);
+  background: rgba(192,31,58,0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .custom-cursor-ring { transition: opacity 0.3s var(--ease-out); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AMBIENT BACKGROUND
+   Two large, softly-blurred gradient fields drifting behind the whole
+   page. Blur is baked into each layer once — the keyframe only ever
+   animates `transform`, so the compositor just repositions a pre-rendered
+   bitmap each frame rather than repainting blur, which is what keeps this
+   cheap on low-end/integrated GPUs. Fixed + very low opacity so it reads
+   as ambience, not decoration you consciously notice.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ambient-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.ambient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  will-change: transform;
+}
+.ambient-orb--a {
+  top: 8%;
+  left: 12%;
+  width: 42vw;
+  height: 42vw;
+  max-width: 620px;
+  max-height: 620px;
+  background: radial-gradient(circle, rgba(192,31,58,0.12) 0%, transparent 70%);
+  animation: ambient-drift-a 26s ease-in-out infinite alternate;
+}
+.ambient-orb--b {
+  bottom: 4%;
+  right: 8%;
+  width: 36vw;
+  height: 36vw;
+  max-width: 520px;
+  max-height: 520px;
+  background: radial-gradient(circle, rgba(120,14,38,0.1) 0%, transparent 70%);
+  animation: ambient-drift-b 32s ease-in-out infinite alternate;
+}
+@keyframes ambient-drift-a {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(6vw, 8vh, 0) scale(1.12); }
+}
+@keyframes ambient-drift-b {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(-5vw, -6vh, 0) scale(1.08); }
+}
+@media (max-width: 768px) {
+  .ambient-orb { filter: blur(60px); }
+  .ambient-orb--a, .ambient-orb--b { width: 70vw; height: 70vw; }
+}
+
+/* ── Hero parallax layers: JS writes `translate3d` here on mousemove;
+   the pulse/blur/color of each orb lives on the nested child so the two
+   transforms never fight over the same property. ── */
+.hero-parallax-layer {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
 
 /* ── Marquee strip ── */
 .marquee-track {
@@ -753,6 +884,49 @@ body {
   .show-on-mobile-only { display: none !important; }
 }
 
+/* ── Footer ── */
+.site-footer {
+  position: relative;
+}
+.site-footer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--crimson-border), transparent);
+}
+.footer-brand   { order: 1; }
+.footer-links   { order: 2; }
+.footer-caption { order: 3; }
+
+/* ── Social cards (Contact section) ──
+   Desktop/tablet: icon-on-top column card (unchanged). Below 480px this
+   flips to a compact horizontal row so five links don't turn into five
+   tall stacked boxes on a phone. */
+.social-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  padding: 24px 12px;
+}
+.social-card-abbr {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--crimson);
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+.social-card-arrow {
+  display: none;
+  color: var(--text-subtle);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
 @media (max-width: 768px) {
   .hide-on-mobile-only { display: none !important; }
   :root { --pad-x: 24px; }
@@ -764,12 +938,41 @@ body {
   .timeline-mirror { grid-template-columns: 20px 1fr !important; }
   .tl-left  { display: none !important; }
   .contact-stats { gap: 20px !important; }
-  .footer-inner  { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
+
+  .footer-inner  {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 18px !important;
+    padding-bottom: 88px !important; /* clears the fixed back-to-top button */
+  }
+  .footer-links   { justify-content: flex-start !important; flex-wrap: wrap; }
+  .footer-caption { text-align: left !important; }
+
+  /* Tighten the perceived gap between the preview stack and the project
+     list below it on mobile (stacked layout only). */
+  .selected-work-layout { gap: 20px !important; }
 }
 
 @media (max-width: 480px) {
   :root { --pad-x: 20px; }
-  .social-grid  { grid-template-columns: 1fr !important; }
+  .social-grid  { grid-template-columns: 1fr !important; gap: 10px !important; }
+  .social-card  {
+    flex-direction: row !important;
+    align-items: center !important;
+    text-align: left !important;
+    gap: 14px !important;
+    padding: 14px 16px !important;
+  }
+  .social-card-abbr {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--crimson-border);
+    border-radius: 4px;
+  }
+  .social-card-arrow { display: block; margin-left: auto; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -819,4 +1022,10 @@ body {
     margin: 0 !important;
   }
   @page { size: A4; margin: 0; }
+
+  /* Decorative-only overlays: never print these */
+  .custom-cursor-dot, .custom-cursor-ring,
+  .ambient-background, .scroll-progress, .noise-layer, .preloader {
+    display: none !important;
+  }
 }

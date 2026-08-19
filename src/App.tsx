@@ -1,15 +1,16 @@
-import type { ReactNode } from 'react'
-import { Routes, Route, useLocation } from 'react-router'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import PortfolioApp from './portfolio/PortfolioApp'
-import ResumeApp from './resume/ResumeApp'
-import Preloader from './Preloader'
+import type { ReactNode } from "react";
+import { Routes, Route, useLocation } from "react-router";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import PortfolioApp from "./portfolio/PortfolioApp";
+import ResumeApp from "./resume/ResumeApp";
+import Preloader from "./Preloader";
+import CustomCursor from "./CustomCursor";
 
 // Subtle cross-fade + drift between routes. Wrapping here (instead of
 // inside each page) keeps PortfolioApp/ResumeApp untouched — this is the
 // only place that knows a route change happened.
 function PageTransition({ children }: { children: ReactNode }) {
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReducedMotion();
 
   return (
     <motion.div
@@ -23,21 +24,36 @@ function PageTransition({ children }: { children: ReactNode }) {
     >
       {children}
     </motion.div>
-  )
+  );
 }
 
 export default function App() {
-  const location = useLocation()
+  const location = useLocation();
 
   return (
     <>
       <Preloader />
+      <CustomCursor />
       <AnimatePresence mode="wait" initial={false}>
         <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<PageTransition><PortfolioApp /></PageTransition>} />
-          <Route path="/resume" element={<PageTransition><ResumeApp /></PageTransition>} />
+          <Route
+            path="/"
+            element={
+              <PageTransition>
+                <PortfolioApp />
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/resume"
+            element={
+              <PageTransition>
+                <ResumeApp />
+              </PageTransition>
+            }
+          />
         </Routes>
       </AnimatePresence>
     </>
-  )
+  );
 }

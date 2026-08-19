@@ -78,6 +78,53 @@ function useTypewriter(words: string[]) {
 
 export default function Hero() {
   const role = useTypewriter(roles);
+  const sectionRef = useRef<HTMLElement>(null);
+  const orbARef = useRef<HTMLDivElement>(null);
+  const orbBRef = useRef<HTMLDivElement>(null);
+
+  // Subtle cursor-parallax on the two atmospheric orbs — this is what
+  // "landing page should feel alive" means in practice. Skipped entirely
+  // on touch devices and for prefers-reduced-motion. The orbs keep their
+  // existing CSS glow-pulse animation (scale/opacity) on an inner div;
+  // this effect only ever writes `transform: translate3d(...)` on the
+  // outer wrapper, so the two never fight over the same property.
+  useEffect(() => {
+    const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!canHover || reduceMotion) return;
+
+    const section = sectionRef.current;
+    if (!section) return;
+
+    let targetX = 0, targetY = 0;
+    let curX = 0, curY = 0;
+    let rafId = 0;
+
+    const onMouseMove = (e: MouseEvent) => {
+      const rect = section.getBoundingClientRect();
+      targetX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      targetY = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+    };
+
+    const tick = () => {
+      curX += (targetX - curX) * 0.06;
+      curY += (targetY - curY) * 0.06;
+      if (orbARef.current) {
+        orbARef.current.style.transform = `translate3d(${curX * 26}px, ${curY * 22}px, 0)`;
+      }
+      if (orbBRef.current) {
+        orbBRef.current.style.transform = `translate3d(${-curX * 20}px, ${-curY * 18}px, 0)`;
+      }
+      rafId = requestAnimationFrame(tick);
+    };
+
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    rafId = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("mousemove", onMouseMove);
+    };
+  }, []);
 
   const fadeUp = (delay: number) => ({
     initial: { opacity: 0, y: 22 },
@@ -89,6 +136,7 @@ export default function Hero() {
     <section
       id="hero"
       aria-label="Introduction"
+      ref={sectionRef}
       style={{
         minHeight: "100vh",
         display: "flex",
@@ -103,35 +151,39 @@ export default function Hero() {
         style={{ position: "absolute", inset: 0, pointerEvents: "none" }}
       >
         {/* Primary orb — top-left */}
-        <div
-          style={{
-            position: "absolute",
-            top: "-15%",
-            left: "-8%",
-            width: "65%",
-            height: "65%",
-            borderRadius: "50%",
-            background:
-              "radial-gradient(ellipse, rgba(192,31,58,0.15) 0%, transparent 72%)",
-            filter: "blur(56px)",
-            animation: "glow-pulse 9s ease-in-out infinite",
-          }}
-        />
+        <div ref={orbARef} className="hero-parallax-layer">
+          <div
+            style={{
+              position: "absolute",
+              top: "-15%",
+              left: "-8%",
+              width: "65%",
+              height: "65%",
+              borderRadius: "50%",
+              background:
+                "radial-gradient(ellipse, rgba(192,31,58,0.15) 0%, transparent 72%)",
+              filter: "blur(56px)",
+              animation: "glow-pulse 9s ease-in-out infinite",
+            }}
+          />
+        </div>
         {/* Secondary orb — bottom-right */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: "-8%",
-            right: "-4%",
-            width: "50%",
-            height: "50%",
-            borderRadius: "50%",
-            background:
-              "radial-gradient(ellipse, rgba(120,14,38,0.1) 0%, transparent 70%)",
-            filter: "blur(72px)",
-            animation: "glow-pulse 14s ease-in-out infinite 5s",
-          }}
-        />
+        <div ref={orbBRef} className="hero-parallax-layer">
+          <div
+            style={{
+              position: "absolute",
+              bottom: "-8%",
+              right: "-4%",
+              width: "50%",
+              height: "50%",
+              borderRadius: "50%",
+              background:
+                "radial-gradient(ellipse, rgba(120,14,38,0.1) 0%, transparent 70%)",
+              filter: "blur(72px)",
+              animation: "glow-pulse 14s ease-in-out infinite 5s",
+            }}
+          />
+        </div>
         {/* Subtle grid */}
         <div
           style={{

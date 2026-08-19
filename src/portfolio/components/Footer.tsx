@@ -1,10 +1,17 @@
 export default function Footer() {
   const year = new Date().getFullYear()
 
+  const links = [
+    { label: 'GitHub',   href: 'https://github.com/Shin7806' },
+    { label: 'Behance',  href: 'https://www.behance.net/shinchangfx' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/dhruvpoddar/' },
+  ]
+
   return (
     <footer
       role="contentinfo"
-      style={{ borderTop: '1px solid var(--glass-border)', padding: '36px 0' }}
+      className="site-footer"
+      style={{ padding: '36px 0' }}
     >
       <div
         className="footer-inner"
@@ -14,43 +21,27 @@ export default function Footer() {
           flexWrap: 'wrap', gap: '16px',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <span style={{
-            fontFamily: 'var(--font-display)', fontSize: '15px',
-            fontWeight: 700, color: 'var(--text-display)', letterSpacing: '-0.01em',
-          }}>
-            <img
+        <div className="footer-brand" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <img
             src="/logo.svg"
             alt="Dhruv Poddar Logo"
+            className="icon-hover"
             style={{
-              width: "42px",
-              height: "42px",
-              objectFit: "contain",
-              display: "block",
-              userSelect: "none",
-              pointerEvents: "none",
+              width: '30px',
+              height: '30px',
+              objectFit: 'contain',
+              display: 'block',
+              userSelect: 'none',
+              flexShrink: 0,
             }}
           />
-          </span>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-subtle)', letterSpacing: '0.1em' }}>
             © {year} Dhruv Poddar
           </span>
         </div>
 
-        <div style={{
-          fontFamily: 'var(--font-mono)', fontSize: '10px',
-          letterSpacing: '0.1em', color: 'var(--text-subtle)', textAlign: 'center',
-        }}>
-          Designed & developed with intent.{' '}
-          <span style={{ color: 'var(--crimson)' }}>Built in Bengaluru.</span>
-        </div>
-
-        <div style={{ display: 'flex', gap: '24px' }}>
-          {[
-            { label: 'GitHub',   href: 'https://github.com/Shin7806' },
-            { label: 'Behance',  href: 'https://www.behance.net/shinchangfx' },
-            { label: 'LinkedIn', href: 'https://www.linkedin.com/in/dhruvpoddar/' },
-          ].map(l => (
+        <div className="footer-links" style={{ display: 'flex', gap: '24px' }}>
+          {links.map(l => (
             <a
               key={l.href}
               href={l.href}
@@ -65,6 +56,14 @@ export default function Footer() {
               onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-subtle)' }}
             >{l.label}</a>
           ))}
+        </div>
+
+        <div className="footer-caption" style={{
+          fontFamily: 'var(--font-mono)', fontSize: '10px',
+          letterSpacing: '0.1em', color: 'var(--text-subtle)', textAlign: 'center',
+        }}>
+          Designed & developed with intent.{' '}
+          <span style={{ color: 'var(--crimson)' }}>Built in Bengaluru.</span>
         </div>
       </div>
     </footer>
