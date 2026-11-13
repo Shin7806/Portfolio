@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://dhruvpoddar.is-a.dev/</loc>
-  </url>
+  <url><loc>https://dhruvpoddar.is-a.dev/</loc></url>
+  <url><loc>https://dhruvpoddar.is-a.dev/work/rs360</loc></url>
+  <url><loc>https://dhruvpoddar.is-a.dev/about</loc></url>
+  <url><loc>https://dhruvpoddar.is-a.dev/resume</loc></url>
 </urlset>

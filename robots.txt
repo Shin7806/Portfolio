@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
 Sitemap: https://dhruvpoddar.is-a.dev/sitemap.xml

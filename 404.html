@@ -3,145 +3,45 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- Primary SEO -->
-    <title>Dhruv Poddar | Product Designer · UI/UX Designer · Graphic Designer</title>
-
-    <meta
-      name="description"
-      content="Portfolio of Dhruv Poddar, a Product Designer based in Bengaluru, India, working across UI/UX, visual design, design systems and AI-assisted workflows."
-    />
-
+    <title>Dhruv Poddar — Product Designer</title>
+    <link rel="preload" href="/assets/instrument-sans-latin-500-normal-Dk9ku72i.woff2" as="font" type="font/woff2" crossorigin />
+    <meta name="description" content="Dhruv Poddar is a product designer in Bengaluru who designs and builds interfaces end to end: RS360, NeuroTwin, SkillBridge and LogoFolio." />
     <meta name="author" content="Dhruv Poddar" />
-    <meta name="creator" content="Dhruv Poddar" />
-    <meta name="publisher" content="Dhruv Poddar" />
-
-    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#F5F2ED" />
+    <meta name="color-scheme" content="light dark" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Dhruv Poddar" />
+    <meta property="og:title" content="Dhruv Poddar — Product Designer" />
+    <meta property="og:description" content="I design and build product interfaces end to end — from research and design systems to shipped React code." />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Dhruv Poddar, product designer in Bengaluru, with the pixel lettering “Let’s build”." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Dhruv Poddar — Product Designer" />
+    <meta name="twitter:description" content="I design and build product interfaces end to end — from research and design systems to shipped React code." />
     <link rel="canonical" href="https://dhruvpoddar.is-a.dev/" />
-
-    <!-- Theme -->
-    <meta name="theme-color" content="#07050a" />
-    <meta name="color-scheme" content="dark" />
-    <meta name="format-detection" content="telephone=no" />
-
-    <!-- Application -->
-    <meta name="application-name" content="Dhruv Poddar Portfolio" />
-    <meta name="apple-mobile-web-app-title" content="Dhruv Poddar" />
-
-    <!-- Resource hints: index.css pulls Playfair Display / Inter / JetBrains Mono from Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-    <!-- Favicons -->
+    <meta property="og:url" content="https://dhruvpoddar.is-a.dev/" />
+    <meta property="og:image" content="https://dhruvpoddar.is-a.dev/og-image.png" />
+    <meta name="twitter:image" content="https://dhruvpoddar.is-a.dev/og-image.png" />
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="msapplication-TileColor" content="#07050a" />
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Dhruv Poddar" />
-    <meta property="og:locale" content="en_IN" />
-    <meta property="og:title" content="Dhruv Poddar | Product Designer · UI/UX Designer · Graphic Designer" />
-    <meta
-      property="og:description"
-      content="Portfolio of Dhruv Poddar, a Product Designer based in Bengaluru, India, working across UI/UX, visual design, design systems and AI-assisted workflows."
-    />
-    <meta property="og:url" content="https://dhruvpoddar.is-a.dev/" />
-    <meta property="og:image" content="https://dhruvpoddar.is-a.dev/og-image.png" />
-    <meta property="og:image:url" content="https://dhruvpoddar.is-a.dev/og-image.png" />
-    <meta property="og:image:secure_url" content="https://dhruvpoddar.is-a.dev/og-image.png" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Dhruv Poddar — Product Designer, UI/UX Designer and Graphic Designer" />
-
-    <!-- Twitter / X -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Dhruv Poddar | Product Designer · UI/UX Designer · Graphic Designer" />
-    <meta
-      name="twitter:description"
-      content="Portfolio of Dhruv Poddar, a Product Designer based in Bengaluru, India, working across UI/UX, visual design, design systems and AI-assisted workflows."
-    />
-    <meta name="twitter:image" content="https://dhruvpoddar.is-a.dev/og-image.png" />
-    <meta name="twitter:image:alt" content="Dhruv Poddar — Product Designer, UI/UX Designer and Graphic Designer" />
-    <meta name="twitter:creator" content="@_shinchan_op" />
-    <meta name="twitter:site" content="@_shinchan_op" />
-
-    <!-- Structured Data: one connected graph — WebSite -> ProfilePage -> Person -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@graph": [
-          {
-            "@type": "WebSite",
-            "@id": "https://dhruvpoddar.is-a.dev/#website",
-            "url": "https://dhruvpoddar.is-a.dev/",
-            "name": "Dhruv Poddar",
-            "inLanguage": "en",
-            "author": { "@id": "https://dhruvpoddar.is-a.dev/#person" }
-          },
-          {
-            "@type": "ProfilePage",
-            "@id": "https://dhruvpoddar.is-a.dev/#webpage",
-            "url": "https://dhruvpoddar.is-a.dev/",
-            "name": "Dhruv Poddar | Product Designer · UI/UX Designer · Graphic Designer",
-            "inLanguage": "en",
-            "isPartOf": { "@id": "https://dhruvpoddar.is-a.dev/#website" },
-            "about": { "@id": "https://dhruvpoddar.is-a.dev/#person" },
-            "mainEntity": { "@id": "https://dhruvpoddar.is-a.dev/#person" },
-            "primaryImageOfPage": { "@id": "https://dhruvpoddar.is-a.dev/#ogimage" }
-          },
-          {
-            "@type": "ImageObject",
-            "@id": "https://dhruvpoddar.is-a.dev/#ogimage",
-            "url": "https://dhruvpoddar.is-a.dev/og-image.png",
-            "contentUrl": "https://dhruvpoddar.is-a.dev/og-image.png",
-            "width": 1200,
-            "height": 630
-          },
-          {
-            "@type": "Person",
-            "@id": "https://dhruvpoddar.is-a.dev/#person",
-            "name": "Dhruv Poddar",
-            "url": "https://dhruvpoddar.is-a.dev/",
-            "jobTitle": "Product Designer",
-            "description": "Product Designer specializing in Product Design, UI/UX Design and Graphic Design.",
-            "email": "mailto:dhruvp0629@gmail.com",
-            "address": {
-              "@type": "PostalAddress",
-              "addressLocality": "Bengaluru",
-              "addressCountry": "India"
-            },
-            "knowsAbout": ["Product Design", "UI/UX Design", "Graphic Design", "Design Systems"],
-            "sameAs": [
-              "https://www.behance.net/shinchangfx",
-              "https://github.com/Shin7806",
-              "https://www.instagram.com/_shinchan_op/",
-              "https://www.linkedin.com/in/dhruvpoddar/"
-            ]
-          }
-        ]
-      }
-    </script>
-
-    <style>
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-      }
-      #root {
-        height: 100%;
-      }
-    </style>
-    <script type="module" crossorigin src="/assets/index-CkI1Q9Wh.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-CXoTeZVg.css">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://res.cloudinary.com" />
+    <script src="/theme.js"></script>
+    <script type="module" crossorigin src="/assets/index-COEr9qQ9.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-WkwZ5CU-.js">
+    <link rel="modulepreload" crossorigin href="/assets/motion-DVmCh45m.js">
+    <link rel="modulepreload" crossorigin href="/assets/react-DcNmwVWm.js">
+    <link rel="modulepreload" crossorigin href="/assets/router-BN_CL705.js">
+    <link rel="modulepreload" crossorigin href="/assets/theme-D4uc7xkw.js">
+    <link rel="modulepreload" crossorigin href="/assets/Contact-BmHM9WNp.js">
+    <link rel="stylesheet" crossorigin href="/assets/Contact-BqpIW5Tg.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-Bv1sZAda.css">
   </head>
   <body>
     <div id="root"></div>
+    <noscript>This portfolio needs JavaScript. Email Dhruv at <a href="mailto:dhruvp0629@gmail.com">dhruvp0629@gmail.com</a> or see his work on <a href="https://www.behance.net/shinchangfx">Behance</a>.</noscript>
   </body>
 </html>

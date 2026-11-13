@@ -1,0 +1,3 @@
+Logo sources: Devicon v2.16.0 via cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/ (Figma, Adobe tools, web stack, VS Code, Git, Notion). AI SVGs: @lobehub/icons-static-svg via jsDelivr (OpenAI, Claude, Gemini, Perplexity, Cursor). Stored locally, rendered as image assets with original colors; monochrome logos invert for dark-background legibility. Tool labels identify their respective owners. Perplexity and Cursor are suggestions, not claims of current use.
+
+Added Antigravity-color and Codex from the same LobeHub SVG package. Displayed toolkit no longer includes Cursor or Perplexity.

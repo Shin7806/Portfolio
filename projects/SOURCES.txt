@@ -1,0 +1,12 @@
+Captured 2026-11-12 with scripts/capture.mjs. Floating contact widgets are hidden before capture.
+rs360: https://rs360.in/ (1440×900)
+skillbridge: https://skill-bridge-shin7806s-projects.vercel.app/ (1440×900)
+neurotwin: cover artwork 1170×1170, centre-cropped to 1170×731
+logofolio: cover artwork 600×338, centre-cropped to 541×338
+home: https://rs360.in/ (1440×900)
+catalogue: https://rs360.in/products/laminates (1440×900)
+product: https://rs360.in/products/laminates/amulya/amulya-c4-collection/1999-hgf-midnight-black (1440×900)
+quotation: https://rs360.in/quotation (1440×900)
+pro: https://rs360.in/rs360-pro (1440×900)
+mobile-home: https://rs360.in/ (390×844, mobile)
+mobile-catalogue: https://rs360.in/products/laminates (390×844, mobile)
