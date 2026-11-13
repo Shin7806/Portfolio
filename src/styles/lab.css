@@ -1,0 +1,125 @@
+@layer site {
+/* 04 / Lab: the interface study. Its own --ds-* tokens are written inline by the component. */
+.folio .ds-mount { width: 100%; max-width: 468px; height: 570px; min-width: 0; }
+.folio .design-specimen { position: relative; width: 100%; height: 570px; min-width: 0; display: grid; grid-template-rows: 64px minmax(280px,1fr) 46px 108px 58px; color: var(--ds-text); background: var(--ds-canvas); border: 1px solid var(--ds-line); border-radius: var(--r-2); font-family: var(--display); text-align: left; isolation: isolate; }
+.folio .design-specimen :where(button,a,input) { -webkit-tap-highlight-color: transparent; }
+.folio .design-specimen :where(button,input) { font-family: inherit; color: inherit; }
+.folio .design-specimen :where(button,a,input,[tabindex]):focus-visible { outline: 2px solid var(--ds-text); outline-offset: 2px; }
+.folio .design-specimen svg { flex-shrink: 0; stroke: currentColor; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+.folio .design-specimen [hidden] { display: none !important; }
+
+.folio .ds-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 14px 10px 10px; }
+.folio .ds-title { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 8px; font-size: 12px; font-weight: 500; color: var(--ds-text); }
+.folio .ds-title i { width: 8px; height: 8px; border-radius: 2px; background: var(--ds-accent); }
+.folio .ds-copy-variables { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 8px; border: 0; border-radius: var(--r-1); background: transparent; font-size: 12px; color: var(--ds-text); white-space: nowrap; }
+.folio .ds-copy-variables:hover { background: var(--ds-surface); }
+.folio .ds-copy-variables[data-done] { color: var(--ds-accentInk); }
+.folio .ds-utilities { display: flex; align-items: center; }
+.folio .ds-icon-button, .folio .ds-canvas-toggle { display: grid; place-items: center; width: 40px; height: 44px; padding: 0; background: none; border: 0; color: var(--ds-muted); border-radius: var(--r-1); }
+.folio .ds-icon-button:hover, .folio .ds-canvas-toggle:hover { color: var(--ds-text); background: var(--ds-surface); }
+.folio .ds-canvas-icon { width: 13px; height: 13px; border: 1px solid currentColor; border-radius: 50%; position: relative; overflow: hidden; }
+.folio .ds-canvas-icon::before { content: ''; position: absolute; inset: 0 50% 0 0; background: currentColor; }
+
+.folio .ds-preview { min-width: 0; min-height: 0; padding: 8px 22px 12px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 10px; }
+.folio .ds-project-card { width: 100%; min-width: 0; flex-shrink: 0; padding: var(--ds-space); background: var(--ds-surface); border: 1px solid var(--ds-line); border-radius: var(--ds-radius); transition: padding 200ms var(--ease), border-radius 200ms var(--ease); }
+.folio .ds-card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: -8px -7px 0 0; }
+.folio .ds-overline { display: block; color: var(--ds-muted); font: 400 11px/1.5 var(--mono); text-transform: uppercase; letter-spacing: .04em; }
+.folio .ds-bookmark[aria-pressed='true'] svg { fill: var(--ds-accent); stroke: var(--ds-text); }
+.folio .ds-edit { display: block; min-width: 0; margin: 0 -6px; padding: 3px 6px; border-radius: 6px; outline: none; cursor: text; white-space: pre-wrap; overflow-wrap: anywhere; transition: background-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease); }
+.folio .ds-edit:hover { background: color-mix(in srgb, var(--ds-text) 6%, transparent); }
+.folio .ds-edit:focus { background: color-mix(in srgb, var(--ds-text) 5%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ds-accent) 70%, transparent); }
+.folio .ds-edit-title { margin-top: 5px; font: 500 var(--ds-typeSize)/1.25 var(--ds-fontFamily); letter-spacing: -.045em; }
+.folio .ds-edit-description { margin-top: 6px; font-size: 12px; line-height: 1.6; color: var(--ds-muted); }
+.folio .ds-demo-action .ds-edit { flex: 1; margin: 0; padding: 3px 4px; font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; }
+.folio .ds-demo-action .ds-edit:hover, .folio .ds-demo-action .ds-edit:focus { background: rgb(255 255 255 / 12%); box-shadow: none; }
+.folio .ds-demo-action { height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-left: 12px; margin-top: 14px; color: var(--ds-onAccent); background: var(--ds-accent); border: 1px solid var(--ds-accent); border-radius: max(0px, calc(var(--ds-radius) - 3px)); }
+.folio .ds-demo-action a { display: grid; place-items: center; flex-shrink: 0; width: 44px; height: 44px; color: inherit; }
+.folio .ds-demo-action svg { transition: transform var(--t-fast) var(--ease); }
+.folio .ds-demo-action a:hover svg { transform: translate(1px,-1px); }
+.folio .ds-demo-action[data-outlined] { color: var(--ds-accentInk); background: transparent; }
+.folio .ds-preview-note { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--ds-muted); }
+.folio .ds-preview-note svg { width: 12px; height: 12px; }
+
+.folio .ds-tabs { display: grid; grid-template-columns: repeat(3,1fr); border-block: 1px solid var(--ds-line); }
+.folio .ds-tabs button { position: relative; display: flex; align-items: center; padding: 0 18px; border: 0; background: none; font-size: 12px; color: var(--ds-muted); }
+.folio .ds-tabs button + button { border-left: 1px solid var(--ds-line); }
+.folio .ds-tabs button::after { content: ''; position: absolute; inset: auto 12px 0; height: 2px; background: var(--ds-accent); transform: scaleX(0); transform-origin: left; transition: transform var(--t-fast) var(--ease); }
+.folio .ds-tabs button[aria-selected='true'] { color: var(--ds-text); background: var(--ds-surface); font-weight: 500; }
+.folio .ds-tabs button[aria-selected='true']::after { transform: scaleX(1); }
+.folio .ds-tabs button:hover { color: var(--ds-text); }
+.folio .ds-tabs button:focus-visible { outline: 2px solid var(--ds-text); outline-offset: -4px; z-index: 1; }
+
+.folio .ds-panels { min-height: 0; min-width: 0; }
+.folio .ds-panel { display: block; height: 108px; min-width: 0; }
+.folio .ds-inspector { padding: 4px 22px; }
+.folio .ds-control-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; height: 50px; min-width: 0; }
+.folio .ds-control-label { font-size: 12px; line-height: 1.4; color: var(--ds-muted); }
+.folio .ds-segment { display: inline-flex; padding: 2px; border: 1px solid var(--ds-line); border-radius: 6px; }
+.folio .ds-segment button { min-height: 36px; min-width: 64px; padding: 0 10px; background: transparent; border: 0; border-radius: var(--r-1); font-size: 12px; color: var(--ds-muted); }
+.folio .ds-segment button[aria-pressed='true'] { color: var(--ds-text); background: var(--ds-surface); outline: 1px solid var(--ds-line); }
+.folio .ds-switch { display: flex; align-items: center; width: 44px; height: 44px; position: relative; background: none; border: 0; padding: 0; }
+.folio .ds-switch::before { content: ''; height: 19px; width: 34px; border: 1px solid var(--ds-muted); border-radius: 20px; position: absolute; left: 5px; background: var(--ds-canvas); }
+.folio .ds-switch span { position: relative; margin-left: 9px; width: 11px; height: 11px; background: var(--ds-muted); border-radius: 50%; transition: transform var(--t-fast) var(--ease); }
+.folio .ds-switch[aria-checked='true']::before { background: var(--ds-accent); border-color: var(--ds-accent); }
+.folio .ds-switch[aria-checked='true'] span { transform: translateX(15px); background: var(--ds-onAccent); }
+.folio .ds-range-row input { width: 45%; max-width: 180px; min-height: 40px; padding: 0; margin: 0; accent-color: var(--ds-accent); cursor: ew-resize; }
+.folio .ds-range-row output { min-width: 38px; font: 11px/1.4 var(--mono); text-align: right; }
+.folio .ds-inline-tokens { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 4px 12px; font: 11px/1.4 var(--mono); color: var(--ds-muted); }
+.folio .ds-inline-tokens span { display: flex; align-items: center; gap: 5px; }
+.folio .ds-inline-tokens i { width: 10px; height: 10px; border: 1px solid var(--ds-line); border-radius: 2px; }
+
+.folio .ds-accent-row { position: relative; display: flex; align-items: center; gap: 10px; padding: 0 18px; border-top: 1px solid var(--ds-line); }
+.folio .ds-accent-options { display: flex; }
+.folio .ds-accent-options button { width: 36px; height: 44px; display: grid; place-items: center; padding: 0; background: none; border: 0; position: relative; border-radius: 50%; }
+.folio .ds-accent-options button::before { content: ''; position: absolute; width: 24px; height: 24px; border: 1px solid transparent; border-radius: 50%; }
+.folio .ds-accent-options button[aria-pressed='true']::before { border-color: var(--ds-text); }
+.folio .ds-accent-options button > span { width: 16px; height: 16px; display: grid; place-items: center; border-radius: 50%; transition: transform var(--t-fast) var(--ease); }
+.folio .ds-accent-options button:hover > span { transform: scale(1.12); }
+.folio .ds-accent-options .ds-custom-accent > span { width: 20px; height: 20px; border: 1px solid var(--ds-muted); color: var(--ds-muted); }
+.folio .ds-custom-accent svg { width: 12px; height: 12px; }
+.folio .ds-accent-value { margin-left: auto; color: var(--ds-muted); font: 11px/1.4 var(--mono); }
+
+/* Custom accent popover */
+.folio .ds-color-picker { position: absolute; z-index: 3; right: 18px; bottom: calc(100% - 2px); width: 280px; max-width: calc(100% - 32px); padding: 14px; border: 1px solid var(--ds-line); border-radius: var(--r-2); background: var(--ds-canvas); color: var(--ds-text); }
+.folio .ds-color-picker > div:first-child { display: flex; align-items: center; justify-content: space-between; }
+.folio .ds-picker-close { width: 32px; height: 32px; background: none; border: 0; font-size: 20px; }
+.folio .ds-color-picker > p { margin-top: 12px; font-size: 11px; color: var(--ds-muted); }
+.folio .color-editor { display: block; width: 100%; min-width: 0; padding-top: 12px; }
+.folio .color-plane { position: relative; display: block; width: 100%; height: 148px; overflow: hidden; border-radius: 8px; background-image: linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, transparent); touch-action: none; cursor: crosshair; }
+.folio .color-plane i { position: absolute; width: 12px; height: 12px; border: 2px solid #fff; border-radius: 50%; box-shadow: 0 0 0 1px rgb(0 0 0 / 45%); transform: translate(-50%,-50%); pointer-events: none; }
+.folio .color-hue-row { display: flex; align-items: center; width: 100%; gap: 10px; margin-block: 12px; }
+.folio .color-hue-row button { display: grid; place-items: center; flex: 0 0 36px; width: 36px; height: 36px; background: none; border: 1px solid var(--ds-line); border-radius: 6px; }
+.folio .color-hue-row input { flex: 1; min-width: 0; appearance: none; height: 10px; border-radius: 10px; background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); }
+.folio .color-hue-row input::-webkit-slider-thumb { appearance: none; width: 16px; height: 16px; border: 2px solid #fff; border-radius: 50%; background: transparent; box-shadow: 0 0 0 1px rgb(0 0 0 / 35%); }
+.folio .color-format { display: grid; grid-template-columns: 32px 34px 32px minmax(0,1fr); align-items: center; gap: 5px; width: 100%; font: 11px var(--mono); }
+.folio .color-format span { text-align: center; }
+.folio .color-format button { height: 36px; background: var(--ds-surface); border: 0; border-radius: 6px; font-size: 18px; }
+.folio .color-format input { min-width: 0; width: 100%; border: 1px solid var(--ds-line); border-radius: 6px; padding: 9px 7px; font: 11px var(--mono); background: var(--ds-surface); color: var(--ds-text); }
+
+/* Expanded view */
+.folio.ds-dialog { width: min(800px, calc(100vw - 32px)); max-width: none; height: min(760px, calc(100dvh - 32px)); max-height: none; padding: 0; margin: auto; border: 0; border-radius: var(--r-2); background: transparent; overflow: auto; scrollbar-width: thin; }
+.folio.ds-dialog::backdrop { background: var(--scrim); }
+.folio.ds-dialog .design-specimen { height: 100%; min-height: 570px; grid-template-rows: 68px minmax(280px,1fr) 46px 108px 58px; }
+.folio.ds-dialog .ds-preview { padding-inline: clamp(16px,4vw,48px); }
+.folio.ds-dialog .ds-project-card { max-width: 560px; }
+.folio.ds-dialog .ds-inspector { padding-inline: 28px; }
+
+@media (max-width: 560px) {
+  .folio .ds-mount, .folio .design-specimen { height: auto; }
+  .folio .design-specimen { grid-template-rows: auto minmax(260px,auto) 46px auto auto; }
+  .folio .ds-panel { height: auto; min-height: 108px; }
+  .folio .ds-header { padding-inline: 6px 8px; gap: 4px; }
+  .folio .ds-icon-button, .folio .ds-canvas-toggle { width: 36px; }
+  .folio .ds-copy-variables { padding-inline: 4px; gap: 7px; }
+  .folio .ds-preview { padding-inline: 14px; }
+  .folio .ds-inspector { padding-inline: 16px; }
+  .folio .ds-tabs button { padding-inline: 12px; }
+  .folio .ds-control-row { height: auto; min-height: 50px; flex-wrap: wrap; padding-block: 4px; }
+  .folio .ds-accent-row { padding-inline: 10px; gap: 6px; min-height: 58px; }
+  .folio .ds-accent-options button { width: 34px; }
+  .folio .ds-accent-value { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .folio .design-specimen * { transition: none !important; } }
+@media (forced-colors: active) { .folio .ds-accent-options button[aria-pressed='true'], .folio .ds-segment button[aria-pressed='true'] { outline: 2px solid Highlight; } }
+
+}

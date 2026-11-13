@@ -1,0 +1,39 @@
+{
+  "src/data/content.ts": {
+    "source": "src/portfolio/content.ts",
+    "sha256": "9215492ade061f6565181c0e947478cf8ca1ab68593c1e472e6c3844a31854a7"
+  },
+  "src/resume/ResumeApp.tsx": {
+    "source": "src/resume/ResumeApp.tsx",
+    "sha256": "3d4f5b7aff0733ea85a4500d82da567bb986445e35440ae450c66a361fbe8746"
+  },
+  "src/resume/resume.css": {
+    "source": "src/resume/resume.css",
+    "sha256": "0be9e26423c01d614cf99fc5cb71b86e648a9076835e21100fb2baf7c3a170c9"
+  },
+  "public/logo.svg": {
+    "source": "public/logo.svg",
+    "sha256": "af2e622a16882c3dbc8a3ae44795bfcc1188c9b7073119ab1f08ffdeb58d9a2b"
+  },
+  "public/favicon.png": {
+    "source": "public/favicon.png",
+    "sha256": "8080cc5e0709e22bcc22dd14565e693201477701f4aa8c9021fd73a4d001f210"
+  },
+  "public/favicon-16x16.png": {
+    "source": "public/favicon-16x16.png",
+    "sha256": "c5b9c3cb9bd53092327587e18e7990c071e44fdd537093c45771e3b67ec443d0"
+  },
+  "public/favicon-32x32.png": {
+    "source": "public/favicon-32x32.png",
+    "sha256": "457ce656cabe21a328e3a0312ae6d70d839b74017ffbe505cbc5ac62502c2b2a"
+  },
+  "public/apple-touch-icon.png": {
+    "source": "public/apple-touch-icon.png",
+    "sha256": "5fff89f3803e2f8b6c39ab545a78576a9cecfb55615369e95933289a25558b27"
+  },
+  "public/og-image.png": {
+    "source": "public/og-image.png",
+    "sha256": "e9757d8a0f9ad9d817138ee186bee38d5dcf3155157cb94a438498865a936eea",
+    "note": "Replaced deliberately in the Opus redesign: 1200x630, 19 kB."
+  }
+}

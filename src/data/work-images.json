@@ -1,0 +1,94 @@
+{
+  "neurotwin/system": [
+    1400,
+    1365
+  ],
+  "neurotwin/landing": [
+    1400,
+    1283
+  ],
+  "neurotwin/onboarding": [
+    1400,
+    1714
+  ],
+  "neurotwin/dashboard": [
+    1400,
+    941
+  ],
+  "neurotwin/rhythm": [
+    1400,
+    2406
+  ],
+  "neurotwin/settings": [
+    1400,
+    963
+  ],
+  "neurotwin/closing": [
+    1400,
+    788
+  ],
+  "logofolio/symbols": [
+    1400,
+    788
+  ],
+  "logofolio/cover": [
+    1400,
+    788
+  ],
+  "logofolio/anime-1": [
+    1400,
+    788
+  ],
+  "logofolio/anime-2": [
+    1400,
+    788
+  ],
+  "logofolio/illustration-1": [
+    1400,
+    788
+  ],
+  "logofolio/illustration-2": [
+    1400,
+    788
+  ],
+  "logofolio/text": [
+    1400,
+    788
+  ],
+  "skillbridge/landing": [
+    1400,
+    893
+  ],
+  "skillbridge/steps": [
+    1400,
+    401
+  ],
+  "skillbridge/signup": [
+    1400,
+    875
+  ],
+  "skillbridge/login": [
+    1400,
+    875
+  ],
+  "skillbridge/app-dashboard": [
+    1400,
+    875
+  ],
+  "skillbridge/app-matches": [
+    1400,
+    875
+  ],
+  "skillbridge/app-requests": [
+    1400,
+    875
+  ],
+  "skillbridge/app-chats": [
+    1400,
+    875
+  ],
+  "skillbridge/app-profile": [
+    1400,
+    875
+  ]
+}

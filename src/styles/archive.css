@@ -1,0 +1,79 @@
+@layer site {
+/* 02 / Visual archive: a dark room in both themes, so artwork keeps its own colours. */
+/* Archive room: a darker panel inside the frame so artwork keeps its own colours. */
+.folio .archive-section { --paper: var(--room-paper); --ink: var(--room-ink); --body: var(--room-body); --muted: var(--room-muted); --field: var(--room-field); --plate: var(--room-plate); --line: var(--room-line); --control: var(--room-control); --accent: var(--room-accent); --focus: var(--room-accent); background: var(--paper); color: var(--ink); }
+.folio .archive-section .section-title { margin-bottom: 36px; }
+@media (prefers-reduced-motion: reduce) { .folio .motion-toggle { display: none; } }
+
+.folio .ribbon-stack { --ribbon-height: clamp(166px,14vw,208px); display: grid; grid-template-columns: minmax(0,1fr); gap: 6px; width: calc(100% - 2 * var(--inner) - 2px); margin-inline: auto; overflow: clip; }
+.folio .ribbon-row { position: relative; min-width: 0; }
+.folio .ribbon-row::after { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(to right, var(--paper), transparent clamp(24px,5vw,80px), transparent calc(100% - clamp(24px,5vw,80px)), var(--paper)); }
+.folio .ribbon-viewport { width: 100%; min-width: 0; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; }
+.folio .ribbon-viewport::-webkit-scrollbar { display: none; }
+.folio .ribbon-viewport:focus-visible { outline-offset: -3px; }
+.folio .ribbon-track { display: flex; width: max-content; }
+.folio .ribbon-group { display: flex; flex-shrink: 0; gap: 6px; padding-right: 6px; }
+.folio .archive-piece { position: relative; min-width: 0; flex-shrink: 0; width: calc(var(--ribbon-height) * var(--art-ratio)); height: var(--ribbon-height); }
+.folio .piece-image { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: var(--plate); cursor: zoom-in; }
+.folio .piece-image img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.folio .piece-overlay { position: absolute; inset: 0; pointer-events: none; opacity: 0; color: var(--room-ink); background: linear-gradient(to top, var(--room-scrim), transparent 68%); transition: opacity var(--t-fast) var(--ease); }
+.folio .piece-tags { position: absolute; top: 10px; left: 10px; display: flex; align-items: center; gap: 8px; padding: 4px 7px; background: var(--room-tag); font: 400 11px/1.5 var(--mono); text-transform: uppercase; letter-spacing: .03em; border-radius: 2px; }
+.folio .piece-number { color: var(--room-tag-muted); }
+.folio .piece-category { color: var(--room-tag-ink); }
+.folio .piece-caption { position: absolute; bottom: 0; left: 0; right: 0; display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; padding: 10px 6px 10px 12px; }
+.folio .archive-piece h3 { font-weight: 400; font-size: 12px; line-height: 1.5; max-width: 35ch; text-wrap: balance; }
+.folio .piece-source { pointer-events: none; display: grid; place-items: center; min-width: 44px; min-height: 44px; color: var(--room-ink); }
+.folio .archive-piece:is(:hover,:focus-within) .piece-overlay { opacity: 1; }
+.folio .archive-piece:is(:hover,:focus-within) .piece-source { pointer-events: auto; }
+.folio .archive-piece[data-last-viewed]::after { content: ''; pointer-events: none; position: absolute; inset: 0; border: 2px solid var(--accent); }
+.folio .archive-section[data-ribbon-manual] .ribbon-track { animation: none; transform: none; }
+
+@keyframes ribbon-slide { from { transform: translateX(0); } to { transform: translateX(-33.333333%); } }
+@media (prefers-reduced-motion: no-preference) {
+  .folio .ribbon-track { animation: ribbon-slide var(--ribbon-duration, 64s) linear infinite; animation-play-state: paused; }
+  .folio .ribbon-row-1 .ribbon-track { animation-direction: reverse; }
+  .folio [data-ribbon-running='true'] .ribbon-track { animation-play-state: running; will-change: transform; }
+  .folio .ribbon-stack:is(:hover,:focus-within) .ribbon-track { animation-play-state: paused; }
+  .folio .ribbon-stack:has(:focus-visible) .ribbon-track { animation: none; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .folio .ribbon-copy { display: none; } }
+@media (hover: none) { .folio .archive-piece .piece-source { pointer-events: none; } }
+
+.folio .media-error { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; width: 100%; height: 100%; padding: 24px; background: var(--plate); color: var(--body); font-size: 13px; text-align: center; }
+.folio .media-error > :first-child { font-weight: 500; }
+
+/* Full-size viewer */
+.folio .art-viewer { --paper: var(--room-paper); --ink: var(--room-ink); --muted: var(--room-muted); --line: var(--room-line); --accent: var(--room-accent); --focus: var(--room-accent); --plate: var(--room-plate); --body: var(--room-body); width: min(1320px, calc(100% - 48px)); max-width: none; max-height: calc(100dvh - 40px); padding: 0 28px 20px; border: 1px solid var(--line); color: var(--ink); background: var(--paper); margin: auto; overscroll-behavior: contain; }
+.folio .art-viewer::backdrop { background: var(--scrim); }
+.folio .viewer-toolbar { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 64px; padding-block: 10px; background: var(--paper); }
+.folio .viewer-position { color: var(--muted); font: 11px/1.4 var(--mono); }
+.folio .viewer-close { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 4px; border: 0; background: none; font-size: 13px; }
+.folio .viewer-close span { font-size: 22px; }
+.folio .viewer-image { height: min(60dvh, 740px); min-height: 140px; display: flex; align-items: center; justify-content: center; }
+.folio .viewer-image img { width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; }
+.folio .viewer-image .media-error { max-width: 600px; }
+.folio .viewer-caption { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 24px; }
+.folio .viewer-caption h2 { font: 400 clamp(20px,2.3vw,30px)/1.2 var(--display); letter-spacing: -.035em; margin-top: 8px; }
+.folio .viewer-caption .underlined { flex-shrink: 0; }
+.folio .viewer-pagination { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-top: 10px; border-top: 1px solid var(--line); }
+.folio .viewer-pagination button { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 4px 0; border: 0; background: none; font-size: 13px; }
+.folio .viewer-pagination button:disabled { opacity: .5; }
+.folio .viewer-pagination button:is(:hover,:focus-visible):not(:disabled), .folio .viewer-close:is(:hover,:focus-visible) { color: var(--accent); }
+@keyframes viewer-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: no-preference) {
+  .folio .art-viewer[open] { animation: viewer-in 180ms var(--ease); }
+  .folio .art-viewer[open]::backdrop { animation: fade-in 180ms var(--ease); }
+}
+
+@media (max-width: 560px) {
+  .folio .ribbon-stack { --ribbon-height: 148px; }
+  .folio .archive-piece h3, .folio .piece-tags { font-size: 12px; }
+  .folio .art-viewer { width: calc(100% - 16px); max-height: calc(100dvh - 16px); padding: 0 16px 16px; }
+  .folio .viewer-image { height: 48dvh; }
+  .folio .viewer-caption { display: block; padding-block: 20px; }
+  .folio .viewer-caption .underlined { margin-top: 12px; }
+  .folio .viewer-pagination .label { display: none; }
+}
+
+}

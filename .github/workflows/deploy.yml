@@ -3,6 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -10,27 +11,27 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: "npm"
+          node-version: 22
+          cache: npm
 
-      - name: Install dependencies
-        run: npm install
+      - run: npm ci
+
+      - run: npm test
 
       - name: Build
-        run: node node_modules/vite/bin/vite.js build
+        run: npm run build
+        env:
+          SITE_URL: https://dhruvpoddar.is-a.dev
 
-      - name: Copy index.html to 404.html (SPA fallback for GitHub Pages)
+      - name: SPA fallback for GitHub Pages
         run: cp dist/index.html dist/404.html
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
+      - uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist

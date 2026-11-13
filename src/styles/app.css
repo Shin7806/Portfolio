@@ -1,0 +1,36 @@
+/* Layer order: Tailwind's theme and utilities wrap the site's own layer, so utilities can override it.
+   Preflight is deliberately not imported: it would restyle the hash-pinned résumé. */
+@layer theme, base, components, site, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* shadcn utilities mapped straight onto the site's tokens (base.css), not shadcn's neutral greys. */
+@theme inline {
+  --font-sans: var(--text);
+  --font-heading: var(--serif);
+  --font-mono: var(--mono);
+  --color-background: var(--paper);
+  --color-foreground: var(--ink);
+  --color-card: var(--field);
+  --color-card-foreground: var(--ink);
+  --color-popover: var(--field);
+  --color-popover-foreground: var(--ink);
+  --color-primary: var(--ink);
+  --color-primary-foreground: var(--paper);
+  --color-secondary: var(--plate);
+  --color-secondary-foreground: var(--ink);
+  --color-muted: var(--plate);
+  --color-muted-foreground: var(--muted);
+  --color-accent: var(--plate);
+  --color-accent-foreground: var(--ink);
+  --color-brand: var(--accent);
+  --color-border: var(--line);
+  --color-input: var(--line);
+  --color-ring: var(--focus);
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+}

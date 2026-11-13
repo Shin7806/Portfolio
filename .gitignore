@@ -1,27 +1,8 @@
-# dependencies
 node_modules/
-
-# build output
 dist/
-
-# local env files
-.env
-.env.local
-.env.*.local
-
-# editor
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS
+*.local
 .DS_Store
-Thumbs.db
-
-# logs
-*.log
-npm-debug.log*
-
-# misc
-pnpm-lock.yaml
+.capture-cache/
+docs/compare/review/
+docs/compare/lighthouse/after-*.json
+tsconfig.tsbuildinfo

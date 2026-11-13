@@ -1,0 +1,115 @@
+@font-face { font-family: 'Instrument Sans Fallback'; src: local('Arial'), local('Helvetica'); size-adjust: 102%; ascent-override: 95%; descent-override: 24.5%; line-gap-override: 0%; }
+@layer site {
+/* Design tokens. Every colour on the site comes from here. */
+/* Arial tuned to Instrument Sans' measured metrics, so the web-font swap does not shift layout. */
+:root {
+  --paper: #F5F2ED;
+  --ink: #202024;
+  --body: #49474D;
+  --muted: #625D65;
+  --field: #EEEAE4;
+  --plate: #E6E2DD;
+  --line: #D5CFD2;
+  --control: #79717B;
+  --accent: #B52540;
+  --on-accent: #FFFFFF;
+  --contact: #EEE5E5;
+  --contact-ink: #282027;
+  --contact-muted: #625963;
+  --contact-line: #90858B;
+  --led-0: #B52540;
+  --led-1: #94243A;
+  --led-2: #701D30;
+  --mark: #202024;
+  --mark-ink: #FFFFFF;
+  --scrim: rgb(5 5 9 / 88%);
+  --room-paper: #111115;
+  --room-ink: #F4F0ED;
+  --room-body: #D9D1D7;
+  --room-muted: #B5A9B3;
+  --room-field: #19191F;
+  --room-plate: #202026;
+  --room-line: #39333D;
+  --room-control: #9A8C98;
+  --room-accent: #F08AA0;
+  --room-tag: #211D25;
+  --room-tag-muted: #C9BEC9;
+  --room-tag-ink: #F6F0F4;
+  --room-scrim: rgb(5 5 9 / 86%);
+
+  --display: 'Instrument Sans', 'Instrument Sans Fallback', Arial, sans-serif;
+  --serif: 'Newsreader', Georgia, serif;
+  --mono: 'DM Mono', ui-monospace, monospace;
+  --text: 'Instrument Sans', 'Instrument Sans Fallback', Arial, sans-serif;
+
+  --fs-label: 11px;
+  --fs-small: 13px;
+  --fs-body: 16px;
+  --fs-lead: 19px;
+  --fs-h3: clamp(24px, 2.6vw, 36px);
+  --fs-h2: clamp(40px, 5vw, 72px);
+  --fs-display: clamp(72px, 10vw, 128px);
+
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px; --s9: 96px; --s10: 128px;
+  --section: 72px;
+  --gutter: 56px;
+  --page-max: 1408px;
+  --rail: 1344px;
+  --read: 720px;
+
+  --r-0: 0; --r-1: 4px; --r-2: 12px;
+
+  --t-fast: 160ms;
+  --t-base: 220ms;
+  --ease: cubic-bezier(.2,.8,.2,1);
+  --focus: var(--accent);
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  --paper: #141417;
+  --ink: #F3F0EA;
+  --body: #D0CCD1;
+  --muted: #ADA6B0;
+  --field: #1B1B20;
+  --plate: #24242B;
+  --line: #44414B;
+  --control: #90868F;
+  --accent: #F28A9D;
+  --on-accent: #141417;
+  --contact: #21191E;
+  --contact-ink: #F7EDEE;
+  --contact-muted: #C5B6C0;
+  --contact-line: #927F8D;
+  --led-0: #F08AA0;
+  --led-1: #C84C67;
+  --led-2: #852F46;
+  color-scheme: dark;
+}
+@media (max-width: 1100px) { :root { --gutter: 36px; } }
+@media (max-width: 800px) { :root { --gutter: 28px; --section: 56px; } }
+@media (max-width: 560px) { :root { --gutter: 20px; } }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scrollbar-gutter: stable; -webkit-font-smoothing: antialiased; text-size-adjust: 100%; }
+body { margin: 0; font-family: var(--text); color: var(--ink); background: var(--paper); line-height: 1.55; }
+button, input, select { font: inherit; }
+button, a, select, summary { -webkit-tap-highlight-color: transparent; }
+button, select, summary { cursor: pointer; }
+button:disabled { cursor: default; }
+a { color: inherit; }
+img, video { max-width: 100%; }
+::selection { background: var(--accent); color: var(--on-accent); }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+html[data-route='resume'] { color-scheme: light; }
+html[data-route='resume'] body { background: #F3F1EC; color: #121212; }
+.resume-app :focus-visible { outline-color: #C01F3A; }
+.resume-app { line-height: 1.6; }
+.resume-app ::selection { background: #C01F3A; color: #fff; }
+.resume-app h1[tabindex="-1"]:focus { outline: none; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+
+}

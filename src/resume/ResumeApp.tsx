@@ -1,27 +1,27 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import { Link } from "react-router";
 
-// ─── Design Tokens ────────────────────────────────────────────────────────────
+// ─── Design Tokens for Resume (Aligned to Light Editorial System) ─────
 const C = {
   white: "#FFFFFF",
-  bg: "#F7F7F5",
-  sidebar: "#F2F2F0",
-  text: "#141414",
+  bg: "#F3F1EC",
+  sidebar: "#F7F5F0",
+  text: "#121212",
   mid: "#3D3D3D",
-  muted: "#5C5C5C",
-  light: "#909090",
-  divider: "#E2E2E0",
-  accent: "#1A1A1A",
-  rule: "#C8C8C4",
-  tag: "#EAEAE8",
+  muted: "#696969",
+  light: "#999999",
+  divider: "#D4D1CC",
+  rule: "#E8E5E0",
+  crimson: "#C01F3A",
+  tag: "#F7F5F0",
 };
 
 const FONT = "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif";
 
-// ─── Responsive Context ───────────────────────────────────────────────────────
+// ─── Responsive Context ──────────────────────────────────────────────
 const RCtx = createContext(false);
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
+// ─── Data ────────────────────────────────────────────────────────────
 const links = [
   { label: "Behance", href: "https://www.behance.net/shinchangfx/" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/dhruvpoddar/" },
@@ -41,7 +41,7 @@ const certs = [
 const skillGroups = [
   { title: "Product Design", skills: ["Product Design", "UX Design", "UI Design", "User Research", "Information Architecture", "User Flows", "Wireframing", "Prototyping", "Design Systems"] },
   { title: "Visual Design", skills: ["Graphic Design", "Branding", "Typography", "Visual Design"] },
-  { title: "Technical", skills: ["HTML", "CSS", "JavaScript", "Git / GitHub"] },
+  { title: "Technical", skills: ["HTML", "CSS", "JavaScript", "React", "TypeScript", "Tailwind", "Git"] },
   { title: "Tools", skills: ["Figma", "Photoshop", "Illustrator", "VS Code"] },
   { title: "AI Workflow", skills: ["AI-assisted Research", "AI-assisted Ideation", "AI-assisted UX Writing", "AI-assisted Design Critique"] },
 ];
@@ -51,8 +51,8 @@ const projects = [
     type: "✦ FEATURED WORK · PRODUCT DESIGN",
     name: "NeuroTwin",
     subtitle: "AI Personal Intelligence Platform",
-    description: "AI-powered productivity companion focused on behavioural awareness, consistency, and contextual insights.",
-    bullet: "Designed the product strategy, UX, UI, and scalable design system from concept to high-fidelity prototype.",
+    description: "AI-powered productivity concept focused on behavioural awareness, consistency, and contextual insights.",
+    bullet: "Designed the product strategy, UX, UI, and scalable design system from concept to high-fidelity prototype. (Design Case Study)",
     ctas: [{ label: "View Behance Case Study", href: "https://www.behance.net/gallery/251900711/NeuroTwin-Product-Design-Case-Study" }],
     hero: true,
   },
@@ -79,12 +79,12 @@ const projects = [
   },
 ];
 
-// ─── Sub-components ───────────────────────────────────────────────────────────
+// ─── Sub-components ───────────────────────────────────────────────────
 function SectionTitle({ children }: { children: React.ReactNode }) {
   const m = useContext(RCtx);
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: m ? 20 : 16 }}>
-      <span style={{ fontSize: m ? 9 : 7, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: C.light, whiteSpace: "nowrap" as const }}>{children}</span>
+      <span style={{ fontSize: m ? 9 : 8, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: C.crimson, whiteSpace: "nowrap" as const }}>{children}</span>
       <div style={{ flex: 1, height: 1, background: C.divider }} />
     </div>
   );
@@ -93,7 +93,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 function SidebarTitle({ children }: { children: React.ReactNode }) {
   const m = useContext(RCtx);
   return (
-    <div style={{ fontSize: m ? 9 : 7, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: C.light, marginBottom: m ? 12 : 10, paddingBottom: m ? 8 : 7, borderBottom: `1px solid ${C.divider}` }}>
+    <div style={{ fontSize: m ? 9 : 8, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: C.crimson, marginBottom: m ? 12 : 10, paddingBottom: m ? 8 : 7, borderBottom: `1px solid ${C.divider}` }}>
       {children}
     </div>
   );
@@ -112,13 +112,13 @@ function Bullet({ text }: { text: string }) {
 function SkillPill({ label }: { label: string }) {
   const m = useContext(RCtx);
   return (
-    <span style={{ display: "inline-block", fontSize: m ? 10.5 : 8, color: C.mid, background: C.tag, borderRadius: 2, padding: m ? "3px 8px" : "2px 6px", marginBottom: m ? 5 : 4, marginRight: m ? 4 : 3, lineHeight: 1.5, letterSpacing: "0.01em" }}>
+    <span style={{ display: "inline-block", fontSize: m ? 10.5 : 8.5, color: C.mid, background: C.white, border: `1px solid ${C.divider}`, borderRadius: 0, padding: m ? "3px 8px" : "2px 6px", marginBottom: m ? 5 : 4, marginRight: m ? 4 : 3, lineHeight: 1.5, letterSpacing: "0.01em" }}>
       {label}
     </span>
   );
 }
 
-// ─── Main ─────────────────────────────────────────────────────────────────────
+// ─── Main ────────────────────────────────────────────────────────────
 export default function ResumeApp() {
   const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1200);
 
@@ -132,63 +132,49 @@ export default function ResumeApp() {
 
   return (
     <RCtx.Provider value={m}>
-      {/* .resume-app scopes all resume CSS variables + overrides portfolio dark theme */}
-      <div className="resume-app">
+      <div className="resume-app" style={{ fontFamily: FONT, background: C.bg }}>
         <div
           style={{
             minHeight: "100vh",
-            background: m ? C.white : "#D8D8D6",
-            fontFamily: FONT,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            paddingTop: m ? 0 : 28,
-            paddingBottom: m ? 0 : 56,
+            paddingTop: m ? 0 : 40,
+            paddingBottom: m ? 0 : 80,
           }}
         >
-          {/* ── Back to Portfolio ── */}
-          <div className="no-print" style={{ width: m ? "100%" : 794, paddingBottom: m ? 0 : 10, display: "flex", alignItems: "center" }}>
+          {/* ── Toolbar ── */}
+          <div className="no-print" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: m ? "100%" : 794, marginBottom: m ? 0 : 16, padding: m ? "16px 20px" : 0, borderBottom: m ? `1px solid ${C.divider}` : "none", background: m ? C.white : "transparent", boxSizing: "border-box" as const }}>
             <Link
               to="/"
-              className="link-underline"
-              style={{ fontFamily: FONT, fontSize: m ? 10 : 9, color: C.light, letterSpacing: "0.06em", display: "inline-flex", alignItems: "center", gap: 5, padding: m ? "8px 20px" : "0", transition: "color 0.15s" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = C.text)}
-              onMouseLeave={(e) => (e.currentTarget.style.color = C.light)}
+              style={{ fontSize: 11, color: C.muted, textDecoration: "none", letterSpacing: "0.06em", display: "inline-flex", alignItems: "center", gap: 6, fontWeight: 500 }}
             >
-              ← Portfolio
+              <span style={{ fontSize: 14 }}>←</span> Back to Portfolio
             </Link>
-          </div>
-
-          {/* ── Toolbar ── */}
-          <div className="no-print" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: m ? "100%" : 794, marginBottom: m ? 0 : 14, padding: m ? "12px 20px" : 0, borderBottom: m ? `1px solid ${C.divider}` : "none", background: m ? C.white : "transparent", boxSizing: "border-box" as const }}>
-            <span style={{ fontSize: m ? 10 : 9, color: "#999", letterSpacing: "0.06em", textTransform: "uppercase" as const }}>Resume · Dhruv Poddar</span>
-            <button onClick={() => window.print()} className="hover-lift-sm btn-tactile" style={{ fontFamily: FONT, fontSize: m ? 10 : 9, fontWeight: 500, letterSpacing: "0.08em", textTransform: "uppercase" as const, color: C.white, background: C.text, border: "none", borderRadius: 3, padding: m ? "7px 14px" : "7px 16px", cursor: "pointer", transition: "background 0.2s" }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "#000")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = C.text)}
-            >
+            <button onClick={() => window.print()} style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" as const, color: C.white, background: C.text, border: "none", padding: "8px 16px", cursor: "pointer", borderRadius: 2 }}>
               Export PDF ↗
             </button>
           </div>
 
           {/* ── Resume Sheet ── */}
-          <div id="resume" style={{ width: m ? "100%" : 794, minHeight: m ? "auto" : 1123, background: C.white, boxShadow: m ? "none" : "0 2px 40px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.04)", display: "flex", flexDirection: "column", boxSizing: "border-box" as const, overflow: "hidden" }}>
+          <div id="resume" style={{ width: m ? "100%" : 794, minHeight: m ? "auto" : 1123, background: C.white, boxShadow: m ? "none" : "0 4px 24px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04)", display: "flex", flexDirection: "column", boxSizing: "border-box" as const, overflow: "hidden" }}>
 
             {/* ════ HEADER ════ */}
-            <div style={{ padding: m ? "32px 20px 0" : "40px 52px 0", background: C.white }}>
-              <div style={{ display: "flex", flexDirection: m ? "column" : "row", alignItems: m ? "flex-start" : "flex-end", justifyContent: "space-between", gap: m ? 12 : 0, marginBottom: 16 }}>
+            <div style={{ padding: m ? "40px 24px 0" : "56px 52px 0", background: C.white }}>
+              <div style={{ display: "flex", flexDirection: m ? "column" : "row", alignItems: m ? "flex-start" : "flex-end", justifyContent: "space-between", gap: m ? 16 : 0, marginBottom: 24 }}>
                 <div>
-                  <h1 style={{ margin: 0, fontSize: m ? 36 : 40, fontWeight: 500, letterSpacing: "-0.03em", color: C.text, lineHeight: 1.0 }}>Dhruv Poddar</h1>
-                  <p style={{ margin: "9px 0 0", fontSize: m ? 13 : 11.5, fontWeight: 400, color: C.muted, letterSpacing: "0.02em" }}>
-                    Product Designer&nbsp;&nbsp;·&nbsp;&nbsp;UI/UX Designer&nbsp;&nbsp;·&nbsp;&nbsp;Graphic Designer
+                  <h1 style={{ margin: 0, fontSize: m ? 40 : 48, fontWeight: 600, letterSpacing: "-0.03em", color: C.text, lineHeight: 1.0 }}>Dhruv Poddar</h1>
+                  <p style={{ margin: "12px 0 0", fontSize: m ? 14 : 12.5, fontWeight: 400, color: C.muted, letterSpacing: "0.02em" }}>
+                    Product Designer&nbsp;&nbsp;·&nbsp;&nbsp;UI/UX Designer&nbsp;&nbsp;·&nbsp;&nbsp;Creative Developer
                   </p>
                 </div>
-                <div style={{ fontSize: m ? 9 : 7.5, fontWeight: 500, letterSpacing: "0.12em", textTransform: "uppercase" as const, color: C.muted, border: `1px solid ${C.divider}`, borderRadius: 2, padding: "5px 10px", alignSelf: "flex-start" }}>Open to Work</div>
+                <div style={{ fontSize: m ? 10 : 8.5, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase" as const, color: C.crimson, border: `1px solid ${C.crimson}`, padding: "6px 12px", alignSelf: "flex-start" }}>Open to Work</div>
               </div>
-              <div style={{ display: "flex", flexWrap: m ? "wrap" as const : "nowrap" as const, alignItems: "center", rowGap: m ? 6 : 0, columnGap: m ? 14 : 0, paddingTop: 18, paddingBottom: 20, borderTop: `1px solid ${C.divider}` }}>
-                <span style={{ fontSize: m ? 11.5 : 8.5, color: C.light, letterSpacing: "0.02em", paddingRight: m ? 0 : 16, borderRight: m ? "none" : `1px solid ${C.divider}` }}>Bengaluru, India</span>
-                <a href="mailto:dhruvp0629@gmail.com" style={{ fontSize: m ? 11.5 : 8.5, color: C.muted, textDecoration: "none", letterSpacing: "0.02em", paddingLeft: m ? 0 : 16, paddingRight: m ? 0 : 16, borderRight: m ? "none" : `1px solid ${C.divider}` }}>dhruvp0629@gmail.com</a>
+              <div style={{ display: "flex", flexWrap: m ? "wrap" as const : "nowrap" as const, alignItems: "center", rowGap: m ? 8 : 0, columnGap: m ? 16 : 0, paddingTop: 20, paddingBottom: 24, borderTop: `1px solid ${C.divider}` }}>
+                <span style={{ fontSize: m ? 12 : 9.5, color: C.light, letterSpacing: "0.02em", paddingRight: m ? 0 : 16, borderRight: m ? "none" : `1px solid ${C.divider}` }}>Bengaluru, India</span>
+                <a href="mailto:dhruvp0629@gmail.com" style={{ fontSize: m ? 12 : 9.5, color: C.muted, textDecoration: "none", letterSpacing: "0.02em", paddingLeft: m ? 0 : 16, paddingRight: m ? 0 : 16, borderRight: m ? "none" : `1px solid ${C.divider}` }}>dhruvp0629@gmail.com</a>
                 {links.map((l, i) => (
-                  <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" style={{ fontSize: m ? 11.5 : 8.5, color: C.text, textDecoration: "none", fontWeight: 500, letterSpacing: "0.04em", paddingLeft: m ? 0 : 16, paddingRight: m ? 0 : i < links.length - 1 ? 16 : 0, borderRight: m ? "none" : i < links.length - 1 ? `1px solid ${C.divider}` : "none" }}>
+                  <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" style={{ fontSize: m ? 12 : 9.5, color: C.text, textDecoration: "none", fontWeight: 500, letterSpacing: "0.04em", paddingLeft: m ? 0 : 16, paddingRight: m ? 0 : i < links.length - 1 ? 16 : 0, borderRight: m ? "none" : i < links.length - 1 ? `1px solid ${C.divider}` : "none" }}>
                     {l.label} ↗
                   </a>
                 ))}
@@ -196,12 +182,12 @@ export default function ResumeApp() {
             </div>
 
             {/* ════ BODY ════ */}
-            <div style={{ display: "grid", gridTemplateColumns: m ? "1fr" : "1fr 212px", flex: 1, borderTop: `1px solid ${C.divider}` }}>
+            <div style={{ display: "grid", gridTemplateColumns: m ? "1fr" : "1fr 240px", flex: 1, borderTop: `1px solid ${C.divider}` }}>
               {/* ── LEFT ── */}
-              <div style={{ padding: m ? "28px 20px 36px" : "30px 38px 40px 52px", borderRight: m ? "none" : `1px solid ${C.divider}`, display: "flex", flexDirection: "column", gap: m ? 30 : 26 }}>
+              <div style={{ padding: m ? "32px 24px 40px" : "40px 48px 48px 52px", borderRight: m ? "none" : `1px solid ${C.divider}`, display: "flex", flexDirection: "column", gap: m ? 32 : 36 }}>
                 <section>
                   <SectionTitle>Summary</SectionTitle>
-                  <p style={{ fontSize: m ? 13 : 10, color: C.mid, lineHeight: 1.85, margin: 0 }}>
+                  <p style={{ fontSize: m ? 14 : 11, color: C.mid, lineHeight: 1.8, margin: 0 }}>
                     Product Designer with a strong foundation in UI/UX and Graphic Design, focused on transforming complex ideas into intuitive digital products. I combine product thinking, visual design, scalable systems, and front-end awareness to create experiences that are useful, thoughtful, and implementation-ready.
                   </p>
                 </section>
@@ -209,15 +195,15 @@ export default function ResumeApp() {
                   <SectionTitle>Experience</SectionTitle>
                   <div>
                     <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", flexWrap: m ? "wrap" as const : "nowrap" as const, gap: m ? 4 : 0, marginBottom: 4 }}>
-                      <span style={{ fontSize: m ? 15 : 11.5, fontWeight: 600, color: C.text, letterSpacing: "-0.01em" }}>Freelance Product &amp; UI Designer</span>
-                      <span style={{ fontSize: m ? 11 : 8.5, color: C.muted, letterSpacing: "0.04em", fontVariantNumeric: "tabular-nums", flexShrink: 0 }}>2019 — Present</span>
+                      <span style={{ fontSize: m ? 16 : 12.5, fontWeight: 600, color: C.text, letterSpacing: "-0.01em" }}>Freelance Product &amp; UI Designer</span>
+                      <span style={{ fontSize: m ? 12 : 9.5, color: C.muted, letterSpacing: "0.04em", fontVariantNumeric: "tabular-nums", flexShrink: 0 }}>2019 — Present</span>
                     </div>
-                    <p style={{ fontSize: m ? 9.5 : 8, color: C.light, letterSpacing: "0.08em", textTransform: "uppercase" as const, margin: "0 0 12px", fontWeight: 500 }}>Independent Practice</p>
-                    <div style={{ borderLeft: `2px solid ${C.text}`, paddingLeft: 14 }}>
+                    <p style={{ fontSize: m ? 10 : 8.5, color: C.light, letterSpacing: "0.1em", textTransform: "uppercase" as const, margin: "0 0 14px", fontWeight: 500 }}>Independent Practice</p>
+                    <div style={{ borderLeft: `1px solid ${C.divider}`, paddingLeft: 16 }}>
                       <Bullet text="Identified user problems and business goals across client briefs, then translated them into structured visual and interaction solutions." />
                       <Bullet text="Designed end-to-end experiences — from initial concept and user flows through to high-fidelity interfaces — maintaining consistency across components." />
                       <Bullet text="Iterated through feedback loops with clients, balancing aesthetic decisions against practical constraints and implementation realities." />
-                      <Bullet text="Built and shipped projects with direct awareness of HTML and CSS, reducing the gap between design intent and front-end output." />
+                      <Bullet text="Built and shipped projects with direct awareness of React and CSS, reducing the gap between design intent and front-end output." />
                     </div>
                   </div>
                 </section>
@@ -225,24 +211,22 @@ export default function ResumeApp() {
                   <SectionTitle>Selected Projects</SectionTitle>
                   <div style={{ display: "flex", flexDirection: "column" }}>
                     {projects.map((p, i) => (
-                      <div key={p.name} style={{ paddingTop: i === 0 ? 0 : m ? 14 : 12, paddingBottom: m ? 14 : 12, borderBottom: i < projects.length - 1 ? `1px solid ${C.divider}` : "none" }}>
-                        <div style={{ display: "inline-flex", alignItems: "center", padding: m ? "4px 8px" : "3px 7px", background: C.tag, borderRadius: 0, fontSize: m ? 7.5 : 6.5, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: C.mid, marginBottom: 10 }}>{p.type}</div>
-                        <span style={{ display: "block", fontSize: m ? 14 : p.hero ? 13 : 11, fontWeight: p.hero ? 700 : 600, color: C.text, letterSpacing: "-0.02em", lineHeight: 1.1, marginBottom: 2 }}>{p.name}</span>
-                        <span style={{ display: "block", fontSize: m ? 10 : 8.5, color: C.light, letterSpacing: "0.01em", fontWeight: 400, marginBottom: 7 }}>{p.subtitle}</span>
-                        <p style={{ fontSize: m ? 11 : 9, color: C.muted, margin: "0 0 7px", lineHeight: 1.7, letterSpacing: "0.005em" }}>{p.description}</p>
-                        <div style={{ display: "flex", gap: 8, marginBottom: 9 }}>
-                          <span style={{ color: C.rule, fontSize: m ? 10 : 8.5, flexShrink: 0, marginTop: 1, lineHeight: 1.7 }}>—</span>
-                          <span style={{ fontSize: m ? 11 : 9, color: C.mid, lineHeight: 1.7 }}>{p.bullet}</span>
+                      <div key={p.name} style={{ paddingTop: i === 0 ? 0 : m ? 16 : 14, paddingBottom: m ? 16 : 14, borderBottom: i < projects.length - 1 ? `1px solid ${C.divider}` : "none" }}>
+                        <div style={{ display: "inline-flex", alignItems: "center", fontSize: m ? 8.5 : 7.5, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: C.light, marginBottom: 12 }}>{p.type}</div>
+                        <span style={{ display: "block", fontSize: m ? 15 : p.hero ? 14 : 12, fontWeight: p.hero ? 600 : 600, color: C.text, letterSpacing: "-0.01em", lineHeight: 1.1, marginBottom: 4 }}>{p.name}</span>
+                        <span style={{ display: "block", fontSize: m ? 11 : 9.5, color: C.muted, letterSpacing: "0.01em", fontWeight: 400, marginBottom: 10 }}>{p.subtitle}</span>
+                        <p style={{ fontSize: m ? 12 : 10, color: C.mid, margin: "0 0 10px", lineHeight: 1.7, letterSpacing: "0.005em" }}>{p.description}</p>
+                        <div style={{ display: "flex", gap: 10, marginBottom: 12 }}>
+                          <span style={{ color: C.rule, fontSize: m ? 11 : 9.5, flexShrink: 0, marginTop: 1, lineHeight: 1.7 }}>—</span>
+                          <span style={{ fontSize: m ? 12 : 10, color: C.mid, lineHeight: 1.7 }}>{p.bullet}</span>
                         </div>
-                        <div style={{ display: "flex", gap: m ? 14 : 12, flexWrap: "wrap" as const }}>
+                        <div style={{ display: "flex", gap: m ? 16 : 14, flexWrap: "wrap" as const }}>
                           {p.ctas.map((cta) => (
                             <a key={cta.label} href={cta.href} target="_blank" rel="noopener noreferrer"
-                              style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: m ? 10 : 8, fontWeight: 500, color: C.muted, textDecoration: "none", letterSpacing: "0.02em", transition: "color 0.15s", borderBottom: `1px solid ${C.divider}`, paddingBottom: 1 }}
-                              onMouseEnter={(e) => (e.currentTarget.style.color = C.text)}
-                              onMouseLeave={(e) => (e.currentTarget.style.color = C.muted)}
+                              style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: m ? 11 : 9, fontWeight: 500, color: C.crimson, textDecoration: "none", letterSpacing: "0.02em", transition: "opacity 0.15s" }}
                             >
                               {cta.label}
-                              <span className="cta-arrow" style={{ display: "inline-block", transition: "transform 0.15s", fontSize: m ? 10 : 8 }}>→</span>
+                              <span style={{ fontSize: m ? 11 : 9 }}>↗</span>
                             </a>
                           ))}
                         </div>
@@ -252,23 +236,22 @@ export default function ResumeApp() {
                 </section>
                 <section>
                   <SectionTitle>Certifications</SectionTitle>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 12 }}>
-                    <span style={{ fontSize: m ? 9 : 7.5, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" as const, color: C.light }}>LinkedIn Learning</span>
-                    <div style={{ flex: 1, height: 1, background: C.divider, maxWidth: 60 }} />
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
+                    <span style={{ fontSize: m ? 10 : 8.5, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" as const, color: C.light }}>LinkedIn Learning</span>
+                    <div style={{ flex: 1, height: 1, background: C.rule, maxWidth: 60 }} />
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
                     {certs.map((cert, i) => (
-                      <div key={cert.name} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: m ? "9px 0" : "6px 0", borderBottom: i < certs.length - 1 ? `1px solid ${C.divider}` : "none", gap: 12 }}>
-                        <span style={{ fontSize: m ? 12 : 9, color: C.mid, lineHeight: 1.4 }}>{cert.name}</span>
-                        <a href={cert.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: m ? 9.5 : 7.5, color: C.light, textDecoration: "none", letterSpacing: "0.08em", textTransform: "uppercase" as const, flexShrink: 0, fontWeight: 500 }}>View ↗</a>
+                      <div key={cert.name} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: m ? "10px 0" : "8px 0", borderBottom: i < certs.length - 1 ? `1px solid ${C.rule}` : "none", gap: 12 }}>
+                        <span style={{ fontSize: m ? 13 : 10, color: C.mid, lineHeight: 1.4 }}>{cert.name}</span>
+                        <a href={cert.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: m ? 10.5 : 8.5, color: C.muted, textDecoration: "none", letterSpacing: "0.08em", textTransform: "uppercase" as const, flexShrink: 0, fontWeight: 500 }}>View ↗</a>
                       </div>
                     ))}
                   </div>
                 </section>
               </div>
-
               {/* ── SIDEBAR ── */}
-              <div style={{ background: C.sidebar, padding: m ? "28px 20px 40px" : "30px 22px 40px", display: "flex", flexDirection: "column", gap: m ? 26 : 22, borderTop: m ? `1px solid ${C.divider}` : "none" }}>
+              <div style={{ background: C.sidebar, padding: m ? "32px 24px 48px" : "40px 32px 48px", display: "flex", flexDirection: "column", gap: m ? 32 : 36, borderTop: m ? `1px solid ${C.divider}` : "none" }}>
                 {skillGroups.map((group) => (
                   <section key={group.title}>
                     <SidebarTitle>{group.title}</SidebarTitle>
@@ -280,46 +263,39 @@ export default function ResumeApp() {
                 <section>
                   <SidebarTitle>Languages</SidebarTitle>
                   {[{ lang: "Hindi", level: "Native" }, { lang: "English", level: "Professional" }, { lang: "Kannada", level: "Working Proficiency" }].map(({ lang, level }) => (
-                    <div key={lang} style={{ marginBottom: m ? 12 : 9 }}>
-                      <div style={{ fontSize: m ? 12.5 : 9.5, fontWeight: 600, color: C.text }}>{lang}</div>
-                      <div style={{ fontSize: m ? 10 : 8, color: C.light, marginTop: 1, letterSpacing: "0.02em" }}>{level}</div>
+                    <div key={lang} style={{ marginBottom: m ? 14 : 12 }}>
+                      <div style={{ fontSize: m ? 13.5 : 10.5, fontWeight: 600, color: C.text }}>{lang}</div>
+                      <div style={{ fontSize: m ? 11 : 9, color: C.muted, marginTop: 2, letterSpacing: "0.02em" }}>{level}</div>
                     </div>
                   ))}
                 </section>
                 <section style={{ marginTop: m ? 0 : "auto" }}>
                   <SidebarTitle>Education</SidebarTitle>
-                  <div style={{ fontSize: m ? 11 : 8.5, color: C.mid, lineHeight: 1.75 }}>
-                    <div style={{ marginBottom: 12 }}>
-                      <strong style={{ color: C.text, fontSize: m ? 12 : 9 }}>Bachelor of Computer Applications</strong><br />
+                  <div style={{ fontSize: m ? 12 : 9.5, color: C.mid, lineHeight: 1.75 }}>
+                    <div style={{ marginBottom: 16 }}>
+                      <strong style={{ color: C.text, fontSize: m ? 13 : 10 }}>Bachelor of Computer Applications</strong><br />
                       ASC Degree College<br />2023 — 2026
                     </div>
-                    <div style={{ marginBottom: 12 }}>
-                      <strong style={{ color: C.text, fontSize: m ? 12 : 9 }}>Pre-University Course (PUC)</strong><br />
+                    <div style={{ marginBottom: 16 }}>
+                      <strong style={{ color: C.text, fontSize: m ? 13 : 10 }}>Pre-University Course (PUC)</strong><br />
                       Carmel PU College<br />2021 — 2023
                     </div>
                     <div>
-                      <strong style={{ color: C.text, fontSize: m ? 12 : 9 }}>Product, UI/UX &amp; Graphic Design</strong><br />
-                      Built through hands-on product development, real-world design projects, continuous self-learning, and LinkedIn Learning certifications since 2019.
+                      <strong style={{ color: C.text, fontSize: m ? 13 : 10 }}>Product &amp; UI/UX Design</strong><br />
+                      Built through hands-on product development, real-world design projects, continuous self-learning, and professional certifications.
                     </div>
                   </div>
                 </section>
               </div>
             </div>
-
             {/* ════ FOOTER ════ */}
-            <div style={{ padding: m ? "12px 20px" : "10px 52px", borderTop: `1px solid ${C.divider}`, display: "flex", justifyContent: "space-between", alignItems: "center", background: C.white }}>
-              <span style={{ fontSize: m ? 9.5 : 7.5, color: C.light, letterSpacing: "0.04em" }}>dhruvp0629@gmail.com</span>
+            <div style={{ padding: m ? "16px 24px" : "16px 52px", borderTop: `1px solid ${C.divider}`, display: "flex", justifyContent: "space-between", alignItems: "center", background: C.white }}>
+              <span style={{ fontSize: m ? 10.5 : 8.5, color: C.muted, letterSpacing: "0.04em" }}>dhruvp0629@gmail.com</span>
               <div style={{ width: 20, height: 1, background: C.divider }} />
-              <span style={{ fontSize: m ? 9.5 : 7.5, color: C.light, letterSpacing: "0.04em" }}>Product Designer · UI/UX Designer · Graphic Designer</span>
+              <span style={{ fontSize: m ? 10.5 : 8.5, color: C.muted, letterSpacing: "0.04em" }}>Product Designer · UI/UX Designer</span>
             </div>
           </div>
         </div>
-
-        {/* Resume-scoped inline styles */}
-        <style>{`
-          .resume-app * { box-sizing: border-box; }
-          .resume-app a:hover .cta-arrow { transform: translateX(3px); }
-        `}</style>
       </div>
     </RCtx.Provider>
   );

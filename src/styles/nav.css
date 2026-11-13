@@ -1,0 +1,36 @@
+@layer site {
+.folio .masthead { position: sticky; top: 0; z-index: 30; border-bottom: 1px solid var(--hair); background: color-mix(in srgb, var(--paper) 82%, transparent); backdrop-filter: saturate(140%) blur(10px); }
+.folio .masthead-inner { position: relative; height: 68px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--s5); }
+.folio .brand { justify-self: start; display: inline-flex; align-items: center; min-height: 44px; }
+.folio .desktop-nav { justify-self: center; display: flex; align-items: center; gap: 2px; }
+/* Pill hover: an opacity layer behind the link; the current section keeps it lit. */
+.folio .desktop-nav a { position: relative; isolation: isolate; display: inline-flex; align-items: center; min-height: 36px; padding: 0 12px; font-size: 14px; color: var(--muted); border-radius: 8px; }
+.folio .desktop-nav a::before { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--ink); opacity: 0; transition: opacity var(--t-fast) var(--ease); }
+.folio .desktop-nav a:is(:hover,:focus-visible) { color: var(--ink); }
+.folio .desktop-nav a:is(:hover,:focus-visible)::before { opacity: .06; }
+.folio .desktop-nav a[aria-current] { color: var(--ink); }
+.folio .desktop-nav a[aria-current]::before { opacity: .09; }
+.folio .nav-utilities { justify-self: end; display: flex; align-items: center; gap: var(--s2); }
+.folio .theme-icon { position: relative; display: grid; width: 18px; height: 18px; }
+.folio .theme-icon svg { grid-area: 1 / 1; width: 18px; height: 18px; transition: transform 260ms var(--ease), opacity 200ms var(--ease); }
+.folio .theme-icon .sun { opacity: 0; transform: rotate(-90deg) scale(.6); }
+:root[data-theme='dark'] .folio .theme-icon .sun { opacity: 1; transform: none; }
+:root[data-theme='dark'] .folio .theme-icon .moon { opacity: 0; transform: rotate(90deg) scale(.6); }
+.folio .mobile-nav { display: none; }
+.folio .reading-progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; pointer-events: none; }
+.folio .reading-progress::before { content: ''; display: block; height: 1px; width: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; }
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) { .folio .reading-progress::before { animation: reading-progress linear both; animation-timeline: scroll(root); } }
+}
+@keyframes reading-progress { to { transform: scaleX(1); } }
+
+@media (max-width: 800px) {
+  .folio .masthead-inner { display: flex; justify-content: space-between; height: 64px; }
+  .folio .desktop-nav { display: none; }
+  .folio .mobile-nav:not([hidden]) { display: flex; position: absolute; flex-direction: column; top: 64px; left: 0; right: 0; padding: var(--s2) var(--gutter) var(--s5); max-height: calc(100dvh - 64px); overflow: auto; background: var(--paper); border-bottom: 1px solid var(--hair); }
+  .folio .mobile-nav a { display: flex; align-items: center; gap: var(--s4); min-height: 56px; border-bottom: 1px solid var(--hair); font-size: 20px; letter-spacing: -.02em; }
+  .folio .mobile-nav .direction { margin-left: auto; }
+  .folio .mobile-nav a[aria-current] { color: var(--accent); }
+}
+@media (prefers-reduced-motion: reduce) { .folio .theme-icon svg, .folio .desktop-nav a::before { transition: none; } }
+}

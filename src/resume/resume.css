@@ -1,0 +1,40 @@
+.resume-app {
+  --crimson: #C01F3A;
+  --background: #FAFAFA;
+  --foreground: #181818;
+  --card: #FFFFFF;
+  --card-foreground: #181818;
+  --primary: #181818;
+  --primary-foreground: #FAFAFA;
+  --secondary: #F4F4F4;
+  --secondary-foreground: #181818;
+  --muted: #F4F4F4;
+  --muted-foreground: #666666;
+  --accent: #303030;
+  --accent-foreground: #FAFAFA;
+  --border: #E5E5E5;
+  --ring: oklch(0.708 0 0);
+  --radius: 0.625rem;
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: #FAFAFA;
+  color: #181818;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Resume print styles */
+@media print {
+  .resume-app .no-print { display: none !important; }
+  body { background: white !important; margin: 0 !important; padding: 0 !important; }
+  .resume-app #resume {
+    width: 210mm !important;
+    min-height: 297mm !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+  }
+  @page { size: A4; margin: 0; }
+
+  .scroll-progress, .preloader {
+    display: none !important;
+  }
+}

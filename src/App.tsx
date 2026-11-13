@@ -1,59 +1,62 @@
-import type { ReactNode } from "react";
-import { Routes, Route, useLocation } from "react-router";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import PortfolioApp from "./portfolio/PortfolioApp";
-import ResumeApp from "./resume/ResumeApp";
-import Preloader from "./Preloader";
-import CustomCursor from "./CustomCursor";
+import { Component, Suspense, lazy, useEffect, useRef, type ReactNode } from 'react';
+import { Link, Route, Routes, useLocation } from 'react-router';
+import Portfolio from './Portfolio';
+import { ThemeProvider } from './theme';
+import { useMeta } from './components/Primitives';
+const Resume = lazy(() => import('./resume/ResumeRoute'));
+const WorkIndex = lazy(() => import('./pages/WorkIndex'));
+const WorkStory = lazy(() => import('./pages/WorkStory'));
+const ArchivePage = lazy(() => import('./pages/ArchivePage'));
+const TimelinePage = lazy(() => import('./pages/TimelinePage'));
 
-// Subtle cross-fade + drift between routes. Wrapping here (instead of
-// inside each page) keeps PortfolioApp/ResumeApp untouched — this is the
-// only place that knows a route change happened.
-function PageTransition({ children }: { children: ReactNode }) {
-  const reduceMotion = useReducedMotion();
+/** On navigation: jump to the hash target, or to the top and move focus to the page heading. */
+function PagePosition() {
+  const { pathname, hash } = useLocation();
+  const previous = useRef<string | null>(null);
+  useEffect(() => {
+    if (pathname.replace(/\/$/, '') === '/resume') document.title = 'Résumé — Dhruv Poddar';
+    const first = previous.current === null;
+    previous.current = pathname;
+    let frame = requestAnimationFrame(() => {
+      frame = requestAnimationFrame(() => {
+        if (hash) {
+          let id = hash.slice(1); try { id = decodeURIComponent(id); } catch { /* Keep the literal hash. */ }
+          const target = document.getElementById(id);
+          target?.scrollIntoView({ behavior: 'instant' }); target?.focus({ preventScroll: true });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'instant' });
+          if (!first) { const title = document.querySelector('h1'); title?.setAttribute('tabindex', '-1'); title?.focus({ preventScroll: true }); }
+        }
+      });
+    });
+    return () => cancelAnimationFrame(frame);
+    // Same-page hash changes keep native scrolling and history behaviour.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
+  return null;
+}
 
-  return (
-    <motion.div
-      initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={reduceMotion ? undefined : { opacity: 0, y: -10 }}
-      transition={{
-        duration: reduceMotion ? 0.01 : 0.36,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      }}
-    >
-      {children}
-    </motion.div>
-  );
+function NotFound() {
+  useMeta('Page not found', 'This page does not exist on Dhruv Poddar’s portfolio.');
+  return <main className="route-message"><h1>This page isn’t here.</h1><Link to="/">Back to the portfolio</Link></main>;
+}
+
+class PageBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() { return { failed: true }; }
+  render() {
+    return this.state.failed ? <main className="route-message"><h1>The page couldn’t load.</h1><p>Please reload, or email Dhruv directly.</p><a href="/">Reload the portfolio</a><a href="mailto:dhruvp0629@gmail.com">dhruvp0629@gmail.com</a></main> : this.props.children;
+  }
 }
 
 export default function App() {
-  const location = useLocation();
-
-  return (
-    <>
-      <Preloader />
-      <CustomCursor />
-      <AnimatePresence mode="wait" initial={false}>
-        <Routes location={location} key={location.pathname}>
-          <Route
-            path="/"
-            element={
-              <PageTransition>
-                <PortfolioApp />
-              </PageTransition>
-            }
-          />
-          <Route
-            path="/resume"
-            element={
-              <PageTransition>
-                <ResumeApp />
-              </PageTransition>
-            }
-          />
-        </Routes>
-      </AnimatePresence>
-    </>
-  );
+  return <ThemeProvider><PageBoundary><Suspense fallback={<main className="route-message" role="status">Loading…</main>}><PagePosition /><Routes>
+    <Route path="/" element={<Portfolio />} />
+    <Route path="/work" element={<WorkIndex />} />
+    <Route path="/work/:slug" element={<WorkStory />} />
+    <Route path="/archive" element={<ArchivePage />} />
+    <Route path="/timeline" element={<TimelinePage />} />
+    <Route path="/resume" element={<Resume />} />
+    <Route path="*" element={<NotFound />} />
+  </Routes></Suspense></PageBoundary></ThemeProvider>;
 }

@@ -1,0 +1,118 @@
+@layer site {
+/* ── Frame ────────────────────────────────────────────────────────────────────
+   From the viewport edge inwards: a coloured strip, open space, a dashed margin rail, then content.
+   The strips and rails are fixed and drawn above the header, so they run uninterrupted to the top.
+   Full-width hairlines separate sections; inside the content, cards and panels carry solid borders. */
+.folio {
+  --content: 1200px;
+  --strip: clamp(10px, 1.8vw, 26px);
+  --space: clamp(16px, 4vw, 72px);
+  --inner: max(calc(var(--strip) + var(--space)), calc((100% - var(--content)) / 2 - var(--pad)));
+  --pad: clamp(20px, 2.4vw, 32px);
+  /* The strip uses the earlier band colour: a neutral step off the page, not a tint. */
+  --strip-tint: color-mix(in srgb, var(--ink) 2.5%, var(--paper));
+  --rail: color-mix(in srgb, var(--line) 90%, transparent);
+  --hair: color-mix(in srgb, var(--line) 70%, transparent);
+  position: relative; min-height: 100vh; color: var(--ink);
+  background:
+    radial-gradient(ellipse 60% 38% at 50% -8%, color-mix(in srgb, var(--ink) 7%, transparent), transparent 70%),
+    radial-gradient(ellipse 36% 28% at 100% 0%, color-mix(in srgb, var(--accent) 6%, transparent), transparent 70%),
+    var(--paper);
+}
+.folio .frame { position: fixed; inset: 0; z-index: 40; pointer-events: none; }
+/* The coloured strips: a soft vertical gradient, edged by a dashed line on the inside. */
+.folio .frame > b { position: absolute; top: 0; bottom: 0; width: var(--strip); background: linear-gradient(to bottom, color-mix(in srgb, var(--ink) 4%, var(--paper)), var(--strip-tint) 40%); }
+.folio .frame > b:first-child { left: 0; }
+.folio .frame > b:nth-child(2) { right: 0; }
+.folio .frame > b::after, .folio .frame > i { content: ''; position: absolute; top: 0; bottom: 0; width: 1px; background-image: linear-gradient(to bottom, var(--rail) 50%, transparent 50%); background-size: 1px 6px; }
+.folio .frame > b:first-child::after { right: 0; }
+.folio .frame > b:nth-child(2)::after { left: 0; }
+/* The margin rails at the content edge. */
+.folio .frame > i:nth-child(3) { left: var(--inner); }
+.folio .frame > i:nth-child(4) { right: var(--inner); }
+
+.folio :where(h1,h2,h3,h4,p,figure,dl,dd,ul,ol,blockquote) { margin: 0; }
+.folio :where(ul,ol) { padding: 0; list-style: none; }
+.folio :where(a) { text-decoration: none; }
+.folio :where(button) { color: inherit; }
+.folio :where(img) { display: block; }
+.folio :where(section,article,main) { scroll-margin-top: 80px; }
+.folio :where([tabindex='-1']):focus { outline: none; }
+
+/* Content always sits one pad inside the margin rail. */
+.folio .wrap { width: 100%; padding-inline: calc(var(--inner) + var(--pad)); }
+.folio .section-space { position: relative; padding-block: var(--section); border-top: 1px solid var(--hair); }
+
+/* ── Type ───────────────────────────────────────────────────────────────────── */
+.folio .label { font: 400 var(--fs-label)/1.6 var(--mono); text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.folio .section-title { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--s7); margin-bottom: 36px; }
+.folio .section-title > div { max-width: 760px; }
+.folio .section-title h2 { font: 400 var(--fs-h2)/1.06 var(--serif); letter-spacing: -.035em; text-wrap: balance; }
+.folio .section-aside { font-size: 15px; line-height: 1.6; color: var(--muted); max-width: 34ch; padding-bottom: 6px; }
+.folio .prose { color: var(--body); font-size: var(--fs-body); line-height: 1.7; max-width: 62ch; }
+.folio .prose + .prose { margin-top: var(--s4); }
+.folio .hero-lead { font-size: var(--fs-lead); line-height: 1.55; color: var(--body); max-width: 40ch; text-wrap: pretty; }
+
+/* ── Links ──────────────────────────────────────────────────────────────────── */
+.folio .direction { display: inline-flex; width: 16px; height: 16px; flex-shrink: 0; transition: transform var(--t-fast) var(--ease); }
+.folio .direction svg { width: 100%; height: 100%; stroke: currentColor; stroke-width: 1.5; fill: none; }
+.folio :where(a,button):is(:hover,:focus-visible) > .direction { transform: translate(2px,-2px); }
+/* A static hairline under the text; on hover a second line draws in from the left. */
+.folio .underlined { position: relative; display: inline-flex; align-items: center; width: fit-content; min-height: 44px; gap: 8px; font-size: 14px; text-decoration: none; }
+.folio .underlined::before, .folio .underlined::after { content: ''; position: absolute; left: 0; right: 24px; bottom: 10px; height: 1px; background: var(--line); }
+.folio .underlined::after { background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform 240ms var(--ease); }
+.folio .underlined:is(:hover,:focus-visible)::after { transform: scaleX(1); }
+.folio .skip-link { position: fixed; left: 20px; top: 12px; z-index: 100; padding: 12px 20px; border-radius: 10px; background: var(--ink); color: var(--paper); transform: translateY(-180%); }
+.folio .skip-link:focus { transform: none; }
+
+/* ── Pointer grid: a 40px drawing grid around the cursor, gone at rest ───────── */
+.folio .scene-grid { position: relative; isolation: isolate; overflow: clip; }
+.folio .scene-grid::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; background-image: linear-gradient(to right, var(--line) 1px, transparent 1px), linear-gradient(to bottom, var(--line) 1px, transparent 1px); background-size: 40px 40px; background-position: center top; mask-image: radial-gradient(circle 170px at var(--grid-x, 50%) var(--grid-y, 50%), #000, transparent); opacity: 0; transition: opacity var(--t-base) var(--ease); }
+@media (min-width: 801px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .folio .scene-grid[data-grid-active]::before { opacity: .55; }
+}
+
+/* ── One-time reveals for headings and cards ─────────────────────────────────── */
+@keyframes reveal { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  .folio[data-reveal-ready] [data-reveal]:not(.arrived):not([data-reveal-complete]) { opacity: 0; }
+  .folio [data-reveal].arrived { animation: reveal var(--t-base) var(--ease) both; }
+}
+
+/* ── Contact block and footer ───────────────────────────────────────────────── */
+.folio .closing { color: var(--contact-ink); background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--contact) 70%, transparent) 200px); --muted: var(--contact-muted); --line: var(--contact-line); --accent: var(--contact-ink); --focus: var(--contact-ink); border-top: 1px solid var(--hair); }
+.folio .site-footer { border-top: 1px solid var(--hair); background: color-mix(in srgb, var(--contact) 70%, transparent); color: var(--contact-ink); --muted: var(--contact-muted); --line: var(--contact-line); --focus: var(--contact-ink); }
+.folio .colophon { display: flex; align-items: center; justify-content: space-between; gap: var(--s5); min-height: 88px; font-size: 13px; }
+.folio .sign-off { display: inline-flex; align-items: center; gap: var(--s3); min-height: 44px; font-weight: 500; white-space: nowrap; }
+.folio .colophon-year { color: var(--contact-muted); font-weight: 400; margin-left: 6px; }
+
+/* ── Hint labels on icon buttons: aria-label names the control; this is the visual hint ── */
+.folio [data-tip] { position: relative; }
+.folio [data-tip]::after { content: attr(data-tip); position: absolute; left: 50%; bottom: calc(100% + 8px); z-index: 40; padding: 4px 8px; border-radius: 6px; background: var(--ink); color: var(--paper); font: 500 12px/1.4 var(--text); white-space: nowrap; pointer-events: none; opacity: 0; transform: translate(-50%, 3px); transition: opacity 140ms var(--ease), transform 140ms var(--ease); }
+.folio [data-tip][data-tip-side='bottom']::after { bottom: auto; top: calc(100% + 8px); transform: translate(-50%, -3px); }
+.folio [data-tip]:is(:hover,:focus-visible)::after { opacity: 1; transform: translate(-50%, 0); transition-delay: 250ms; }
+@media (hover: none) { .folio [data-tip]::after { display: none; } }
+
+/* ── Brand mark ─────────────────────────────────────────────────────────────── */
+.folio .brand-mark { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px; background: var(--mark); box-shadow: inset 0 1px 0 rgb(255 255 255 / 12%), 0 0 0 1px var(--hair); flex-shrink: 0; }
+.folio .brand-mark img { width: 22px; height: 22px; transition: transform 300ms var(--ease); }
+.folio :is(.brand, .sign-off):is(:hover,:focus-visible) .brand-mark img { transform: rotate(-12deg); }
+
+.route-message { min-height: 75svh; padding: 32px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 24px; text-align: center; }
+.route-message h1 { font: 400 clamp(36px,6vw,64px)/1.1 var(--serif); letter-spacing: -.03em; }
+
+@media (max-width: 800px) {
+  .folio { --strip: 6px; --space: 8px; --pad: 16px; }
+  .folio .section-title { display: block; }
+  .folio .section-aside { margin-top: 14px; }
+}
+@media (max-width: 560px) {
+  .folio .section-title h2 { font-size: clamp(34px,10vw,48px); }
+  .folio .colophon { min-height: 72px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .folio .brand-mark img, .folio .underlined::after, .folio .direction { transition: none; }
+}
+@media (forced-colors: active) { .folio button[aria-pressed='true'] { outline: 2px solid Highlight; } }
+@media print { .folio .masthead, .folio .skip-link, .folio .frame, .folio .lab-section { display: none; } }
+}

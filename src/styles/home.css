@@ -1,0 +1,99 @@
+@layer site {
+/* ── Hero: a meta row, the name across the full width, then role beside the pitch ─ */
+.folio .hero { padding-block: clamp(64px, 9vw, 120px) clamp(56px, 7vw, 96px); }
+.folio .hero-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 16px; }
+/* The brand mark as a small level-2 tile: hairline border, lit top edge, faint inner gradient. */
+.folio .hero-mark { display: grid; place-items: center; width: 48px; aspect-ratio: 1; border-radius: 13px; background: radial-gradient(120% 90% at 30% 0%, color-mix(in srgb, var(--ink) 14%, var(--mark)), var(--mark) 70%); box-shadow: inset 0 1px 0 rgb(255 255 255 / 14%), 0 0 0 1px var(--hair), 0 10px 24px -14px rgb(0 0 0 / 60%); }
+.folio .hero-mark img { width: 52%; height: auto; transition: transform 400ms var(--ease); }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) { .folio .hero-mark:hover img { transform: rotate(-14deg) scale(1.04); } }
+.folio .hero-meta-text { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; font-size: 13px; color: var(--muted); }
+.folio .hero-meta-text > span + span::before { content: ''; display: inline-block; width: 1px; height: 12px; margin-right: 14px; background: var(--line); vertical-align: -1px; }
+.folio .availability { display: inline-flex; align-items: center; gap: 8px; }
+.folio .availability::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent); }
+.folio .hero-name { margin-top: clamp(24px, 3vw, 36px); font: 500 clamp(56px, 10vw, 148px)/.9 var(--display); letter-spacing: -.06em; }
+.folio .hero-name > span[aria-hidden] { display: inline-block; }
+.folio .hero-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px clamp(32px, 5vw, 80px); align-items: end; margin-top: clamp(28px, 3.4vw, 44px); padding-top: clamp(24px, 3vw, 32px); border-top: 1px solid var(--hair); }
+.folio .hero-role { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 .35em; font-size: clamp(22px, 2.4vw, 32px); line-height: 1.25; letter-spacing: -.025em; color: var(--muted); }
+.folio .hero-role-word { color: var(--ink); font-weight: 500; }
+.folio .hero .hero-lead { font-size: 17px; max-width: 46ch; }
+.folio .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+
+/* ── Selected work: roomy cards with ruled sections; they lift on hover, nothing else moves ─ */
+.folio .section-title .section-link { align-self: flex-end; flex-shrink: 0; }
+.folio .project-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.folio .card { position: relative; display: grid; grid-template-columns: minmax(0, 44%) minmax(0, 1fr); gap: 22px; padding: 14px; border: 1px solid var(--hair); border-radius: 18px; background: linear-gradient(to bottom, color-mix(in srgb, var(--ink) 3%, var(--field)), var(--field) 60%); transition: transform 220ms var(--ease); }
+.folio .card::after { content: ''; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none; border: 1px solid color-mix(in srgb, var(--ink) 16%, transparent); box-shadow: 0 14px 30px -18px rgb(0 0 0 / 55%); opacity: 0; transition: opacity 220ms var(--ease); }
+.folio .card-media { position: relative; display: block; align-self: start; aspect-ratio: 3 / 2; overflow: hidden; border-radius: 12px; border: 1px solid var(--hair); background: var(--plate); }
+.folio .card-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.folio .card-body { display: flex; flex-direction: column; min-width: 0; padding: 4px 6px 0 0; }
+.folio .card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.folio .card h3 { font: 500 19px/1.3 var(--display); letter-spacing: -.02em; }
+.folio .card h3 a { display: inline-block; padding-block: 2px; }
+.folio .card h3 a:is(:hover,:focus-visible) { color: var(--accent); }
+.folio .card-year { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.folio .card-role { margin-top: 2px; padding-bottom: 14px; border-bottom: 1px solid var(--hair); font-size: 13px; color: var(--muted); }
+.folio .card-summary { margin-top: 14px; font-size: 14px; line-height: 1.6; color: var(--body); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.folio .card-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px; margin-top: auto; padding-top: 16px; }
+.folio .card-link { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; font-size: 13px; color: var(--muted); }
+.folio .card-link:is(:hover,:focus-visible) { color: var(--ink); }
+.folio .card-link .direction { width: 14px; height: 14px; }
+/* Compact (home): the actions sit on the line where the image ends. */
+.folio .card:not(.card-full) .card-body { padding-bottom: 0; }
+.folio .card:not(.card-full) .card-actions { padding-top: 12px; }
+/* Full (/work): a vertical card with room to breathe. */
+.folio .project-grid-full { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+.folio .card-full { grid-template-columns: 1fr; gap: 0; padding: 12px; }
+.folio .card-full .card-media { aspect-ratio: 16 / 9; }
+.folio .card-full .card-body { padding: 22px 10px 8px; }
+.folio .card-full h3 { font-size: 22px; }
+.folio .card-full .card-summary { -webkit-line-clamp: 3; font-size: 15px; }
+.folio .card-full .card-actions { margin-top: 0; padding-top: 22px; }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .folio .card:hover { transform: translateY(-3px); }
+  .folio .card:hover::after { opacity: 1; }
+}
+.folio .card:focus-within::after { opacity: 1; }
+
+/* ── Lab: the widget on a canvas, beside the CSS it writes ───────────────────── */
+.folio .lab-canvas { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 380px); gap: 14px; padding: 14px; border: 1px solid var(--hair); border-radius: 20px; background: color-mix(in srgb, var(--ink) 2%, var(--paper)); }
+.folio .lab-stage { display: grid; place-items: center; padding: clamp(20px, 4vw, 48px) 16px; border-radius: 12px; border: 1px solid var(--hair); background: radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--ink) 16%, transparent) 1px, transparent 1.5px) 0 0 / 18px 18px, radial-gradient(ellipse 70% 60% at 50% 0%, color-mix(in srgb, var(--accent) 6%, transparent), transparent 70%), var(--paper); }
+.folio .lab-code { display: flex; flex-direction: column; min-width: 0; border-radius: 12px; border: 1px solid var(--hair); background: color-mix(in srgb, var(--ink) 3%, var(--field)); overflow: hidden; }
+.folio .lab-code figcaption { display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 14px; border-bottom: 1px solid var(--hair); font: 400 12px/1 var(--mono); color: var(--muted); }
+.folio .lab-dots { display: inline-flex; gap: 5px; }
+.folio .lab-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+.folio .lab-live { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; color: var(--muted); }
+.folio .lab-live::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.folio .lab-code pre { flex: 1; margin: 0; padding: 14px 0; overflow: auto; font: 400 12.5px/1.75 var(--mono); }
+.folio .lab-code code { display: block; min-width: max-content; }
+.folio .tok-brace { display: block; padding-inline: 16px; color: var(--muted); }
+.folio .tok { position: relative; display: block; padding-inline: 32px 16px; color: var(--body); }
+.folio .tok-key { color: var(--ink); }
+.folio .tok-value { color: var(--body); }
+.folio .tok-swatch { display: inline-block; width: 10px; height: 10px; margin-right: 6px; border-radius: 3px; border: 1px solid var(--hair); vertical-align: -1px; }
+/* A changed line flashes once: an accent wash that fades out (opacity only). */
+.folio .tok::before { content: ''; position: absolute; inset: 0; background: color-mix(in srgb, var(--accent) 22%, transparent); border-left: 2px solid var(--accent); opacity: 0; pointer-events: none; }
+@keyframes tok-flash { from { opacity: 1; } to { opacity: 0; } }
+@media (prefers-reduced-motion: no-preference) { .folio .tok[data-changed]::before { animation: tok-flash 900ms var(--ease); } }
+.folio .lab-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 12px 12px 16px; border-top: 1px solid var(--hair); }
+.folio .lab-foot p { font-size: 13px; line-height: 1.5; color: var(--muted); }
+
+@media (max-width: 1000px) {
+  .folio .project-grid { grid-template-columns: 1fr; }
+  .folio .project-grid-full { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .folio .card { grid-template-columns: minmax(0, 38%) minmax(0, 1fr); }
+  .folio .lab-canvas { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) {
+  .folio .project-grid-full { grid-template-columns: 1fr; }
+}
+@media (max-width: 800px) {
+  .folio .hero-split { grid-template-columns: 1fr; align-items: start; }
+}
+@media (max-width: 560px) {
+  .folio .hero-actions > * { flex: 1 1 auto; }
+  .folio .card { grid-template-columns: 1fr; gap: 14px; padding: 10px; }
+  .folio .card-body { padding: 4px 6px 6px; }
+  .folio .lab-canvas { padding: 8px; border-radius: 16px; }
+  .folio .lab-stage { padding: 12px 6px; }
+}
+}
