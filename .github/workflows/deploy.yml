@@ -19,7 +19,8 @@ jobs:
           node-version: 22
           cache: npm
 
-      - run: npm ci
+      # npm ci rejects this Windows-made lock on Linux (optional wasm deps), so install instead.
+      - run: npm install --no-audit --no-fund
 
       - run: npm test
 
