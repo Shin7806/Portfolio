@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://dhruvpoddar.is-a.dev/</loc></url>
-  <url><loc>https://dhruvpoddar.is-a.dev/work/rs360</loc></url>
-  <url><loc>https://dhruvpoddar.is-a.dev/about</loc></url>
-  <url><loc>https://dhruvpoddar.is-a.dev/resume</loc></url>
+  <url><loc>https://dhruvpoddar.is-a.dev/work/</loc></url>
+  <url><loc>https://dhruvpoddar.is-a.dev/work/rs360/</loc></url>
+  <url><loc>https://dhruvpoddar.is-a.dev/work/neurotwin/</loc></url>
+  <url><loc>https://dhruvpoddar.is-a.dev/work/skillbridge/</loc></url>
+  <url><loc>https://dhruvpoddar.is-a.dev/work/logofolio/</loc></url>
+  <url><loc>https://dhruvpoddar.is-a.dev/archive/</loc></url>
+  <url><loc>https://dhruvpoddar.is-a.dev/timeline/</loc></url>
+  <url><loc>https://dhruvpoddar.is-a.dev/resume/</loc></url>
 </urlset>
