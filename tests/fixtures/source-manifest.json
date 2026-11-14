@@ -3,14 +3,6 @@
     "source": "src/portfolio/content.ts",
     "sha256": "9215492ade061f6565181c0e947478cf8ca1ab68593c1e472e6c3844a31854a7"
   },
-  "src/resume/ResumeApp.tsx": {
-    "source": "src/resume/ResumeApp.tsx",
-    "sha256": "3d4f5b7aff0733ea85a4500d82da567bb986445e35440ae450c66a361fbe8746"
-  },
-  "src/resume/resume.css": {
-    "source": "src/resume/resume.css",
-    "sha256": "0be9e26423c01d614cf99fc5cb71b86e648a9076835e21100fb2baf7c3a170c9"
-  },
   "public/logo.svg": {
     "source": "public/logo.svg",
     "sha256": "af2e622a16882c3dbc8a3ae44795bfcc1188c9b7073119ab1f08ffdeb58d9a2b"

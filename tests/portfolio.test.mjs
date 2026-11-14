@@ -26,14 +26,34 @@ const data = require('../src/data/content.ts');
 const render = Component => renderToStaticMarkup(createElement(MemoryRouter, null, createElement(Component)));
 const escaped = value => renderToStaticMarkup(createElement('span', null, value)).slice(6, -7);
 
-test('copied content, approved resume and all original identity assets match their source hashes', () => {
+test('copied content and all original identity assets match their source hashes', () => {
   const source = JSON.parse(read('tests/fixtures/source-manifest.json'));
   for (const [file, original] of Object.entries(source)) assert.equal(hash(fs.readFileSync(new URL(file, root))), original.sha256, file);
 });
 
-test('resume server-render is exactly the original approved resume', () => {
+test('résumé shows the current role, RS360, profiles with handles and no LinkedIn Learning label', () => {
   const Resume = require('../src/resume/ResumeApp.tsx').default;
-  assert.equal(hash(render(Resume)), read('tests/fixtures/resume-render.sha256').trim());
+  const markup = render(Resume);
+  const text = markup.replace(/<[^>]+>/g, ' ');
+  for (const part of ['Dhruv Poddar', 'Product Designer &amp; Creative Developer', 'RadheShyam Laminates', 'RS360', 'NeuroTwin', 'SkillBridge', 'LogoFolio', 'Export PDF']) assert.ok(markup.includes(part), part);
+  for (const handle of ['dhruvpoddar.is-a.dev', 'dhruvp0629@gmail.com', 'Shin7806', 'shinchangfx', '_shinchan_op']) assert.ok(text.includes(handle), handle);
+  for (const href of ['https://www.linkedin.com/in/dhruvpoddar/', 'https://github.com/Shin7806', 'https://www.behance.net/shinchangfx', 'https://www.instagram.com/_shinchan_op/', 'href="/work/rs360"', 'href="/work/logofolio"']) assert.ok(markup.includes(href), href);
+  assert.ok(!/LinkedIn Learning/.test(text), 'no LinkedIn Learning label');
+  assert.ok(!/Open to Work/i.test(text));
+  assert.ok(!/\+91|\d{5}\s?\d{5}|@rs360|@radheshyam/i.test(text), 'no phone numbers or business email');
+  assert.ok(text.includes('Available for select work'), 'the website’s availability line');
+  assert.ok(!markup.includes('<details'), 'no dropdowns on a résumé');
+  assert.equal((text.match(/Bengaluru, India/g) ?? []).length, 1, 'location shown once');
+});
+
+test('résumé PDF is one A4 page with clickable links', async () => {
+  const { renderResumePdf, pageCount } = await import('./resume-pdf.mjs');
+  const pdf = await renderResumePdf();
+  const raw = pdf.toString('latin1');
+  assert.equal(pageCount(pdf), 1, 'fits one page');
+  assert.match(raw, /\/MediaBox \[0 0 595\.\d+ 841\.\d+\]/, 'A4');
+  for (const uri of ['https://dhruvpoddar.is-a.dev/work/rs360', 'https://dhruvpoddar.is-a.dev/work/neurotwin', 'mailto:dhruvp0629@gmail.com']) assert.ok(raw.includes(`/URI (${uri})`), uri);
+  assert.ok(!raw.includes('/URI (https://rs360.in/)'), 'one link per project: its page on the site');
 });
 
 const projectsData = require('../src/data/projects.ts');

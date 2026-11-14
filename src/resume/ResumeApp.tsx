@@ -1,302 +1,124 @@
-import { useState, useEffect, createContext, useContext } from "react";
-import { Link } from "react-router";
+import { useCallback, useRef, useState } from 'react';
+import { Link } from 'react-router';
+import { ArrowLeft, FileDown } from 'lucide-react';
+import { BrandIcon } from '../components/BrandIcon';
+import ExportDialog, { Mark } from './ExportDialog';
+import { certifications, contacts, education, experience, languages, lineIcons, person, projects, site, skills, type Contact } from './data';
 
-// ─── Design Tokens for Resume (Aligned to Light Editorial System) ─────
-const C = {
-  white: "#FFFFFF",
-  bg: "#F3F1EC",
-  sidebar: "#F7F5F0",
-  text: "#121212",
-  mid: "#3D3D3D",
-  muted: "#696969",
-  light: "#999999",
-  divider: "#D4D1CC",
-  rule: "#E8E5E0",
-  crimson: "#C01F3A",
-  tag: "#F7F5F0",
-};
-
-const FONT = "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif";
-
-// ─── Responsive Context ──────────────────────────────────────────────
-const RCtx = createContext(false);
-
-// ─── Data ────────────────────────────────────────────────────────────
-const links = [
-  { label: "Behance", href: "https://www.behance.net/shinchangfx/" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/dhruvpoddar/" },
-  { label: "GitHub", href: "https://github.com/Shin7806/" },
-  { label: "Instagram", href: "https://www.instagram.com/_shinchan_op/" },
-];
-
-const certs = [
-  { name: "Designing Microinteractions Using Figma", url: "https://www.linkedin.com/learning/certificates/5bcbefd00ea0cd3c3ddebb5955372ab01f9f7cc08cf90304b92db6f1d6badb9c" },
-  { name: "Figma for UX Design", url: "https://www.linkedin.com/learning/certificates/a70d35b0a22b57f8266003c7ac02163769adcc9d6fc4131b28a029402095f177" },
-  { name: "AI Tools for UX Design", url: "https://www.linkedin.com/learning/certificates/77191783387d27c26b84108c94d42a0f5a1bea15aadb96d9b317f757aab64c75" },
-  { name: "UX Foundations: Prototyping", url: "https://www.linkedin.com/learning/certificates/bb9e0dc8c889de7d7e070b6d0311f4a40c5af494d43d255d6f1042d8421ecb52" },
-  { name: "Figma Design to CSS Implementation", url: "https://www.linkedin.com/learning/certificates/b5d71ac107ba0347656b499e77be4e3d11fc94ee4af051c0700ab0d2dbd7dc59" },
-  { name: "Essential Skills in Adobe Photoshop 2025", url: "https://www.linkedin.com/learning/certificates/6d74bbb21b1d06c976db4a676d68970ce4b9454145ffd408b331dd69a92d1da8" },
-];
-
-const skillGroups = [
-  { title: "Product Design", skills: ["Product Design", "UX Design", "UI Design", "User Research", "Information Architecture", "User Flows", "Wireframing", "Prototyping", "Design Systems"] },
-  { title: "Visual Design", skills: ["Graphic Design", "Branding", "Typography", "Visual Design"] },
-  { title: "Technical", skills: ["HTML", "CSS", "JavaScript", "React", "TypeScript", "Tailwind", "Git"] },
-  { title: "Tools", skills: ["Figma", "Photoshop", "Illustrator", "VS Code"] },
-  { title: "AI Workflow", skills: ["AI-assisted Research", "AI-assisted Ideation", "AI-assisted UX Writing", "AI-assisted Design Critique"] },
-];
-
-const projects = [
-  {
-    type: "✦ FEATURED WORK · PRODUCT DESIGN",
-    name: "NeuroTwin",
-    subtitle: "AI Personal Intelligence Platform",
-    description: "AI-powered productivity concept focused on behavioural awareness, consistency, and contextual insights.",
-    bullet: "Designed the product strategy, UX, UI, and scalable design system from concept to high-fidelity prototype. (Design Case Study)",
-    ctas: [{ label: "View Behance Case Study", href: "https://www.behance.net/gallery/251900711/NeuroTwin-Product-Design-Case-Study" }],
-    hero: true,
-  },
-  {
-    type: "PRODUCT DESIGN · DEVELOPMENT",
-    name: "SkillBridge",
-    subtitle: "Peer-to-Peer Skill Exchange Platform",
-    description: "A platform where users exchange skills directly — removing friction from finding, offering, and scheduling sessions.",
-    bullet: "Designed and developed a full-stack learning platform, bridging product thinking with real-world implementation.",
-    ctas: [{ label: "View Full-Stack Website", href: "https://skill-bridge-shin7806s-projects.vercel.app/" }],
-    hero: false,
-  },
-  {
-    type: "Graphic Design · Behance",
-    name: "Visual Identity Collection",
-    subtitle: "Brand Identity · LogoFolio 2025",
-    description: "A curated set of identity systems demonstrating mark-making, type pairing, and visual communication.",
-    bullet: "Curated a collection of identity systems demonstrating branding, typography, and visual communication.",
-    ctas: [
-      { label: "View Behance Project", href: "https://www.behance.net/gallery/240883105/LogoFolio-2025-Collection-I" },
-      { label: "View on Instagram", href: "https://www.instagram.com/_shinchan_op/" },
-    ],
-    hero: false,
-  },
-];
-
-// ─── Sub-components ───────────────────────────────────────────────────
-function SectionTitle({ children }: { children: React.ReactNode }) {
-  const m = useContext(RCtx);
-  return (
-    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: m ? 20 : 16 }}>
-      <span style={{ fontSize: m ? 9 : 8, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: C.crimson, whiteSpace: "nowrap" as const }}>{children}</span>
-      <div style={{ flex: 1, height: 1, background: C.divider }} />
-    </div>
-  );
+function LineIcon({ paths, size = 14 }: { paths: string[]; size?: number }) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">{paths.map(d => <path key={d} d={d} />)}</svg>;
 }
 
-function SidebarTitle({ children }: { children: React.ReactNode }) {
-  const m = useContext(RCtx);
-  return (
-    <div style={{ fontSize: m ? 9 : 8, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: C.crimson, marginBottom: m ? 12 : 10, paddingBottom: m ? 8 : 7, borderBottom: `1px solid ${C.divider}` }}>
-      {children}
-    </div>
-  );
+function ContactIcon({ kind }: { kind: Contact['kind'] }) {
+  return kind === 'web' ? <LineIcon paths={lineIcons.web} size={13} /> : <BrandIcon name={kind} size={13} />;
 }
 
-function Bullet({ text }: { text: string }) {
-  const m = useContext(RCtx);
-  return (
-    <div style={{ display: "flex", gap: 10, marginBottom: m ? 9 : 6 }}>
-      <span style={{ color: C.rule, fontSize: m ? 12 : 9, marginTop: 1, flexShrink: 0, lineHeight: 1.7 }}>—</span>
-      <span style={{ fontSize: m ? 12.5 : 9.5, color: C.mid, lineHeight: 1.75 }}>{text}</span>
-    </div>
-  );
-}
+const external = (href: string) => href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+const brandName: Partial<Record<Contact['kind'], string>> = { linkedin: 'LinkedIn', github: 'GitHub', behance: 'Behance', instagram: 'Instagram' };
 
-function SkillPill({ label }: { label: string }) {
-  const m = useContext(RCtx);
-  return (
-    <span style={{ display: "inline-block", fontSize: m ? 10.5 : 8.5, color: C.mid, background: C.white, border: `1px solid ${C.divider}`, borderRadius: 0, padding: m ? "3px 8px" : "2px 6px", marginBottom: m ? 5 : 4, marginRight: m ? 4 : 3, lineHeight: 1.5, letterSpacing: "0.01em" }}>
-      {label}
-    </span>
-  );
-}
+const Title = ({ id, children }: { id: string; children: string }) => <h2 id={id} className="cv-title">{children}</h2>;
+const SideTitle = ({ id, children }: { id: string; children: string }) => <h2 id={id} className="cv-side-title">{children}</h2>;
 
-// ─── Main ────────────────────────────────────────────────────────────
+/**
+ * The résumé on screen: roomy, two columns, a sidebar panel. Export PDF builds the compact
+ * one-page A4 version of the same layout from the same data (see ResumePdf.tsx).
+ */
 export default function ResumeApp() {
-  const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1200);
+  const [exporting, setExporting] = useState(false);
+  const opener = useRef<HTMLButtonElement>(null);
+  // Focus returns to the button once the modal has gone (an open modal makes the page inert).
+  const close = useCallback(() => { setExporting(false); requestAnimationFrame(() => opener.current?.focus()); }, []);
 
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  return <div className="resume-app">
+    <header className="cv-toolbar no-print">
+      <Link to="/" className="cv-back"><ArrowLeft aria-hidden="true" /><span>Back to Portfolio</span></Link>
+      <button ref={opener} type="button" className="cv-export-btn" aria-haspopup="dialog" onClick={() => setExporting(true)}><FileDown aria-hidden="true" /><span>Export PDF</span></button>
+    </header>
 
-  const m = windowWidth < 860;
-
-  return (
-    <RCtx.Provider value={m}>
-      <div className="resume-app" style={{ fontFamily: FONT, background: C.bg }}>
-        <div
-          style={{
-            minHeight: "100vh",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            paddingTop: m ? 0 : 40,
-            paddingBottom: m ? 0 : 80,
-          }}
-        >
-          {/* ── Toolbar ── */}
-          <div className="no-print" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: m ? "100%" : 794, marginBottom: m ? 0 : 16, padding: m ? "16px 20px" : 0, borderBottom: m ? `1px solid ${C.divider}` : "none", background: m ? C.white : "transparent", boxSizing: "border-box" as const }}>
-            <Link
-              to="/"
-              style={{ fontSize: 11, color: C.muted, textDecoration: "none", letterSpacing: "0.06em", display: "inline-flex", alignItems: "center", gap: 6, fontWeight: 500 }}
-            >
-              <span style={{ fontSize: 14 }}>←</span> Back to Portfolio
-            </Link>
-            <button onClick={() => window.print()} style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" as const, color: C.white, background: C.text, border: "none", padding: "8px 16px", cursor: "pointer", borderRadius: 2 }}>
-              Export PDF ↗
-            </button>
-          </div>
-
-          {/* ── Resume Sheet ── */}
-          <div id="resume" style={{ width: m ? "100%" : 794, minHeight: m ? "auto" : 1123, background: C.white, boxShadow: m ? "none" : "0 4px 24px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04)", display: "flex", flexDirection: "column", boxSizing: "border-box" as const, overflow: "hidden" }}>
-
-            {/* ════ HEADER ════ */}
-            <div style={{ padding: m ? "40px 24px 0" : "56px 52px 0", background: C.white }}>
-              <div style={{ display: "flex", flexDirection: m ? "column" : "row", alignItems: m ? "flex-start" : "flex-end", justifyContent: "space-between", gap: m ? 16 : 0, marginBottom: 24 }}>
-                <div>
-                  <h1 style={{ margin: 0, fontSize: m ? 40 : 48, fontWeight: 600, letterSpacing: "-0.03em", color: C.text, lineHeight: 1.0 }}>Dhruv Poddar</h1>
-                  <p style={{ margin: "12px 0 0", fontSize: m ? 14 : 12.5, fontWeight: 400, color: C.muted, letterSpacing: "0.02em" }}>
-                    Product Designer&nbsp;&nbsp;·&nbsp;&nbsp;UI/UX Designer&nbsp;&nbsp;·&nbsp;&nbsp;Creative Developer
-                  </p>
-                </div>
-                <div style={{ fontSize: m ? 10 : 8.5, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase" as const, color: C.crimson, border: `1px solid ${C.crimson}`, padding: "6px 12px", alignSelf: "flex-start" }}>Open to Work</div>
-              </div>
-              <div style={{ display: "flex", flexWrap: m ? "wrap" as const : "nowrap" as const, alignItems: "center", rowGap: m ? 8 : 0, columnGap: m ? 16 : 0, paddingTop: 20, paddingBottom: 24, borderTop: `1px solid ${C.divider}` }}>
-                <span style={{ fontSize: m ? 12 : 9.5, color: C.light, letterSpacing: "0.02em", paddingRight: m ? 0 : 16, borderRight: m ? "none" : `1px solid ${C.divider}` }}>Bengaluru, India</span>
-                <a href="mailto:dhruvp0629@gmail.com" style={{ fontSize: m ? 12 : 9.5, color: C.muted, textDecoration: "none", letterSpacing: "0.02em", paddingLeft: m ? 0 : 16, paddingRight: m ? 0 : 16, borderRight: m ? "none" : `1px solid ${C.divider}` }}>dhruvp0629@gmail.com</a>
-                {links.map((l, i) => (
-                  <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" style={{ fontSize: m ? 12 : 9.5, color: C.text, textDecoration: "none", fontWeight: 500, letterSpacing: "0.04em", paddingLeft: m ? 0 : 16, paddingRight: m ? 0 : i < links.length - 1 ? 16 : 0, borderRight: m ? "none" : i < links.length - 1 ? `1px solid ${C.divider}` : "none" }}>
-                    {l.label} ↗
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* ════ BODY ════ */}
-            <div style={{ display: "grid", gridTemplateColumns: m ? "1fr" : "1fr 240px", flex: 1, borderTop: `1px solid ${C.divider}` }}>
-              {/* ── LEFT ── */}
-              <div style={{ padding: m ? "32px 24px 40px" : "40px 48px 48px 52px", borderRight: m ? "none" : `1px solid ${C.divider}`, display: "flex", flexDirection: "column", gap: m ? 32 : 36 }}>
-                <section>
-                  <SectionTitle>Summary</SectionTitle>
-                  <p style={{ fontSize: m ? 14 : 11, color: C.mid, lineHeight: 1.8, margin: 0 }}>
-                    Product Designer with a strong foundation in UI/UX and Graphic Design, focused on transforming complex ideas into intuitive digital products. I combine product thinking, visual design, scalable systems, and front-end awareness to create experiences that are useful, thoughtful, and implementation-ready.
-                  </p>
-                </section>
-                <section>
-                  <SectionTitle>Experience</SectionTitle>
-                  <div>
-                    <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", flexWrap: m ? "wrap" as const : "nowrap" as const, gap: m ? 4 : 0, marginBottom: 4 }}>
-                      <span style={{ fontSize: m ? 16 : 12.5, fontWeight: 600, color: C.text, letterSpacing: "-0.01em" }}>Freelance Product &amp; UI Designer</span>
-                      <span style={{ fontSize: m ? 12 : 9.5, color: C.muted, letterSpacing: "0.04em", fontVariantNumeric: "tabular-nums", flexShrink: 0 }}>2019 — Present</span>
-                    </div>
-                    <p style={{ fontSize: m ? 10 : 8.5, color: C.light, letterSpacing: "0.1em", textTransform: "uppercase" as const, margin: "0 0 14px", fontWeight: 500 }}>Independent Practice</p>
-                    <div style={{ borderLeft: `1px solid ${C.divider}`, paddingLeft: 16 }}>
-                      <Bullet text="Identified user problems and business goals across client briefs, then translated them into structured visual and interaction solutions." />
-                      <Bullet text="Designed end-to-end experiences — from initial concept and user flows through to high-fidelity interfaces — maintaining consistency across components." />
-                      <Bullet text="Iterated through feedback loops with clients, balancing aesthetic decisions against practical constraints and implementation realities." />
-                      <Bullet text="Built and shipped projects with direct awareness of React and CSS, reducing the gap between design intent and front-end output." />
-                    </div>
-                  </div>
-                </section>
-                <section>
-                  <SectionTitle>Selected Projects</SectionTitle>
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    {projects.map((p, i) => (
-                      <div key={p.name} style={{ paddingTop: i === 0 ? 0 : m ? 16 : 14, paddingBottom: m ? 16 : 14, borderBottom: i < projects.length - 1 ? `1px solid ${C.divider}` : "none" }}>
-                        <div style={{ display: "inline-flex", alignItems: "center", fontSize: m ? 8.5 : 7.5, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: C.light, marginBottom: 12 }}>{p.type}</div>
-                        <span style={{ display: "block", fontSize: m ? 15 : p.hero ? 14 : 12, fontWeight: p.hero ? 600 : 600, color: C.text, letterSpacing: "-0.01em", lineHeight: 1.1, marginBottom: 4 }}>{p.name}</span>
-                        <span style={{ display: "block", fontSize: m ? 11 : 9.5, color: C.muted, letterSpacing: "0.01em", fontWeight: 400, marginBottom: 10 }}>{p.subtitle}</span>
-                        <p style={{ fontSize: m ? 12 : 10, color: C.mid, margin: "0 0 10px", lineHeight: 1.7, letterSpacing: "0.005em" }}>{p.description}</p>
-                        <div style={{ display: "flex", gap: 10, marginBottom: 12 }}>
-                          <span style={{ color: C.rule, fontSize: m ? 11 : 9.5, flexShrink: 0, marginTop: 1, lineHeight: 1.7 }}>—</span>
-                          <span style={{ fontSize: m ? 12 : 10, color: C.mid, lineHeight: 1.7 }}>{p.bullet}</span>
-                        </div>
-                        <div style={{ display: "flex", gap: m ? 16 : 14, flexWrap: "wrap" as const }}>
-                          {p.ctas.map((cta) => (
-                            <a key={cta.label} href={cta.href} target="_blank" rel="noopener noreferrer"
-                              style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: m ? 11 : 9, fontWeight: 500, color: C.crimson, textDecoration: "none", letterSpacing: "0.02em", transition: "opacity 0.15s" }}
-                            >
-                              {cta.label}
-                              <span style={{ fontSize: m ? 11 : 9 }}>↗</span>
-                            </a>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-                <section>
-                  <SectionTitle>Certifications</SectionTitle>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
-                    <span style={{ fontSize: m ? 10 : 8.5, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" as const, color: C.light }}>LinkedIn Learning</span>
-                    <div style={{ flex: 1, height: 1, background: C.rule, maxWidth: 60 }} />
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-                    {certs.map((cert, i) => (
-                      <div key={cert.name} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: m ? "10px 0" : "8px 0", borderBottom: i < certs.length - 1 ? `1px solid ${C.rule}` : "none", gap: 12 }}>
-                        <span style={{ fontSize: m ? 13 : 10, color: C.mid, lineHeight: 1.4 }}>{cert.name}</span>
-                        <a href={cert.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: m ? 10.5 : 8.5, color: C.muted, textDecoration: "none", letterSpacing: "0.08em", textTransform: "uppercase" as const, flexShrink: 0, fontWeight: 500 }}>View ↗</a>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              </div>
-              {/* ── SIDEBAR ── */}
-              <div style={{ background: C.sidebar, padding: m ? "32px 24px 48px" : "40px 32px 48px", display: "flex", flexDirection: "column", gap: m ? 32 : 36, borderTop: m ? `1px solid ${C.divider}` : "none" }}>
-                {skillGroups.map((group) => (
-                  <section key={group.title}>
-                    <SidebarTitle>{group.title}</SidebarTitle>
-                    <div style={{ display: "flex", flexWrap: "wrap" as const }}>
-                      {group.skills.map((s) => <SkillPill key={s} label={s} />)}
-                    </div>
-                  </section>
-                ))}
-                <section>
-                  <SidebarTitle>Languages</SidebarTitle>
-                  {[{ lang: "Hindi", level: "Native" }, { lang: "English", level: "Professional" }, { lang: "Kannada", level: "Working Proficiency" }].map(({ lang, level }) => (
-                    <div key={lang} style={{ marginBottom: m ? 14 : 12 }}>
-                      <div style={{ fontSize: m ? 13.5 : 10.5, fontWeight: 600, color: C.text }}>{lang}</div>
-                      <div style={{ fontSize: m ? 11 : 9, color: C.muted, marginTop: 2, letterSpacing: "0.02em" }}>{level}</div>
-                    </div>
-                  ))}
-                </section>
-                <section style={{ marginTop: m ? 0 : "auto" }}>
-                  <SidebarTitle>Education</SidebarTitle>
-                  <div style={{ fontSize: m ? 12 : 9.5, color: C.mid, lineHeight: 1.75 }}>
-                    <div style={{ marginBottom: 16 }}>
-                      <strong style={{ color: C.text, fontSize: m ? 13 : 10 }}>Bachelor of Computer Applications</strong><br />
-                      ASC Degree College<br />2023 — 2026
-                    </div>
-                    <div style={{ marginBottom: 16 }}>
-                      <strong style={{ color: C.text, fontSize: m ? 13 : 10 }}>Pre-University Course (PUC)</strong><br />
-                      Carmel PU College<br />2021 — 2023
-                    </div>
-                    <div>
-                      <strong style={{ color: C.text, fontSize: m ? 13 : 10 }}>Product &amp; UI/UX Design</strong><br />
-                      Built through hands-on product development, real-world design projects, continuous self-learning, and professional certifications.
-                    </div>
-                  </div>
-                </section>
-              </div>
-            </div>
-            {/* ════ FOOTER ════ */}
-            <div style={{ padding: m ? "16px 24px" : "16px 52px", borderTop: `1px solid ${C.divider}`, display: "flex", justifyContent: "space-between", alignItems: "center", background: C.white }}>
-              <span style={{ fontSize: m ? 10.5 : 8.5, color: C.muted, letterSpacing: "0.04em" }}>dhruvp0629@gmail.com</span>
-              <div style={{ width: 20, height: 1, background: C.divider }} />
-              <span style={{ fontSize: m ? 10.5 : 8.5, color: C.muted, letterSpacing: "0.04em" }}>Product Designer · UI/UX Designer</span>
-            </div>
-          </div>
+    <main id="resume" className="cv-sheet">
+      <header className="cv-head">
+        {/* Three rows, two edges: name and mark; title; contact line and availability on one baseline. */}
+        <div className="cv-head-top">
+          <h1>{person.name}</h1>
+          <a className="cv-mark" href={site.href} aria-label={`${site.label}, portfolio`}><Mark size={22} /></a>
+          <p className="cv-role">{person.title}</p>
+          <p className="cv-meta">
+            <a href={person.email.href}><LineIcon paths={lineIcons.mail} size={13} /><span>{person.email.label}</span></a>
+            <span><LineIcon paths={lineIcons.pin} size={13} /><span>{person.location}</span></span>
+          </p>
+          <p className="cv-status">{person.availability}</p>
         </div>
+        <ul className="cv-contacts" aria-label="Website and profiles">
+          {contacts.map(contact => <li key={contact.kind}>
+            <a className="cv-contact" href={contact.href} {...external(contact.href)} aria-label={brandName[contact.kind] ? `${brandName[contact.kind]}: ${contact.label}` : undefined}><ContactIcon kind={contact.kind} /><span>{contact.label}</span></a>
+          </li>)}
+        </ul>
+      </header>
+
+      <div className="cv-body">
+        <div className="cv-main">
+          <section aria-labelledby="cv-summary">
+            <Title id="cv-summary">Summary</Title>
+            <p className="cv-summary">{person.summary}</p>
+          </section>
+
+          <section aria-labelledby="cv-experience">
+            <Title id="cv-experience">Experience</Title>
+            <div className="cv-roles">
+              {experience.map(role => <article key={role.title} className="cv-role-item">
+                <div className="cv-row"><h3>{role.title}</h3><span className="cv-dates">{role.dates}</span></div>
+                <p className="cv-org">{role.org}{role.place ? ` · ${role.place}` : ''}</p>
+                <p className="cv-text">{role.summary}</p>
+                {role.points.length > 0 && <ul className="cv-points">{role.points.map(point => <li key={point}>{point}</li>)}</ul>}
+              </article>)}
+            </div>
+          </section>
+
+          <section aria-labelledby="cv-work">
+            <Title id="cv-work">Selected Projects</Title>
+            <div className="cv-projects">
+              {projects.map((project, i) => <article key={project.name} className="cv-project">
+                <p className="cv-kicker">{i === 0 ? '✦ Featured · ' : ''}{project.kind} · {project.year}</p>
+                {/* One link: the project's page on the site, which leads on to the live product or Behance. */}
+                <div className="cv-project-head">
+                  <h3>{project.name}</h3>
+                  <Link className="cv-case" to={project.page} aria-label={`${project.name} case study`}>View case study<span aria-hidden="true">↗</span></Link>
+                </div>
+                <p className="cv-text">{project.line}</p>
+              </article>)}
+            </div>
+          </section>
+
+          <section aria-labelledby="cv-certs">
+            <Title id="cv-certs">Certifications</Title>
+            <ul className="cv-certs">{certifications.map(cert => <li key={cert.name}>
+              <span>{cert.name}</span>
+              <a href={cert.href} {...external(cert.href)} aria-label={`View certificate: ${cert.name}`}>View<span aria-hidden="true">↗</span></a>
+            </li>)}</ul>
+          </section>
+        </div>
+
+        <aside className="cv-side" aria-label="Skills, languages and education">
+          {skills.map((group, i) => <section key={group.title} aria-labelledby={`cv-skill-${i}`}>
+            <SideTitle id={`cv-skill-${i}`}>{group.title}</SideTitle>
+            <ul className="cv-pills">{group.items.map(item => <li key={item}>{item}</li>)}</ul>
+          </section>)}
+          <section aria-labelledby="cv-languages">
+            <SideTitle id="cv-languages">Languages</SideTitle>
+            <dl className="cv-langs">{languages.map(item => <div key={item.name}><dt>{item.name}</dt><dd>{item.level}</dd></div>)}</dl>
+          </section>
+          <section aria-labelledby="cv-education">
+            <SideTitle id="cv-education">Education</SideTitle>
+            {education.map(item => <div key={item.title} className="cv-edu">
+              <h3>{item.title}</h3>
+              <p>{item.place}</p>
+              <p>{item.dates}</p>
+            </div>)}
+          </section>
+        </aside>
       </div>
-    </RCtx.Provider>
-  );
+    </main>
+
+    {exporting && <ExportDialog onClose={close} />}
+  </div>;
 }

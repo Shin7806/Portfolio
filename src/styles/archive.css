@@ -1,7 +1,6 @@
 @layer site {
-/* 02 / Visual archive: a dark room in both themes, so artwork keeps its own colours. */
-/* Archive room: a darker panel inside the frame so artwork keeps its own colours. */
-.folio .archive-section { --paper: var(--room-paper); --ink: var(--room-ink); --body: var(--room-body); --muted: var(--room-muted); --field: var(--room-field); --plate: var(--room-plate); --line: var(--room-line); --control: var(--room-control); --accent: var(--room-accent); --focus: var(--room-accent); background: var(--paper); color: var(--ink); }
+/* Visual archive: follows the theme, light in light mode and dark in dark mode. The full-screen viewer stays dark. */
+.folio .archive-section { background: var(--paper); color: var(--ink); }
 .folio .archive-section .section-title { margin-bottom: 36px; }
 @media (prefers-reduced-motion: reduce) { .folio .motion-toggle { display: none; } }
 
