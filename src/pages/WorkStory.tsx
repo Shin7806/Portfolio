@@ -5,7 +5,7 @@ import SiteFrame from '../components/SiteFrame';
 import { ContactShort } from '../components/Contact';
 import { A, Arrow, External, useMeta } from '../components/Primitives';
 import { Button } from '@/components/ui/button';
-import { stories, storyBySlug, type Shot } from '../data/work';
+import { stories, storyBySlug, type Clip, type Shot } from '../data/work';
 import '../styles/pages.css';
 
 function Figure({ shot, priority = false, sizes }: { shot: Shot; priority?: boolean; sizes: string }) {
@@ -19,7 +19,8 @@ function Figure({ shot, priority = false, sizes }: { shot: Shot; priority?: bool
 }
 
 /** A muted product clip: plays only while on screen, has a pause control, and stays on its poster under reduced motion. */
-function MotionClip({ base, caption }: { base: string; caption: string }) {
+/** `corner` puts the pause control at the top for demo clips, whose own player bar sits at the bottom. */
+function MotionClip({ base, caption, ratio = 16 / 10, priority = false, corner = 'bottom' }: { base: string; caption: string; ratio?: number; priority?: boolean; corner?: 'top' | 'bottom' }) {
   const video = useRef<HTMLVideoElement>(null);
   const [paused, setPaused] = useState(false);
   const [reduced] = useState(() => typeof window !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -31,11 +32,19 @@ function MotionClip({ base, caption }: { base: string; caption: string }) {
     return () => observer.disconnect();
   }, [paused, reduced]);
   return <figure className="motion-figure">
-    <video ref={video} muted loop playsInline preload="metadata" poster={`${base}-poster.webp`} width={1280} height={800} aria-label={caption}>
+    <video ref={video} muted loop playsInline preload={priority ? 'auto' : 'metadata'} poster={`${base}-poster.webp`} width={1280} height={Math.round(1280 / ratio)} style={{ aspectRatio: String(ratio) }} aria-label={caption}>
       <source src={`${base}.webm`} type="video/webm" /><source src={`${base}.mp4`} type="video/mp4" />
     </video>
-    {!reduced && <Button variant="outline" size="icon-sm" className="motion-toggle-btn absolute right-3 bottom-3 z-10 rounded-full bg-[rgb(10_10_12/55%)] text-white border-white/20 backdrop-blur-sm" aria-label={paused ? 'Play clip' : 'Pause clip'} aria-pressed={paused} onClick={() => setPaused(value => !value)}>{paused ? <Play className="size-3.5" fill="currentColor" /> : <Pause className="size-3.5" fill="currentColor" />}</Button>}
+    {!reduced && <Button variant="outline" size="icon-sm" className={`motion-toggle-btn absolute right-3 ${corner === 'top' ? 'top-3' : 'bottom-3'} z-10 rounded-full bg-[rgb(10_10_12/55%)] text-white border-white/20 backdrop-blur-sm`} aria-label={paused ? 'Play clip' : 'Pause clip'} aria-pressed={paused} onClick={() => setPaused(value => !value)}>{paused ? <Play className="size-3.5" fill="currentColor" /> : <Pause className="size-3.5" fill="currentColor" />}</Button>}
   </figure>;
+}
+
+/** A demo clip kept small and set beside its caption, so it reads as an example rather than a hero. */
+function SideClip({ clip }: { clip: Clip }) {
+  return <div className="side-clip">
+    <MotionClip base={clip.base} caption={clip.caption} ratio={clip.ratio} corner="top" />
+    <p className="side-clip-caption">{clip.caption}</p>
+  </div>;
 }
 
 function NotFound() {
@@ -62,7 +71,7 @@ export default function WorkStory() {
         <dl className="story-meta">{story.meta.map(item => <div key={item.label}><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl>
       </header>
 
-      <div className="wrap story-cover"><Figure shot={story.cover} priority sizes="(min-width: 1300px) 1200px, 92vw" /></div>
+      <div className="wrap story-cover">{story.motion ? <MotionClip base={story.motion.base} caption={story.motion.caption} priority /> : <Figure shot={story.cover} priority sizes="(min-width: 1300px) 1200px, 92vw" />}</div>
 
       <section className="section-space" aria-labelledby="overview-heading">
         <div className="wrap story-row">
@@ -70,14 +79,6 @@ export default function WorkStory() {
           <p className="story-intro">{story.intro}</p>
         </div>
       </section>
-
-      {story.motion && <section className="section-space" aria-labelledby="motion-heading">
-        <div className="wrap story-row">
-          <p className="story-label">In motion</p>
-          <div><h2 id="motion-heading" className="story-title" data-reveal="type">The live product, moving.</h2><p className="prose">{story.motion.caption}</p></div>
-        </div>
-        <div className="wrap story-shots"><MotionClip base={story.motion.base} caption={story.motion.caption} /></div>
-      </section>}
 
       {story.sections.map((section, index) => {
         const id = `section-${index}`;
@@ -90,6 +91,7 @@ export default function WorkStory() {
               <h2 id={id} className="story-title" data-reveal="type">{section.title}</h2>
               {section.body.map(paragraph => <p key={paragraph.slice(0, 24)} className="prose">{paragraph}</p>)}
               {section.list && <ul className="scope-list">{section.list.map(item => <li key={item}>{item}</li>)}</ul>}
+              {section.clip && <SideClip clip={section.clip} />}
             </div>
           </div>
           {section.shots && <div className={`wrap story-shots${pair ? ' is-pair' : ''}${phones ? ' is-phones' : ''}`}>

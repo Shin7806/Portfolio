@@ -165,7 +165,12 @@
 /* Motion clip inside a story */
 .folio .motion-figure { position: relative; overflow: hidden; border: 1px solid var(--hair); border-radius: 14px; background: var(--plate); }
 .folio .motion-figure video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; }
-.folio .motion-toggle-btn { position: absolute; right: 12px; bottom: 12px; }
+/* A demo clip beside its caption: compact, inside the text column. */
+.folio .side-clip { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: center; gap: clamp(18px, 3vw, 32px); margin-top: 28px; }
+.folio .side-clip .motion-figure { max-width: 520px; }
+.folio .side-clip-caption { font-size: 14px; line-height: 1.6; color: var(--muted); max-width: 34ch; }
+@media (max-width: 800px) { .folio .side-clip { grid-template-columns: 1fr; } }
+.folio .motion-toggle-btn { position: absolute; right: 12px; }
 
 @media (max-width: 800px) {
   .folio .year { grid-template-columns: 1fr; gap: 16px; }

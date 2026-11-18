@@ -57,23 +57,7 @@
   ],
   "skillbridge/landing": [
     1400,
-    656
-  ],
-  "skillbridge/demo-match": [
-    1400,
-    899
-  ],
-  "skillbridge/demo-propose": [
-    1400,
-    899
-  ],
-  "skillbridge/demo-chat": [
-    1400,
-    899
-  ],
-  "skillbridge/demo-schedule": [
-    1400,
-    899
+    875
   ],
   "skillbridge/safety": [
     1400,
@@ -81,10 +65,10 @@
   ],
   "skillbridge/signup": [
     1400,
-    875
+    1273
   ],
   "skillbridge/login": [
     1400,
-    875
+    1273
   ]
 }
