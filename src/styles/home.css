@@ -41,7 +41,7 @@
 .folio .card:not(.card-full) .card-body { padding-bottom: 0; }
 .folio .card:not(.card-full) .card-actions { padding-top: 12px; }
 /* Full (/work): a vertical card with room to breathe. */
-.folio .project-grid-full { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+.folio .project-grid-full { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
 .folio .card-full { grid-template-columns: 1fr; gap: 0; padding: 12px; }
 .folio .card-full .card-media { aspect-ratio: 16 / 9; }
 .folio .card-full .card-body { padding: 22px 10px 8px; }

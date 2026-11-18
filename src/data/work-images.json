@@ -57,37 +57,33 @@
   ],
   "skillbridge/landing": [
     1400,
-    893
+    656
   ],
-  "skillbridge/steps": [
+  "skillbridge/demo-match": [
     1400,
-    401
+    899
+  ],
+  "skillbridge/demo-propose": [
+    1400,
+    899
+  ],
+  "skillbridge/demo-chat": [
+    1400,
+    899
+  ],
+  "skillbridge/demo-schedule": [
+    1400,
+    899
+  ],
+  "skillbridge/safety": [
+    1400,
+    652
   ],
   "skillbridge/signup": [
     1400,
     875
   ],
   "skillbridge/login": [
-    1400,
-    875
-  ],
-  "skillbridge/app-dashboard": [
-    1400,
-    875
-  ],
-  "skillbridge/app-matches": [
-    1400,
-    875
-  ],
-  "skillbridge/app-requests": [
-    1400,
-    875
-  ],
-  "skillbridge/app-chats": [
-    1400,
-    875
-  ],
-  "skillbridge/app-profile": [
     1400,
     875
   ]

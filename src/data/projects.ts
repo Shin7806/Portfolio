@@ -50,7 +50,7 @@ export const projects: Project[] = [
   {
     id: 'skillbridge',
     title: skill.title,
-    role: skill.role,
+    role: 'Product design and full-stack development',
     year: skill.year,
     summary: skill.description,
     details: '/work/skillbridge',
